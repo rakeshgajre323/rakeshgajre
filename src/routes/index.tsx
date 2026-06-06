@@ -73,7 +73,10 @@ function Index() {
             className="h-[78vh] w-full object-cover object-center md:h-[88vh]"
             width={1206}
             height={877}
+            fetchPriority="high"
+            decoding="async"
           />
+
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-background/50" />
 
           {/* Top bar */}
