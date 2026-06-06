@@ -6,7 +6,6 @@ import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/award-1.jpg";
 import award2 from "@/assets/award-2.jpg";
 import award3 from "@/assets/award-3.jpg";
-import upgradMicrosoft from "@/assets/upgrad-microsoft.png.asset.json";
 import rLogo from "@/assets/r-logo.png";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
@@ -374,15 +373,7 @@ function Index() {
               <div className="group flex items-start justify-between gap-4 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent">
                 <div>
                   <div className="font-display text-lg uppercase leading-tight tracking-tight">{cert.title}</div>
-                  {cert.issuer === "UpGrad × Microsoft" ? (
-                    <img
-                      src={upgradMicrosoft.url}
-                      alt="UpGrad in collaboration with Microsoft"
-                      className="mt-2 h-6 w-auto object-contain"
-                    />
-                  ) : (
-                    <div className="mt-1 text-xs text-muted-foreground">{cert.issuer}</div>
-                  )}
+                  <div className="mt-1 text-xs text-muted-foreground">{cert.issuer}</div>
                 </div>
                 <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-accent" />
               </div>
