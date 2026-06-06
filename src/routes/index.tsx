@@ -360,26 +360,39 @@ function Index() {
         </div>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            ["Generative AI Foundations", "UpGrad × Microsoft"],
-            ["Prompt to Prototype", "Google Startup School"],
-            ["Cybersecurity Certification", "Tech Mahindra"],
-            ["Foundation Course in Finance", "Reliance Foundation"],
-            ["Branch Banking Executive", "NSDC"],
-            ["Microsoft Excel", "Coursera"],
-            ["Fundamentals of Digital Marketing", "Google"],
-            ["Logo Design with Canva", "Coursera"],
-          ].map(([title, issuer]) => (
-            <div
-              key={title}
-              className="group flex items-start justify-between gap-4 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent"
-            >
-              <div>
-                <div className="font-display text-lg uppercase leading-tight tracking-tight">{title}</div>
-                <div className="mt-1 text-xs text-muted-foreground">{issuer}</div>
+            { title: "Generative AI Foundations", issuer: "UpGrad × Microsoft", href: "https://certificates.upgrad.com/840ccdbb-9cf8-4562-a3c0-146af56e1caf-Gen-AI-jTMvFhyg8IYH4Qco.jpeg" },
+            { title: "Prompt to Prototype", issuer: "Google Startup School" },
+            { title: "Cybersecurity Certification", issuer: "Tech Mahindra" },
+            { title: "Foundation Course in Finance", issuer: "Reliance Foundation" },
+            { title: "Branch Banking Executive", issuer: "NSDC" },
+            { title: "Microsoft Excel", issuer: "Coursera" },
+            { title: "Fundamentals of Digital Marketing", issuer: "Google" },
+            { title: "Logo Design with Canva", issuer: "Coursera" },
+          ].map((cert) => {
+            const el = (
+              <div className="group flex items-start justify-between gap-4 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent">
+                <div>
+                  <div className="font-display text-lg uppercase leading-tight tracking-tight">{cert.title}</div>
+                  <div className="mt-1 text-xs text-muted-foreground">{cert.issuer}</div>
+                </div>
+                <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-accent" />
               </div>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-accent" />
-            </div>
-          ))}
+            );
+            return cert.href ? (
+              <a
+                key={cert.title}
+                href={cert.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => openExternalLink(e, cert.href!)}
+                className="block cursor-pointer"
+              >
+                {el}
+              </a>
+            ) : (
+              <div key={cert.title}>{el}</div>
+            );
+          })}
         </div>
       </section>
 
