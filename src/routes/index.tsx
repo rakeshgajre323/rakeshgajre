@@ -36,7 +36,11 @@ const projects = [
   { id: "06", name: "Logo Marks & Identity Studies", year: "2023", href: "#" },
 ];
 
-const socials = ["IG", "LN", "GH", "BE"];
+const socials = [
+  { label: "Instagram", icon: iconInstagram, href: "https://www.instagram.com/rakesh_gajre/" },
+  { label: "LinkedIn", icon: iconLinkedin, href: "https://www.linkedin.com/in/rakesh-gajre-1bba71257/" },
+  { label: "GitHub", icon: iconGithub, href: "https://github.com/rakeshgajre323" },
+];
 
 function Index() {
   return (
