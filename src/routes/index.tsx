@@ -63,6 +63,7 @@ const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) =>
 };
 
 function Index() {
+  const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* HERO */}
