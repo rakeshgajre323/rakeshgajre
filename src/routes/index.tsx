@@ -373,7 +373,7 @@ function Index() {
             { title: "Branch Banking Executive", issuer: "NSDC", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/c3840e379d104884b60013902352e937" },
             { title: "Microsoft Excel", issuer: "Coursera", href: "https://www.coursera.org/account/accomplishments/certificate/NQW69DUGMRGD" },
             { title: "Fundamentals of Digital Marketing", issuer: "Google", href: "https://drive.google.com/file/d/1ClSCnYvReDnCZsgj7L_2OjDjRPtNDYAd/view" },
-            { title: "Logo Design with Canva", issuer: "Coursera" },
+            { title: "Logo Design with Canva", issuer: "Coursera", href: "https://www.coursera.org/account/accomplishments/verify/GPHT69EUFNEB" },
           ].map((cert) => {
             const el = (
               <div className="group flex items-start justify-between gap-4 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent">
