@@ -525,11 +525,11 @@ function Index() {
           </div>
           <a href="#" className="hover:text-accent">Back to top ↑</a>
         </div>
-        <div className="-mb-6 select-none text-center">
-          <span className="font-display text-[26vw] leading-none tracking-tight text-foreground/95">
+        <div className="group/word -mb-6 select-none text-center cursor-default">
+          <span className="font-display text-[26vw] leading-none tracking-tight text-foreground/95 transition-all duration-700 group-hover/word:tracking-tighter">
             RAKESH
           </span>
-          <span className="font-display text-[26vw] leading-none tracking-tight text-red-500">
+          <span className="font-display text-[26vw] leading-none tracking-tight text-red-500 transition-all duration-700 group-hover/word:text-foreground">
             {" "}GAJRE
           </span>
         </div>
