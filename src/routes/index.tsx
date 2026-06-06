@@ -262,12 +262,49 @@ function Index() {
           Recognition
         </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          <img src={award1.url} alt="Techzite event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
-          <img src={award3.url} alt="Freshers Day event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
-          <img src={award2.url} alt="Aura The Vibe event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
-          <img src={award4.url} alt="Arohana event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
+          {[
+            { src: award1.url, caption: "Techzite" },
+            { src: award3.url, caption: "Freshers Day" },
+            { src: award2.url, caption: "Aura — The Vibe" },
+            { src: award4.url, caption: "Arohana" },
+          ].map((p) => (
+            <button
+              key={p.caption}
+              type="button"
+              onClick={() => setLightbox(p)}
+              className="group relative aspect-[3/4] w-full overflow-hidden rounded-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_40px_-10px_hsl(var(--accent)/0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              <img src={p.src} alt={`${p.caption} event poster`} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              <span className="pointer-events-none absolute bottom-3 left-3 right-3 translate-y-2 text-left text-sm font-medium uppercase tracking-wider text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                {p.caption}
+              </span>
+            </button>
+          ))}
         </div>
       </section>
+
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md animate-fade-in"
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+            className="absolute right-5 top-5 rounded-full border border-white/20 bg-white/10 p-2 text-white backdrop-blur-md transition hover:bg-white/20"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <figure onClick={(e) => e.stopPropagation()} className="max-h-[90vh] max-w-[90vw] animate-scale-in">
+            <img src={lightbox.src} alt={lightbox.caption} className="max-h-[85vh] w-auto rounded-xl object-contain shadow-2xl" />
+            <figcaption className="mt-3 text-center text-sm uppercase tracking-[0.22em] text-white/80">{lightbox.caption}</figcaption>
+          </figure>
+        </div>
+      )}
 
       {/* SKILLS + EXPERIENCE */}
       <section className="px-5 py-24 md:px-10 md:py-32">
