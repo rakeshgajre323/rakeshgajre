@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github } from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
@@ -38,6 +39,28 @@ const socials = [
   { label: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/in/rakesh-gajre-1bba71257/" },
   { label: "GitHub", Icon: Github, href: "https://github.com/rakeshgajre323" },
 ];
+
+const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+  event.preventDefault();
+
+  const externalWindow = window.open("about:blank", "_blank");
+  if (externalWindow) {
+    externalWindow.opener = null;
+    externalWindow.location.replace(href);
+    return;
+  }
+
+  try {
+    if (window.top && window.top !== window.self) {
+      window.top.location.href = href;
+      return;
+    }
+  } catch {
+    // Fall back to a normal new-tab open when top-level navigation is unavailable.
+  }
+
+  window.open(href, "_blank", "noopener,noreferrer");
+};
 
 function Index() {
   return (
@@ -86,7 +109,7 @@ function Index() {
               {socials.map((s, i) => (
                 <span key={s.label} className="flex items-center gap-4">
                   {i > 0 && <span className="text-foreground/30">/</span>}
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="hover:opacity-80 transition-opacity">
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} profile`} onClick={(event) => openExternalLink(event, s.href)} className="hover:opacity-80 transition-opacity">
                     <s.Icon className="h-4 w-4" strokeWidth={1.75} />
                   </a>
                 </span>
@@ -426,7 +449,7 @@ function Index() {
             {socials.map((s, i) => (
               <span key={s.label} className="flex items-center gap-4">
                 {i > 0 && <span className="text-foreground/30">/</span>}
-                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="hover:opacity-80 transition-opacity">
+                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} profile`} onClick={(event) => openExternalLink(event, s.href)} className="hover:opacity-80 transition-opacity">
                   <s.Icon className="h-4 w-4" strokeWidth={1.75} />
                 </a>
               </span>
