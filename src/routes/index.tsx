@@ -367,7 +367,7 @@ function Index() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
             { title: "Generative AI Foundations", issuer: "UpGrad × Microsoft", href: "https://certificates.upgrad.com/840ccdbb-9cf8-4562-a3c0-146af56e1caf-Gen-AI-jTMvFhyg8IYH4Qco.jpeg" },
-            { title: "Prompt to Prototype", issuer: "Google Startup School" },
+            { title: "Prompt to Prototype", issuer: "Google Startup School", href: "https://drive.google.com/file/d/1ylFu9i7k0kzFECX0TtYvdRjq4-5BH4sg/view?usp=sharing" },
             { title: "Cybersecurity Certification", issuer: "Tech Mahindra" },
             { title: "Foundation Course in Finance", issuer: "Reliance Foundation" },
             { title: "Branch Banking Executive", issuer: "NSDC" },
