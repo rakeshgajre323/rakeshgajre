@@ -525,14 +525,20 @@ function Index() {
           </div>
           <a href="#" className="hover:text-accent">Back to top ↑</a>
         </div>
-        <div className="group/word -mb-6 select-none cursor-default flex flex-col items-center leading-none">
-          <span className="font-display text-[26vw] leading-[0.78] tracking-tight text-foreground/95 transition-all duration-700 group-hover/word:tracking-tighter">
+        <h2 className="group/word -mb-6 select-none cursor-default flex flex-col items-center leading-none">
+          <span
+            className="font-display text-[26vw] leading-[0.78] tracking-tight text-foreground transition-all duration-700 group-hover/word:tracking-tighter"
+            style={{ textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
+          >
             RAKESH
           </span>
-          <span className="font-display text-[26vw] leading-[0.78] tracking-tight text-red-500 -mt-[7vw] transition-all duration-700 group-hover/word:text-foreground">
+          <span
+            className="font-display text-[26vw] leading-[0.78] tracking-tight text-accent -mt-[7vw] transition-all duration-700 group-hover/word:text-foreground"
+            style={{ textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
+          >
             GAJRE
           </span>
-        </div>
+        </h2>
         <div className="h-1 bg-accent" />
       </footer>
     </main>
