@@ -169,19 +169,22 @@ function Index() {
 
         <ul className="divide-y divide-border/70 border-y border-border/70">
           {projects.map((p) => (
-            <li key={p.id}>
+            <li key={p.id} className="group/item relative overflow-hidden">
+              <span className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-accent/5 transition-transform duration-500 group-hover/item:scale-x-100" />
               <a
                 href={p.href}
                 target={p.href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
-                className="group grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 py-6 transition-colors hover:text-accent md:py-8"
+                className="relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 py-6 transition-all duration-500 group-hover/item:translate-x-4 md:py-8"
               >
-                <span className="font-mono text-xs text-muted-foreground md:text-sm">{p.id}</span>
-                <span className="font-display text-2xl uppercase tracking-tight md:text-4xl">
+                <span className="font-mono text-xs text-muted-foreground transition-colors group-hover/item:text-accent md:text-sm">{p.id}</span>
+                <span className="font-display text-2xl uppercase tracking-tight transition-colors group-hover/item:text-accent md:text-4xl">
                   {p.name}
                 </span>
                 <span className="font-mono text-xs text-muted-foreground md:text-sm">{p.year}</span>
-                <ArrowUpRight className="h-5 w-5 text-accent transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:h-6 md:w-6" />
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-accent transition-all duration-500 -rotate-45 group-hover/item:rotate-0 group-hover/item:border-accent group-hover/item:bg-accent group-hover/item:text-accent-foreground group-hover/item:scale-110">
+                  <ArrowUpRight className="h-5 w-5" />
+                </span>
               </a>
             </li>
           ))}
