@@ -3,9 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github } from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
-import award1 from "@/assets/award-1.jpg";
-import award2 from "@/assets/award-2.jpg";
-import award3 from "@/assets/award-3.jpg";
+import award1 from "@/assets/event-techzite.jpg.asset.json";
+import award2 from "@/assets/event-aura.jpg.asset.json";
+import award3 from "@/assets/event-freshers.png.asset.json";
+import award4 from "@/assets/event-arohana.png.asset.json";
 import rLogo from "@/assets/r-logo.png";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
@@ -260,16 +261,10 @@ function Index() {
           Recognition
         </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          <img src={award1} alt="" loading="lazy" decoding="async" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
-          <img src={award2} alt="" loading="lazy" decoding="async" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
-          <div className="flex aspect-[3/4] flex-col justify-between rounded-xl bg-accent p-5 text-accent-foreground">
-            <span className="text-[11px] uppercase tracking-[0.2em]">2025</span>
-            <div>
-              <div className="font-display text-2xl uppercase leading-tight md:text-3xl">The Design Impact Awards</div>
-              <ArrowUpRight className="mt-4 h-5 w-5" />
-            </div>
-          </div>
-          <img src={award3} alt="" loading="lazy" decoding="async" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award1.url} alt="Techzite event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award2.url} alt="Aura The Vibe event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award3.url} alt="Freshers Day event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award4.url} alt="Arohana event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
         </div>
       </section>
 
