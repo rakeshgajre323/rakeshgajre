@@ -9,6 +9,9 @@ import rLogo from "@/assets/r-logo.png";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
 import logoStudentTribe from "@/assets/logo-studenttribe.png";
+import iconInstagram from "@/assets/icon-instagram.png";
+import iconLinkedin from "@/assets/icon-linkedin.png";
+import iconGithub from "@/assets/icon-github.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
