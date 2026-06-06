@@ -425,11 +425,13 @@ function Index() {
       <footer className="overflow-hidden border-t border-border/70 px-5 pt-12 md:px-10">
         <div className="flex flex-wrap items-end justify-between gap-6 pb-8 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
           <span>© {new Date().getFullYear()} Rakesh Gajre</span>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             {socials.map((s, i) => (
-              <span key={s} className="flex items-center gap-4">
+              <span key={s.label} className="flex items-center gap-4">
                 {i > 0 && <span className="text-foreground/30">/</span>}
-                <a href="#" className="hover:text-accent">{s}</a>
+                <a href={s.href} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
+                  <img src={s.icon} alt={s.label} className="h-4 w-4 object-contain" loading="lazy" />
+                </a>
               </span>
             ))}
           </div>
