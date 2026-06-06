@@ -20,6 +20,9 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Rakesh Gajre — UI/UX Designer" },
       { property: "og:description", content: "Designing intuitive digital experiences that bridge user needs and technology." },
     ],
+    links: [
+      { rel: "preload", as: "image", href: portrait, fetchpriority: "high" },
+    ],
   }),
   component: Index,
 });
