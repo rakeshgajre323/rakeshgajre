@@ -85,11 +85,13 @@ function Index() {
           {/* Bottom strip */}
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-foreground/15 bg-background/30 px-5 py-4 text-[11px] font-medium tracking-[0.2em] text-foreground/85 backdrop-blur md:px-8">
             <span>UI / UX DESIGNER</span>
-            <div className="hidden gap-4 md:flex">
+            <div className="hidden items-center gap-4 md:flex">
               {socials.map((s, i) => (
-                <span key={s} className="flex items-center gap-4">
+                <span key={s.label} className="flex items-center gap-4">
                   {i > 0 && <span className="text-foreground/30">/</span>}
-                  <a href="#" className="hover:text-accent">{s}</a>
+                  <a href={s.href} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
+                    <img src={s.icon} alt={s.label} className="h-4 w-4 object-contain" loading="lazy" />
+                  </a>
                 </span>
               ))}
             </div>
