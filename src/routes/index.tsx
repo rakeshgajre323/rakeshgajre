@@ -9,6 +9,9 @@ import rLogo from "@/assets/r-logo.png";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
 import logoStudentTribe from "@/assets/logo-studenttribe.png";
+import iconInstagram from "@/assets/icon-instagram.png";
+import iconLinkedin from "@/assets/icon-linkedin.png";
+import iconGithub from "@/assets/icon-github.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,7 +36,11 @@ const projects = [
   { id: "06", name: "Logo Marks & Identity Studies", year: "2023", href: "#" },
 ];
 
-const socials = ["IG", "LN", "GH", "BE"];
+const socials = [
+  { label: "Instagram", icon: iconInstagram, href: "https://www.instagram.com/rakesh_gajre/" },
+  { label: "LinkedIn", icon: iconLinkedin, href: "https://www.linkedin.com/in/rakesh-gajre-1bba71257/" },
+  { label: "GitHub", icon: iconGithub, href: "https://github.com/rakeshgajre323" },
+];
 
 function Index() {
   return (
@@ -78,11 +85,13 @@ function Index() {
           {/* Bottom strip */}
           <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-foreground/15 bg-background/30 px-5 py-4 text-[11px] font-medium tracking-[0.2em] text-foreground/85 backdrop-blur md:px-8">
             <span>UI / UX DESIGNER</span>
-            <div className="hidden gap-4 md:flex">
+            <div className="hidden items-center gap-4 md:flex">
               {socials.map((s, i) => (
-                <span key={s} className="flex items-center gap-4">
+                <span key={s.label} className="flex items-center gap-4">
                   {i > 0 && <span className="text-foreground/30">/</span>}
-                  <a href="#" className="hover:text-accent">{s}</a>
+                  <a href={s.href} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
+                    <img src={s.icon} alt={s.label} className="h-4 w-4 object-contain" loading="lazy" />
+                  </a>
                 </span>
               ))}
             </div>
@@ -416,11 +425,13 @@ function Index() {
       <footer className="overflow-hidden border-t border-border/70 px-5 pt-12 md:px-10">
         <div className="flex flex-wrap items-end justify-between gap-6 pb-8 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
           <span>© {new Date().getFullYear()} Rakesh Gajre</span>
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             {socials.map((s, i) => (
-              <span key={s} className="flex items-center gap-4">
+              <span key={s.label} className="flex items-center gap-4">
                 {i > 0 && <span className="text-foreground/30">/</span>}
-                <a href="#" className="hover:text-accent">{s}</a>
+                <a href={s.href} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
+                  <img src={s.icon} alt={s.label} className="h-4 w-4 object-contain" loading="lazy" />
+                </a>
               </span>
             ))}
           </div>
