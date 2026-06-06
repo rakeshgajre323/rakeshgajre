@@ -10,6 +10,7 @@ import rLogo from "@/assets/r-logo.png";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
 import logoStudentTribe from "@/assets/logo-studenttribe.png";
+import resumeAsset from "@/assets/resume.pdf.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -433,7 +434,10 @@ function Index() {
             Get in touch <ArrowUpRight className="h-5 w-5" />
           </a>
           <a
-            href="#"
+            href={resumeAsset.url}
+            download="RAKESH_GAJRE_RESUME.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 font-display text-lg uppercase tracking-tight text-accent-foreground transition-opacity hover:opacity-90"
           >
             <Download className="h-5 w-5" /> Resume
