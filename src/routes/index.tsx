@@ -20,6 +20,9 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Rakesh Gajre — UI/UX Designer" },
       { property: "og:description", content: "Designing intuitive digital experiences that bridge user needs and technology." },
     ],
+    links: [
+      { rel: "preload", as: "image", href: portrait, fetchpriority: "high" },
+    ],
   }),
   component: Index,
 });
@@ -70,7 +73,10 @@ function Index() {
             className="h-[78vh] w-full object-cover object-center md:h-[88vh]"
             width={1206}
             height={877}
+            fetchPriority="high"
+            decoding="async"
           />
+
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-background/50" />
 
           {/* Top bar */}
@@ -248,8 +254,8 @@ function Index() {
           Recognition
         </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          <img src={award1} alt="" loading="lazy" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
-          <img src={award2} alt="" loading="lazy" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award1} alt="" loading="lazy" decoding="async" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award2} alt="" loading="lazy" decoding="async" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
           <div className="flex aspect-[3/4] flex-col justify-between rounded-xl bg-accent p-5 text-accent-foreground">
             <span className="text-[11px] uppercase tracking-[0.2em]">2025</span>
             <div>
@@ -257,7 +263,7 @@ function Index() {
               <ArrowUpRight className="mt-4 h-5 w-5" />
             </div>
           </div>
-          <img src={award3} alt="" loading="lazy" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award3} alt="" loading="lazy" decoding="async" width={768} height={1024} className="aspect-[3/4] w-full rounded-xl object-cover" />
         </div>
       </section>
 
