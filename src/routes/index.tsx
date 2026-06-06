@@ -65,7 +65,7 @@ const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) =>
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="noise-overlay min-h-screen bg-background text-foreground">
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl">
@@ -99,9 +99,12 @@ function Index() {
               </p>
               <a
                 href="#contact"
-                className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-foreground hover:text-accent"
+                className="group/cta mt-6 inline-flex items-center gap-4 text-xs font-medium uppercase tracking-[0.2em] text-foreground"
               >
-                Get in touch <ArrowUpRight className="h-4 w-4" />
+                <span className="transition-colors group-hover/cta:text-accent">Get in touch</span>
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-foreground/20 transition-all duration-500 group-hover/cta:rotate-45 group-hover/cta:border-accent group-hover/cta:bg-accent group-hover/cta:text-accent-foreground">
+                  <ArrowUpRight className="h-4 w-4" />
+                </span>
               </a>
             </div>
           </div>
@@ -169,19 +172,22 @@ function Index() {
 
         <ul className="divide-y divide-border/70 border-y border-border/70">
           {projects.map((p) => (
-            <li key={p.id}>
+            <li key={p.id} className="group/item relative overflow-hidden">
+              <span className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-accent/5 transition-transform duration-500 group-hover/item:scale-x-100" />
               <a
                 href={p.href}
                 target={p.href.startsWith("http") ? "_blank" : undefined}
                 rel="noreferrer"
-                className="group grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 py-6 transition-colors hover:text-accent md:py-8"
+                className="relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 py-6 transition-all duration-500 group-hover/item:translate-x-4 md:py-8"
               >
-                <span className="font-mono text-xs text-muted-foreground md:text-sm">{p.id}</span>
-                <span className="font-display text-2xl uppercase tracking-tight md:text-4xl">
+                <span className="font-mono text-xs text-muted-foreground transition-colors group-hover/item:text-accent md:text-sm">{p.id}</span>
+                <span className="font-display text-2xl uppercase tracking-tight transition-colors group-hover/item:text-accent md:text-4xl">
                   {p.name}
                 </span>
                 <span className="font-mono text-xs text-muted-foreground md:text-sm">{p.year}</span>
-                <ArrowUpRight className="h-5 w-5 text-accent transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:h-6 md:w-6" />
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-accent transition-all duration-500 -rotate-45 group-hover/item:rotate-0 group-hover/item:border-accent group-hover/item:bg-accent group-hover/item:text-accent-foreground group-hover/item:scale-110">
+                  <ArrowUpRight className="h-5 w-5" />
+                </span>
               </a>
             </li>
           ))}
@@ -519,11 +525,11 @@ function Index() {
           </div>
           <a href="#" className="hover:text-accent">Back to top ↑</a>
         </div>
-        <div className="-mb-6 select-none text-center">
-          <span className="font-display text-[26vw] leading-none tracking-tight text-foreground/95">
+        <div className="group/word -mb-6 select-none text-center cursor-default">
+          <span className="font-display text-[26vw] leading-none tracking-tight text-foreground/95 transition-all duration-700 group-hover/word:tracking-tighter">
             RAKESH
           </span>
-          <span className="font-display text-[26vw] leading-none tracking-tight text-red-500">
+          <span className="font-display text-[26vw] leading-none tracking-tight text-red-500 transition-all duration-700 group-hover/word:text-foreground">
             {" "}GAJRE
           </span>
         </div>
