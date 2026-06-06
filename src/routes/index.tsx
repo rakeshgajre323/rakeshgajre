@@ -47,17 +47,12 @@ const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) =>
   const externalWindow = window.open("about:blank", "_blank");
   if (externalWindow) {
     externalWindow.opener = null;
-    externalWindow.location.replace(href);
-    return;
-  }
-
-  try {
-    if (window.top && window.top !== window.self) {
-      window.top.location.href = href;
+    try {
+      externalWindow.location.replace(href);
       return;
+    } catch {
+      // Cross-origin restriction in iframe — fall through to direct open.
     }
-  } catch {
-    // Fall back to a normal new-tab open when top-level navigation is unavailable.
   }
 
   window.open(href, "_blank", "noopener,noreferrer");
