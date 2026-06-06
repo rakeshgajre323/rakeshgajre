@@ -186,6 +186,12 @@ function Index() {
         </ul>
       </section>
 
+      <div className="px-5 pb-4 md:px-10">
+        <h2 className="font-display text-[12vw] font-bold uppercase leading-none tracking-tight text-foreground md:text-[8vw]">
+          PROJECTS
+        </h2>
+      </div>
+
       {/* FEATURED CASE STUDY */}
       <section className="px-5 pb-24 md:px-10 md:pb-32">
         <div className="overflow-hidden rounded-2xl border border-border/70 bg-surface">
