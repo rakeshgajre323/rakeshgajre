@@ -444,14 +444,19 @@ function Index() {
       <footer className="overflow-hidden border-t border-border/70 px-5 pt-12 md:px-10">
         <div className="flex flex-wrap items-end justify-between gap-6 pb-8 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
           <span>© {new Date().getFullYear()} Rakesh Gajre</span>
-          <div className="flex items-center gap-4">
-            {socials.map((s, i) => (
-              <span key={s.label} className="flex items-center gap-4">
-                {i > 0 && <span className="text-foreground/30">/</span>}
-                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} profile`} onClick={(event) => openExternalLink(event, s.href)} className="hover:opacity-80 transition-opacity">
-                  <s.Icon className="h-4 w-4" strokeWidth={1.75} />
-                </a>
-              </span>
+          <div className="flex items-center gap-3">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${s.label} profile`}
+                onClick={(event) => openExternalLink(event, s.href)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
+              >
+                <s.Icon className="h-5 w-5" strokeWidth={1.75} />
+              </a>
             ))}
           </div>
           <a href="#" className="hover:text-accent">Back to top ↑</a>
