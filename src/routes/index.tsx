@@ -81,9 +81,9 @@ function Index() {
 
           {/* Top bar */}
           <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-5 text-[11px] font-medium tracking-[0.18em] text-foreground/90 md:px-8">
-            <button className="hover:text-accent">MENU</button>
+            <button className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent">MENU</button>
             <img src={rLogo} alt="R." className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]" />
-            <a href="#contact" className="hover:text-accent">CONTACT ME</a>
+            <a href="#contact" className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent">CONTACT ME</a>
           </div>
 
           {/* Headline */}
