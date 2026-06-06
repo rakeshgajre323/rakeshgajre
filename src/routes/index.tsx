@@ -6,6 +6,9 @@ import award1 from "@/assets/award-1.jpg";
 import award2 from "@/assets/award-2.jpg";
 import award3 from "@/assets/award-3.jpg";
 import rLogo from "@/assets/r-logo.png";
+import logoJnv from "@/assets/logo-jnv.png";
+import logoAurora from "@/assets/logo-aurora.png";
+import logoStudentTribe from "@/assets/logo-studenttribe.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -275,12 +278,16 @@ function Index() {
                   when: "May 2026 — Present",
                   what: "UI/UX Design Intern",
                   where: "Student Tribe",
+                  logo: logoStudentTribe,
+                  href: "https://studenttribe.in/",
                   note: "User research, journey mapping, prototyping & shipping product UI.",
                 },
                 {
                   when: "Nov 2022 — May 2026",
                   what: "B.Tech, Computer Science Engineering",
                   where: "Aurora Scientific & Technological Institute",
+                  logo: logoAurora,
+                  href: "https://asti.edu.in/",
                   note: "Engineering foundation paired with self-directed design practice.",
                 },
                 {
@@ -292,13 +299,27 @@ function Index() {
                   when: "Jun 2015 — Mar 2020",
                   what: "Secondary Education",
                   where: "Jawahar Navodaya Vidyalaya",
+                  logo: logoJnv,
+                  href: "https://navodaya.gov.in/nvs/nvs-school/MEDAK/en/about_us/About-JNV/",
                 },
-              ].map((e, i) => (
+              ].map((e: any, i) => (
                 <li key={i} className="relative">
                   <span className="absolute -left-[31px] top-2 h-2.5 w-2.5 rounded-full bg-accent" />
                   <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{e.when}</div>
                   <div className="mt-1 font-display text-xl uppercase tracking-tight md:text-2xl">{e.what}</div>
-                  <div className="text-sm text-foreground/80">{e.where}</div>
+                  {e.href ? (
+                    <a
+                      href={e.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-1 inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-accent"
+                    >
+                      <img src={e.logo} alt="" className="h-5 w-5 object-contain" />
+                      <span>{e.where}</span>
+                    </a>
+                  ) : (
+                    <div className="text-sm text-foreground/80">{e.where}</div>
+                  )}
                   {e.note && <p className="mt-2 max-w-sm text-sm text-muted-foreground">{e.note}</p>}
                 </li>
               ))}
