@@ -65,7 +65,7 @@ const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) =>
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <main className="noise-overlay min-h-screen bg-background text-foreground">
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl">
