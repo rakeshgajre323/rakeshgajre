@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Download, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github } from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/award-1.jpg";
@@ -9,9 +9,6 @@ import rLogo from "@/assets/r-logo.png";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
 import logoStudentTribe from "@/assets/logo-studenttribe.png";
-import iconInstagram from "@/assets/icon-instagram.png";
-import iconLinkedin from "@/assets/icon-linkedin.png";
-import iconGithub from "@/assets/icon-github.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
