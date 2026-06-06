@@ -5,6 +5,7 @@ import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/award-1.jpg";
 import award2 from "@/assets/award-2.jpg";
 import award3 from "@/assets/award-3.jpg";
+import rLogo from "@/assets/r-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -47,9 +48,9 @@ function Index() {
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-background/50" />
 
           {/* Top bar */}
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 py-5 text-[11px] font-medium tracking-[0.18em] text-foreground/90 md:px-8">
+          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-5 text-[11px] font-medium tracking-[0.18em] text-foreground/90 md:px-8">
             <button className="hover:text-accent">MENU</button>
-            <div className="font-display text-xl text-accent">R.</div>
+            <img src={rLogo} alt="R." className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]" />
             <a href="#contact" className="hover:text-accent">CONTACT ME</a>
           </div>
 
