@@ -262,8 +262,8 @@ function Index() {
         </div>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           <img src={award1.url} alt="Techzite event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
-          <img src={award2.url} alt="Aura The Vibe event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
           <img src={award3.url} alt="Freshers Day event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
+          <img src={award2.url} alt="Aura The Vibe event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
           <img src={award4.url} alt="Arohana event poster" loading="lazy" decoding="async" className="aspect-[3/4] w-full rounded-xl object-cover" />
         </div>
       </section>
