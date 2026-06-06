@@ -426,8 +426,8 @@ function Index() {
             {socials.map((s, i) => (
               <span key={s.label} className="flex items-center gap-4">
                 {i > 0 && <span className="text-foreground/30">/</span>}
-                <a href={s.href} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
-                  <img src={s.icon} alt={s.label} className="h-4 w-4 object-contain" loading="lazy" />
+                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="hover:opacity-80 transition-opacity">
+                  <s.Icon className="h-4 w-4" strokeWidth={1.75} />
                 </a>
               </span>
             ))}
