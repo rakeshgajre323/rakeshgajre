@@ -99,9 +99,12 @@ function Index() {
               </p>
               <a
                 href="#contact"
-                className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-foreground hover:text-accent"
+                className="group/cta mt-6 inline-flex items-center gap-4 text-xs font-medium uppercase tracking-[0.2em] text-foreground"
               >
-                Get in touch <ArrowUpRight className="h-4 w-4" />
+                <span className="transition-colors group-hover/cta:text-accent">Get in touch</span>
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-foreground/20 transition-all duration-500 group-hover/cta:rotate-45 group-hover/cta:border-accent group-hover/cta:bg-accent group-hover/cta:text-accent-foreground">
+                  <ArrowUpRight className="h-4 w-4" />
+                </span>
               </a>
             </div>
           </div>
