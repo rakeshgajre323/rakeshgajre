@@ -1,6 +1,6 @@
-import type { MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github } from "lucide-react";
+import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github, X } from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/event-techzite.jpg.asset.json";
