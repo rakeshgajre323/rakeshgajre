@@ -43,6 +43,13 @@ const socials = [
 const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
   event.preventDefault();
 
+  const externalWindow = window.open("about:blank", "_blank");
+  if (externalWindow) {
+    externalWindow.opener = null;
+    externalWindow.location.replace(href);
+    return;
+  }
+
   try {
     if (window.top && window.top !== window.self) {
       window.top.location.href = href;
