@@ -34,9 +34,9 @@ const projects = [
 ];
 
 const socials = [
-  { label: "Instagram", icon: iconInstagram, href: "https://www.instagram.com/rakesh_gajre/" },
-  { label: "LinkedIn", icon: iconLinkedin, href: "https://www.linkedin.com/in/rakesh-gajre-1bba71257/" },
-  { label: "GitHub", icon: iconGithub, href: "https://github.com/rakeshgajre323" },
+  { label: "Instagram", Icon: Instagram, href: "https://www.instagram.com/rakesh_gajre/" },
+  { label: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/in/rakesh-gajre-1bba71257/" },
+  { label: "GitHub", Icon: Github, href: "https://github.com/rakeshgajre323" },
 ];
 
 function Index() {
