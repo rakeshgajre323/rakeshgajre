@@ -369,7 +369,7 @@ function Index() {
             { title: "Generative AI Foundations", issuer: "UpGrad × Microsoft", href: "https://certificates.upgrad.com/840ccdbb-9cf8-4562-a3c0-146af56e1caf-Gen-AI-jTMvFhyg8IYH4Qco.jpeg" },
             { title: "Prompt to Prototype", issuer: "Google Startup School", href: "https://drive.google.com/file/d/1ylFu9i7k0kzFECX0TtYvdRjq4-5BH4sg/view?usp=sharing" },
             { title: "Cybersecurity Certification", issuer: "Tech Mahindra" },
-            { title: "Foundation Course in Finance", issuer: "Reliance Foundation" },
+            { title: "Foundation Course in Finance", issuer: "Reliance Foundation", href: "https://drive.google.com/file/d/1J3G8AoqD0jBBmKXF_Xq1RSvQ_F_iLDI7/view" },
             { title: "Branch Banking Executive", issuer: "NSDC" },
             { title: "Microsoft Excel", issuer: "Coursera" },
             { title: "Fundamentals of Digital Marketing", issuer: "Google" },
