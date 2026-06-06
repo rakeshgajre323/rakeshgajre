@@ -372,7 +372,7 @@ function Index() {
             { title: "Foundation Course in Finance", issuer: "Reliance Foundation", href: "https://drive.google.com/file/d/1J3G8AoqD0jBBmKXF_Xq1RSvQ_F_iLDI7/view" },
             { title: "Branch Banking Executive", issuer: "NSDC", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/c3840e379d104884b60013902352e937" },
             { title: "Microsoft Excel", issuer: "Coursera" },
-            { title: "Fundamentals of Digital Marketing", issuer: "Google" },
+            { title: "Fundamentals of Digital Marketing", issuer: "Google", href: "https://drive.google.com/file/d/1ClSCnYvReDnCZsgj7L_2OjDjRPtNDYAd/view" },
             { title: "Logo Design with Canva", issuer: "Coursera" },
           ].map((cert) => {
             const el = (
