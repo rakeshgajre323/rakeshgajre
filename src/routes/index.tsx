@@ -39,12 +39,12 @@ function Index() {
         <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl">
           <img
             src={portrait}
-            alt="Rakesh Gajre portrait with red light streaks"
-            className="h-[78vh] w-full object-cover object-[30%_center] md:h-[88vh] md:object-center"
-            width={1080}
-            height={1620}
+            alt="Rakesh Gajre portrait"
+            className="h-[78vh] w-full object-cover object-center md:h-[88vh]"
+            width={1206}
+            height={877}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-background/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-background/50" />
 
           {/* Top bar */}
           <div className="absolute inset-x-0 top-0 flex items-center justify-between px-5 py-5 text-[11px] font-medium tracking-[0.18em] text-foreground/90 md:px-8">
