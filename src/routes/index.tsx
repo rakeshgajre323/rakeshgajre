@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Download, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github } from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/award-1.jpg";
@@ -9,9 +9,6 @@ import rLogo from "@/assets/r-logo.png";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
 import logoStudentTribe from "@/assets/logo-studenttribe.png";
-import iconInstagram from "@/assets/icon-instagram.png";
-import iconLinkedin from "@/assets/icon-linkedin.png";
-import iconGithub from "@/assets/icon-github.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,9 +34,9 @@ const projects = [
 ];
 
 const socials = [
-  { label: "Instagram", icon: iconInstagram, href: "https://www.instagram.com/rakesh_gajre/" },
-  { label: "LinkedIn", icon: iconLinkedin, href: "https://www.linkedin.com/in/rakesh-gajre-1bba71257/" },
-  { label: "GitHub", icon: iconGithub, href: "https://github.com/rakeshgajre323" },
+  { label: "Instagram", Icon: Instagram, href: "https://www.instagram.com/rakesh_gajre/" },
+  { label: "LinkedIn", Icon: Linkedin, href: "https://www.linkedin.com/in/rakesh-gajre-1bba71257/" },
+  { label: "GitHub", Icon: Github, href: "https://github.com/rakeshgajre323" },
 ];
 
 function Index() {
@@ -89,8 +86,8 @@ function Index() {
               {socials.map((s, i) => (
                 <span key={s.label} className="flex items-center gap-4">
                   {i > 0 && <span className="text-foreground/30">/</span>}
-                  <a href={s.href} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
-                    <img src={s.icon} alt={s.label} className="h-4 w-4 object-contain" loading="lazy" />
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="hover:opacity-80 transition-opacity">
+                    <s.Icon className="h-4 w-4" strokeWidth={1.75} />
                   </a>
                 </span>
               ))}
@@ -429,8 +426,8 @@ function Index() {
             {socials.map((s, i) => (
               <span key={s.label} className="flex items-center gap-4">
                 {i > 0 && <span className="text-foreground/30">/</span>}
-                <a href={s.href} target="_blank" rel="noreferrer" className="hover:opacity-80 transition-opacity">
-                  <img src={s.icon} alt={s.label} className="h-4 w-4 object-contain" loading="lazy" />
+                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="hover:opacity-80 transition-opacity">
+                  <s.Icon className="h-4 w-4" strokeWidth={1.75} />
                 </a>
               </span>
             ))}
