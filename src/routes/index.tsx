@@ -484,6 +484,9 @@ function Index() {
           <span className="font-display text-[26vw] leading-none tracking-tight text-foreground/95">
             RAKESH
           </span>
+          <span className="font-display text-[26vw] leading-none tracking-tight text-red-500">
+            {" "}Gajre
+          </span>
         </div>
         <div className="h-1 bg-accent" />
       </footer>
