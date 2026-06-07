@@ -770,13 +770,13 @@ function Index() {
         <div className="mb-10 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
           Let's get started
         </div>
-        <h2 className="font-display text-[10vw] leading-[0.92] tracking-tight md:text-[6vw]">
+        <h2 className="font-display text-[8.5vw] leading-[0.95] tracking-tight md:text-[6vw] md:leading-[0.92] break-words">
           <span className="block">LET'S TAKE YOUR PRODUCT</span>
-          <span className="block pl-[15%]">TO THE NEXT LEVEL —</span>
+          <span className="block md:pl-[15%]">TO THE NEXT LEVEL —</span>
           <span className="block">WHETHER YOU'RE</span>
-          <span className="block pl-[20%]">LAUNCHING SOMETHING NEW</span>
+          <span className="block md:pl-[20%]">LAUNCHING SOMETHING NEW</span>
           <span className="block">OR REIMAGINING</span>
-          <span className="block pl-[10%] text-accent">AN EXPERIENCE THAT MATTERS</span>
+          <span className="block md:pl-[10%] text-accent">AN EXPERIENCE THAT MATTERS</span>
         </h2>
 
         <div className="mt-16 grid gap-8 border-t border-border/70 pt-10 md:grid-cols-3">
