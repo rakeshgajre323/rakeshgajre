@@ -462,11 +462,6 @@ function Index() {
         </ul>
       </section>
 
-      <div className="px-5 pb-24 pt-4 md:px-10">
-        <h2 className="font-display text-[12vw] font-bold uppercase leading-none tracking-tight text-foreground md:text-[8vw]">
-          PROJECTS
-        </h2>
-      </div>
 
       {/* WHY WORK WITH ME */}
       <section className="bg-surface px-5 py-24 md:px-10 md:py-32">
