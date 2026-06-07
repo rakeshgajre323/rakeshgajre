@@ -157,11 +157,6 @@ function HirePage() {
                     options={["UI/UX Design", "Web Design", "Mobile App", "Design System", "Branding", "Other"]}
                   />
                   <SelectField
-                    label="Budget Range"
-                    name="budget"
-                    options={["< $1k", "$1k – $5k", "$5k – $10k", "$10k+", "Let's discuss"]}
-                  />
-                  <SelectField
                     label="Timeline"
                     name="timeline"
                     options={["ASAP", "1–2 weeks", "1 month", "1–3 months", "Flexible"]}
