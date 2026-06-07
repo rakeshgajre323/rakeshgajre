@@ -28,7 +28,7 @@ function HirePage() {
       email: String(fd.get("email") || ""),
       company: String(fd.get("company") || ""),
       role: String(fd.get("role") || ""),
-      budget: String(fd.get("budget") || ""),
+      
       timeline: String(fd.get("timeline") || ""),
       project_type: String(fd.get("project_type") || ""),
       message: String(fd.get("message") || ""),
@@ -155,11 +155,6 @@ function HirePage() {
                     label="Project Type"
                     name="project_type"
                     options={["UI/UX Design", "Web Design", "Mobile App", "Design System", "Branding", "Other"]}
-                  />
-                  <SelectField
-                    label="Budget Range"
-                    name="budget"
-                    options={["< $1k", "$1k – $5k", "$5k – $10k", "$10k+", "Let's discuss"]}
                   />
                   <SelectField
                     label="Timeline"
