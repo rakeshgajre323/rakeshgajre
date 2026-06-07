@@ -30,6 +30,7 @@ import logoStudentTribe from "@/assets/logo-studenttribe.png";
 import resumeAsset from "@/assets/resume.pdf.asset.json";
 import upgradLogo from "@/assets/upgrad-logo.png.asset.json";
 import googleStartupsLogo from "@/assets/google-startups-logo.png.asset.json";
+import techMahindraLogo from "@/assets/techmahindra-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
