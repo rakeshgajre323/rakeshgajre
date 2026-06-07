@@ -28,7 +28,7 @@ function HirePage() {
       email: String(fd.get("email") || ""),
       company: String(fd.get("company") || ""),
       role: String(fd.get("role") || ""),
-      budget: String(fd.get("budget") || ""),
+      
       timeline: String(fd.get("timeline") || ""),
       project_type: String(fd.get("project_type") || ""),
       message: String(fd.get("message") || ""),
