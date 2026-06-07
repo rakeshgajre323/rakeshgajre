@@ -78,8 +78,9 @@ const certifications: {
   date: string;
   category: Exclude<CertCategory, "All">;
   href?: string;
+  logo?: string;
 }[] = [
-  { title: "Generative AI Foundations", issuer: "UpGrad × Microsoft", date: "2024", category: "AI", href: "https://certificates.upgrad.com/840ccdbb-9cf8-4562-a3c0-146af56e1caf-Gen-AI-jTMvFhyg8IYH4Qco.jpeg" },
+  { title: "Generative AI Foundations", issuer: "UpGrad × Microsoft", date: "2024", category: "AI", href: "https://certificates.upgrad.com/840ccdbb-9cf8-4562-a3c0-146af56e1caf-Gen-AI-jTMvFhyg8IYH4Qco.jpeg", logo: upgradLogo.url },
   { title: "Prompt to Prototype", issuer: "Google Startup School", date: "2024", category: "AI", href: "https://drive.google.com/file/d/1ylFu9i7k0kzFECX0TtYvdRjq4-5BH4sg/view?usp=sharing" },
   { title: "Cybersecurity Certification", issuer: "Tech Mahindra", date: "2024", category: "Technology", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/e87d68c3b2dd4f0a870513d22dc72661" },
   { title: "Foundation Course in Finance", issuer: "Reliance Foundation", date: "2023", category: "Business", href: "https://drive.google.com/file/d/1J3G8AoqD0jBBmKXF_Xq1RSvQ_F_iLDI7/view" },
