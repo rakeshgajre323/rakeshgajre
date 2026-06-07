@@ -28,7 +28,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const clients = ["Figma", "Adobe XD", "Canva", "Notion", "GitHub", "Vercel"];
+const clients = ["Figma", "Adobe XD", "Canva", "Notion", "GitHub", "Vercel", "Lovable"];
 
 const projects = [
   { id: "01", name: "OriginCerti — Blockchain Credentials", year: "2025", href: "https://origincerti.lovable.app" },
