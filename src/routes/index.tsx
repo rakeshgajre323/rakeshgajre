@@ -16,7 +16,15 @@ import {
   Lightbulb,
   CheckCircle2,
   ArrowRight,
+  Menu as MenuIcon,
 } from "lucide-react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/event-techzite.jpg.asset.json";
@@ -121,14 +129,28 @@ const scrollToId = (id: string) => {
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   const [certFilter, setCertFilter] = useState<CertCategory>("All");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const filteredCerts = useMemo(
     () => (certFilter === "All" ? certifications : certifications.filter((c) => c.category === certFilter)),
     [certFilter],
   );
 
+  const navItems: { label: string; id: string }[] = [
+    { label: "At a Glance", id: "glance" },
+    { label: "Case Study", id: "featured" },
+    { label: "Selected Work", id: "work" },
+    { label: "Contact", id: "contact" },
+  ];
+
+  const goToSection = (id: string) => {
+    setMenuOpen(false);
+    // Wait for sheet close animation so scroll lands accurately
+    setTimeout(() => scrollToId(id), 200);
+  };
+
   return (
-    <main className="noise-overlay min-h-screen bg-background text-foreground">
+    <main className="noise-overlay min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl">
@@ -145,34 +167,43 @@ function Index() {
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/40" />
 
           {/* Top bar */}
-          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-5 text-[11px] font-medium tracking-[0.18em] text-foreground/90 md:px-8">
+          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-2 px-4 py-4 text-[11px] font-medium tracking-[0.18em] text-foreground/90 sm:px-5 sm:py-5 md:px-8">
             <button
-              onClick={() => scrollToId("work")}
-              className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent"
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+              className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-5"
             >
-              MENU
+              <MenuIcon className="h-4 w-4" strokeWidth={2} />
+              <span className="hidden xs:inline">MENU</span>
+              <span className="xs:hidden">MENU</span>
             </button>
-            <img src={rLogo} alt="R." className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]" />
+            <img
+              src={rLogo}
+              alt="R."
+              className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
+            />
             <Link
               to="/hire"
-              className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent"
+              className="inline-flex min-h-11 items-center rounded-2xl border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-5"
             >
-              CONTACT ME
+              <span className="hidden xs:inline">CONTACT&nbsp;ME</span>
+              <span className="xs:hidden">CONTACT</span>
             </Link>
           </div>
 
           {/* Headline */}
-          <div className="absolute inset-x-0 bottom-0 px-5 pb-28 md:px-10 md:pb-32">
+          <div className="absolute inset-x-0 bottom-0 px-5 pb-28 sm:pb-32 md:px-10 md:pb-32">
             <div className="max-w-4xl">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-accent backdrop-blur-md">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-                Currently — UI/UX Design Intern at Student Tribe
+              <div className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-accent backdrop-blur-md">
+                <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent" />
+                <span className="truncate">Currently — UI/UX Design Intern at Student Tribe</span>
               </div>
-              <h1 className="font-display text-[12vw] leading-[0.88] tracking-tight text-foreground md:text-[5.5vw]">
+              <h1 className="font-display text-[11vw] leading-[0.92] tracking-tight text-foreground sm:text-[10vw] md:text-[5.5vw]">
                 UI/UX DESIGNER<br />
                 <span className="text-foreground/85">&amp; CS ENGINEER</span>
               </h1>
-              <p className="mt-5 max-w-xl text-sm leading-relaxed text-foreground/80 md:text-base">
+              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-foreground/80 md:text-base">
                 Designing intuitive digital experiences through user research, interaction
                 design, and user-centered thinking.
               </p>
@@ -180,7 +211,7 @@ function Index() {
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <button
                   onClick={() => scrollToId("featured")}
-                  className="group/cta inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground transition-all hover:opacity-90"
+                  className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground transition-all hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   View Case Studies
                   <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" />
@@ -190,7 +221,7 @@ function Index() {
                   download="RAKESH_GAJRE_RESUME.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 rounded-full border border-foreground/30 bg-white/5 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-all hover:border-foreground/60 hover:bg-white/10"
+                  className="inline-flex min-h-12 items-center gap-3 rounded-full border border-foreground/30 bg-white/5 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-all hover:border-foreground/60 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <Download className="h-4 w-4" />
                   Download Resume
@@ -204,8 +235,8 @@ function Index() {
           </div>
 
           {/* Bottom strip */}
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-foreground/15 bg-background/40 px-5 py-4 text-[11px] font-medium tracking-[0.2em] text-foreground/85 backdrop-blur md:px-8">
-            <span>RAKESH GAJRE — PORTFOLIO 2026</span>
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 border-t border-foreground/15 bg-background/40 px-4 py-3 text-[10px] font-medium tracking-[0.18em] text-foreground/85 backdrop-blur sm:px-5 sm:py-4 sm:text-[11px] sm:tracking-[0.2em] md:px-8">
+            <span className="min-w-0 truncate">RAKESH GAJRE — PORTFOLIO 2026</span>
             <div className="hidden items-center gap-4 md:flex">
               {socials.map((s, i) => (
                 <span key={s.label} className="flex items-center gap-4">
@@ -216,7 +247,7 @@ function Index() {
                     rel="noopener noreferrer"
                     aria-label={`${s.label} profile`}
                     onClick={(event) => openExternalLink(event, s.href)}
-                    className="hover:opacity-80 transition-opacity"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
                   >
                     <s.Icon className="h-4 w-4" strokeWidth={1.75} />
                   </a>
@@ -225,14 +256,84 @@ function Index() {
             </div>
             <button
               onClick={() => scrollToId("glance")}
-              className="flex cursor-pointer items-center gap-2 transition-colors duration-300 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+              aria-label="Scroll for more"
+              className="inline-flex min-h-10 shrink-0 cursor-pointer items-center gap-2 rounded-full px-2 py-2 transition-colors duration-300 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
             >
-              <span>SCROLL FOR MORE</span>
+              <span className="hidden xs:inline">SCROLL FOR MORE</span>
+              <span className="xs:hidden">SCROLL</span>
               <ChevronDown className="h-3.5 w-3.5 scroll-bounce" />
             </button>
           </div>
         </div>
       </section>
+
+      {/* MOBILE / GLOBAL NAV SHEET */}
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetContent
+          side="left"
+          className="w-[88vw] max-w-sm border-r border-border/70 bg-background p-0 text-foreground"
+        >
+          <SheetHeader className="border-b border-border/70 px-6 py-5 text-left">
+            <SheetTitle className="font-display text-2xl uppercase tracking-tight">
+              Navigate
+            </SheetTitle>
+            <SheetDescription className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
+              Rakesh Gajre — Portfolio 2026
+            </SheetDescription>
+          </SheetHeader>
+
+          <nav className="flex flex-col px-2 py-4">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => goToSection(item.id)}
+                className="group flex min-h-14 items-center justify-between rounded-xl px-4 py-3 text-left font-display text-2xl uppercase tracking-tight text-foreground transition-colors hover:bg-surface hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+              >
+                <span>{item.label}</span>
+                <ArrowRight className="h-5 w-5 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-accent" />
+              </button>
+            ))}
+            <Link
+              to="/hire"
+              onClick={() => setMenuOpen(false)}
+              className="group mt-2 flex min-h-14 items-center justify-between rounded-xl bg-accent px-4 py-3 font-display text-2xl uppercase tracking-tight text-accent-foreground transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              <span>Hire Me</span>
+              <ArrowUpRight className="h-5 w-5" />
+            </Link>
+          </nav>
+
+          <div className="border-t border-border/70 px-6 py-5">
+            <a
+              href={resumeAsset.url}
+              download="RAKESH_GAJRE_RESUME.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-foreground/30 px-5 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-foreground transition-colors hover:border-accent hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+            >
+              <Download className="h-4 w-4" /> Download Resume
+            </a>
+            <div className="mt-5 flex items-center justify-center gap-3">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.label} profile`}
+                  onClick={(event) => openExternalLink(event, s.href)}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/70 text-foreground transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                >
+                  <s.Icon className="h-5 w-5" strokeWidth={1.75} />
+                </a>
+              ))}
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
+
 
       {/* AT A GLANCE — metrics */}
       <section id="glance" className="px-5 pt-20 md:px-10 md:pt-28">
