@@ -1,5 +1,5 @@
 import { useState, type MouseEvent } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github, X, ChevronDown } from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
@@ -105,7 +105,7 @@ function Index() {
           <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-5 text-[11px] font-medium tracking-[0.18em] text-foreground/90 md:px-8">
             <button className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent">MENU</button>
             <img src={rLogo} alt="R." className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]" />
-            <a href="#contact" className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent">CONTACT ME</a>
+            <Link to="/hire" className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent">CONTACT ME</Link>
           </div>
 
           {/* Headline */}
@@ -117,15 +117,15 @@ function Index() {
               <p className="mt-5 ml-auto max-w-xs text-right text-xs uppercase tracking-[0.18em] text-foreground/75">
                 Crafting intuitive digital experiences that bridge user needs and technology.
               </p>
-              <a
-                href="#contact"
+              <Link
+                to="/hire"
                 className="group/cta mt-6 inline-flex items-center gap-4 text-xs font-medium uppercase tracking-[0.2em] text-foreground"
               >
                 <span className="transition-colors group-hover/cta:text-accent">Get in touch</span>
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-foreground/20 transition-all duration-500 group-hover/cta:rotate-45 group-hover/cta:border-accent group-hover/cta:bg-accent group-hover/cta:text-accent-foreground">
                   <ArrowUpRight className="h-4 w-4" />
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -512,12 +512,12 @@ function Index() {
         </div>
 
         <div className="mt-12 flex flex-wrap items-center gap-4">
-          <a
-            href="mailto:rakeshgajre.work@gmail.com"
+          <Link
+            to="/hire"
             className="inline-flex items-center gap-3 rounded-full border border-foreground/80 px-7 py-4 font-display text-lg uppercase tracking-tight transition-colors hover:bg-accent hover:border-accent hover:text-accent-foreground"
           >
             Get in touch <ArrowUpRight className="h-5 w-5" />
-          </a>
+          </Link>
           <a
             href={resumeAsset.url}
             download="RAKESH_GAJRE_RESUME.pdf"
