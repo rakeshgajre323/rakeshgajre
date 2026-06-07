@@ -142,7 +142,13 @@ function Index() {
                 </span>
               ))}
             </div>
-            <span>SCROLL FOR MORE</span>
+            <button
+              onClick={() => smoothScrollToBottom(1800)}
+              className="flex cursor-pointer items-center gap-2 transition-colors duration-300 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+            >
+              <span>SCROLL FOR MORE</span>
+              <ChevronDown className="h-3.5 w-3.5 scroll-bounce" />
+            </button>
           </div>
         </div>
       </section>
