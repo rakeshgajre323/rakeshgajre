@@ -90,8 +90,8 @@ function Index() {
 
           {/* Headline */}
           <div className="absolute inset-x-0 bottom-0 px-5 pb-24 md:px-10 md:pb-28">
-            <div className="ml-auto max-w-2xl text-right">
-              <h1 className="font-display text-[14vw] leading-[0.88] tracking-tight text-foreground md:text-[7.5vw]">
+            <div className="ml-auto max-w-[92vw] text-right md:max-w-[60vw]">
+              <h1 className="font-display text-[14vw] leading-[0.88] tracking-tight text-foreground md:text-[6vw] break-words">
                 DESIGNING<br />POTENTIAL
               </h1>
               <p className="mt-5 ml-auto max-w-xs text-right text-xs uppercase tracking-[0.18em] text-foreground/75">
