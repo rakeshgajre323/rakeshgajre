@@ -62,6 +62,26 @@ const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) =>
   window.open(href, "_blank", "noopener,noreferrer");
 };
 
+const smoothScrollToBottom = (duration = 1800) => {
+  const start = window.scrollY;
+  const end = document.body.scrollHeight - window.innerHeight;
+  const change = end - start;
+  const startTime = performance.now();
+
+  const easeInOutQuad = (t: number) =>
+    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  const animate = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeInOutQuad(progress);
+    window.scrollTo(0, start + change * eased);
+    if (progress < 1) requestAnimationFrame(animate);
+  };
+
+  requestAnimationFrame(animate);
+};
+
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   return (
