@@ -92,7 +92,7 @@ function Index() {
           <img
             src={portrait}
             alt="Rakesh Gajre portrait"
-            className="h-[78vh] w-full object-cover object-[50%_20%] md:h-[88vh] md:object-[35%_center] lg:object-[30%_center]"
+            className="h-[78vh] w-full object-cover object-[50%_20%] md:h-[92vh] md:object-[center_25%] lg:h-[92vh] lg:object-[center_20%]"
             width={1206}
             height={877}
             fetchPriority="high"
