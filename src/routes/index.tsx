@@ -28,6 +28,7 @@ import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
 import logoStudentTribe from "@/assets/logo-studenttribe.png";
 import resumeAsset from "@/assets/resume.pdf.asset.json";
+import upgradLogo from "@/assets/upgrad-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
