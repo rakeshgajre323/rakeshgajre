@@ -1,6 +1,6 @@
 import { useState, type MouseEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github, X } from "lucide-react";
+import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github, X, ChevronDown } from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/event-techzite.jpg.asset.json";
@@ -60,6 +60,26 @@ const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) =>
   }
 
   window.open(href, "_blank", "noopener,noreferrer");
+};
+
+const smoothScrollToBottom = (duration = 1800) => {
+  const start = window.scrollY;
+  const end = document.body.scrollHeight - window.innerHeight;
+  const change = end - start;
+  const startTime = performance.now();
+
+  const easeInOutQuad = (t: number) =>
+    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  const animate = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeInOutQuad(progress);
+    window.scrollTo(0, start + change * eased);
+    if (progress < 1) requestAnimationFrame(animate);
+  };
+
+  requestAnimationFrame(animate);
 };
 
 function Index() {
@@ -122,7 +142,13 @@ function Index() {
                 </span>
               ))}
             </div>
-            <span>SCROLL FOR MORE</span>
+            <button
+              onClick={() => smoothScrollToBottom(1800)}
+              className="flex cursor-pointer items-center gap-2 transition-colors duration-300 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+            >
+              <span>SCROLL FOR MORE</span>
+              <ChevronDown className="h-3.5 w-3.5 scroll-bounce" />
+            </button>
           </div>
         </div>
       </section>
