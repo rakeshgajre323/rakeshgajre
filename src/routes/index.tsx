@@ -1,6 +1,22 @@
-import { useState, type MouseEvent } from "react";
+import { useMemo, useState, type MouseEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowUpRight, Download, Mail, MapPin, Phone, Instagram, Linkedin, Github, X, ChevronDown } from "lucide-react";
+import {
+  ArrowUpRight,
+  Download,
+  Mail,
+  MapPin,
+  Phone,
+  Instagram,
+  Linkedin,
+  Github,
+  X,
+  ChevronDown,
+  Search,
+  Compass,
+  Lightbulb,
+  CheckCircle2,
+  ArrowRight,
+} from "lucide-react";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/event-techzite.jpg.asset.json";
@@ -17,9 +33,17 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Rakesh Gajre — UI/UX Designer & CS Engineer" },
-      { name: "description", content: "Portfolio of Rakesh Gajre — UI/UX designer crafting intuitive digital experiences that bridge user needs and technology." },
-      { property: "og:title", content: "Rakesh Gajre — UI/UX Designer" },
-      { property: "og:description", content: "Designing intuitive digital experiences that bridge user needs and technology." },
+      {
+        name: "description",
+        content:
+          "Portfolio of Rakesh Gajre — UI/UX designer and CS engineer designing intuitive digital experiences through research, interaction design, and user-centered thinking.",
+      },
+      { property: "og:title", content: "Rakesh Gajre — UI/UX Designer & CS Engineer" },
+      {
+        property: "og:description",
+        content:
+          "Designing intuitive digital experiences through user research, interaction design, and user-centered thinking.",
+      },
     ],
     links: [
       { rel: "preload", as: "image", href: portrait, fetchpriority: "high" },
@@ -45,9 +69,29 @@ const socials = [
   { label: "GitHub", Icon: Github, href: "https://github.com/rakeshgajre323" },
 ];
 
+type CertCategory = "All" | "UI/UX" | "Technology" | "AI" | "Business" | "Marketing";
+
+const certifications: {
+  title: string;
+  issuer: string;
+  date: string;
+  category: Exclude<CertCategory, "All">;
+  href?: string;
+}[] = [
+  { title: "Generative AI Foundations", issuer: "UpGrad × Microsoft", date: "2024", category: "AI", href: "https://certificates.upgrad.com/840ccdbb-9cf8-4562-a3c0-146af56e1caf-Gen-AI-jTMvFhyg8IYH4Qco.jpeg" },
+  { title: "Prompt to Prototype", issuer: "Google Startup School", date: "2024", category: "AI", href: "https://drive.google.com/file/d/1ylFu9i7k0kzFECX0TtYvdRjq4-5BH4sg/view?usp=sharing" },
+  { title: "Cybersecurity Certification", issuer: "Tech Mahindra", date: "2024", category: "Technology", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/e87d68c3b2dd4f0a870513d22dc72661" },
+  { title: "Foundation Course in Finance", issuer: "Reliance Foundation", date: "2023", category: "Business", href: "https://drive.google.com/file/d/1J3G8AoqD0jBBmKXF_Xq1RSvQ_F_iLDI7/view" },
+  { title: "Branch Banking Executive", issuer: "NSDC", date: "2023", category: "Business", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/c3840e379d104884b60013902352e937" },
+  { title: "Microsoft Excel", issuer: "Coursera", date: "2023", category: "Technology", href: "https://www.coursera.org/account/accomplishments/certificate/NQW69DUGMRGD" },
+  { title: "Fundamentals of Digital Marketing", issuer: "Google", date: "2023", category: "Marketing", href: "https://drive.google.com/file/d/1ClSCnYvReDnCZsgj7L_2OjDjRPtNDYAd/view" },
+  { title: "Logo Design with Canva", issuer: "Coursera", date: "2023", category: "UI/UX", href: "https://www.coursera.org/account/accomplishments/verify/GPHT69EUFNEB" },
+];
+
+const certCategories: CertCategory[] = ["All", "UI/UX", "Technology", "AI", "Business", "Marketing"];
+
 const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
   event.preventDefault();
-
   const externalWindow = window.open("about:blank", "_blank");
   if (externalWindow) {
     externalWindow.opener = null;
@@ -55,35 +99,26 @@ const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) =>
       externalWindow.location.replace(href);
       return;
     } catch {
-      // Cross-origin restriction in iframe — fall through to direct open.
+      /* fall through */
     }
   }
-
   window.open(href, "_blank", "noopener,noreferrer");
 };
 
-const smoothScrollToBottom = (duration = 1800) => {
-  const start = window.scrollY;
-  const end = document.body.scrollHeight - window.innerHeight;
-  const change = end - start;
-  const startTime = performance.now();
-
-  const easeInOutQuad = (t: number) =>
-    t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-
-  const animate = (currentTime: number) => {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = easeInOutQuad(progress);
-    window.scrollTo(0, start + change * eased);
-    if (progress < 1) requestAnimationFrame(animate);
-  };
-
-  requestAnimationFrame(animate);
+const scrollToId = (id: string) => {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
+  const [certFilter, setCertFilter] = useState<CertCategory>("All");
+
+  const filteredCerts = useMemo(
+    () => (certFilter === "All" ? certifications : certifications.filter((c) => c.category === certFilter)),
+    [certFilter],
+  );
+
   return (
     <main className="noise-overlay min-h-screen bg-background text-foreground">
       {/* HERO */}
@@ -92,58 +127,96 @@ function Index() {
           <img
             src={portrait}
             alt="Rakesh Gajre portrait"
-            className="h-[78vh] w-full object-cover object-[50%_20%] md:h-[92vh] md:object-[center_25%] lg:h-[92vh] lg:object-[center_20%]"
+            className="h-[88vh] w-full object-cover object-[50%_20%] md:h-[94vh] md:object-[center_25%] lg:h-[96vh] lg:object-[center_20%]"
             width={1206}
             height={877}
             fetchPriority="high"
             decoding="async"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-background/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/40" />
 
           {/* Top bar */}
           <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 py-5 text-[11px] font-medium tracking-[0.18em] text-foreground/90 md:px-8">
-            <button className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent">MENU</button>
+            <button
+              onClick={() => scrollToId("work")}
+              className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent"
+            >
+              MENU
+            </button>
             <img src={rLogo} alt="R." className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]" />
-            <Link to="/hire" className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent">CONTACT ME</Link>
+            <Link
+              to="/hire"
+              className="rounded-2xl border border-white/20 bg-white/10 px-5 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent"
+            >
+              CONTACT ME
+            </Link>
           </div>
 
           {/* Headline */}
-          <div className="absolute inset-x-0 bottom-0 px-5 pb-24 md:px-10 md:pb-28">
-            <div className="ml-auto max-w-[92vw] text-right md:max-w-[60vw]">
-              <h1 className="font-display text-[14vw] leading-[0.88] tracking-tight text-foreground md:text-[6vw] break-words">
-                DESIGNING<br />POTENTIAL
+          <div className="absolute inset-x-0 bottom-0 px-5 pb-28 md:px-10 md:pb-32">
+            <div className="max-w-4xl">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-accent backdrop-blur-md">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+                Currently — UI/UX Design Intern at Student Tribe
+              </div>
+              <h1 className="font-display text-[12vw] leading-[0.88] tracking-tight text-foreground md:text-[5.5vw]">
+                UI/UX DESIGNER<br />
+                <span className="text-foreground/85">&amp; CS ENGINEER</span>
               </h1>
-              <p className="mt-5 ml-auto max-w-xs text-right text-xs uppercase tracking-[0.18em] text-foreground/75">
-                Crafting intuitive digital experiences that bridge user needs and technology.
+              <p className="mt-5 max-w-xl text-sm leading-relaxed text-foreground/80 md:text-base">
+                Designing intuitive digital experiences through user research, interaction
+                design, and user-centered thinking.
               </p>
-              <Link
-                to="/hire"
-                className="group/cta mt-6 inline-flex items-center gap-4 text-xs font-medium uppercase tracking-[0.2em] text-foreground"
-              >
-                <span className="transition-colors group-hover/cta:text-accent">Get in touch</span>
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-foreground/20 transition-all duration-500 group-hover/cta:rotate-45 group-hover/cta:border-accent group-hover/cta:bg-accent group-hover/cta:text-accent-foreground">
-                  <ArrowUpRight className="h-4 w-4" />
-                </span>
-              </Link>
+
+              <div className="mt-7 flex flex-wrap items-center gap-3">
+                <button
+                  onClick={() => scrollToId("featured")}
+                  className="group/cta inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground transition-all hover:opacity-90"
+                >
+                  View Case Studies
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" />
+                </button>
+                <a
+                  href={resumeAsset.url}
+                  download="RAKESH_GAJRE_RESUME.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 rounded-full border border-foreground/30 bg-white/5 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-all hover:border-foreground/60 hover:bg-white/10"
+                >
+                  <Download className="h-4 w-4" />
+                  Download Resume
+                </a>
+              </div>
+
+              <div className="mt-6 max-w-xl text-[11px] uppercase tracking-[0.18em] text-foreground/60">
+                Open to — UI/UX internships · Junior product designer · Junior UI/UX designer
+              </div>
             </div>
           </div>
 
           {/* Bottom strip */}
-          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-foreground/15 bg-background/30 px-5 py-4 text-[11px] font-medium tracking-[0.2em] text-foreground/85 backdrop-blur md:px-8">
-            <span>UI / UX DESIGNER</span>
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-foreground/15 bg-background/40 px-5 py-4 text-[11px] font-medium tracking-[0.2em] text-foreground/85 backdrop-blur md:px-8">
+            <span>RAKESH GAJRE — PORTFOLIO 2026</span>
             <div className="hidden items-center gap-4 md:flex">
               {socials.map((s, i) => (
                 <span key={s.label} className="flex items-center gap-4">
                   {i > 0 && <span className="text-foreground/30">/</span>}
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`${s.label} profile`} onClick={(event) => openExternalLink(event, s.href)} className="hover:opacity-80 transition-opacity">
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.label} profile`}
+                    onClick={(event) => openExternalLink(event, s.href)}
+                    className="hover:opacity-80 transition-opacity"
+                  >
                     <s.Icon className="h-4 w-4" strokeWidth={1.75} />
                   </a>
                 </span>
               ))}
             </div>
             <button
-              onClick={() => smoothScrollToBottom(1800)}
+              onClick={() => scrollToId("glance")}
               className="flex cursor-pointer items-center gap-2 transition-colors duration-300 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
             >
               <span>SCROLL FOR MORE</span>
@@ -153,21 +226,91 @@ function Index() {
         </div>
       </section>
 
-      {/* ABOUT */}
+      {/* AT A GLANCE — metrics */}
+      <section id="glance" className="px-5 pt-20 md:px-10 md:pt-28">
+        <div className="mb-8 flex items-end justify-between">
+          <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+            At a glance
+          </span>
+          <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+            Snapshot
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-3 lg:grid-cols-6">
+          {[
+            { k: "1", l: "Live product designed" },
+            { k: "8+", l: "Professional certifications" },
+            { k: "1", l: "UI/UX internship" },
+            { k: "4+", l: "Design tools" },
+            { k: "4", l: "Languages" },
+            { k: "B.Tech", l: "Computer science student" },
+          ].map((m) => (
+            <div
+              key={m.l}
+              className="group bg-background p-6 transition-colors duration-500 hover:bg-surface md:p-8"
+            >
+              <div className="font-display text-4xl tracking-tight md:text-5xl">
+                {m.k}
+              </div>
+              <div className="mt-3 text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition-colors group-hover:text-accent">
+                {m.l}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* DESIGN PHILOSOPHY */}
       <section className="px-5 py-24 md:px-10 md:py-32">
-        <div className="grid gap-10 md:grid-cols-[1fr_3fr]">
-          <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            About Me
+        <div className="grid gap-12 md:grid-cols-[1fr_2fr]">
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              01 — Approach
+            </div>
+            <h2 className="mt-4 font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
+              My design <br />
+              <span className="text-accent">philosophy</span>
+            </h2>
           </div>
-          <h2 className="font-display text-[9vw] leading-[0.95] tracking-tight md:text-[4.5vw]">
-            <span className="block">LET'S WORK TOGETHER</span>
-            <span className="block">TO RECOGNIZE YOUR</span>
-            <span className="block pl-[20%] text-accent">POTENTIAL</span>
-            <span className="block pl-[10%]">AND SHAPE</span>
-            <span className="block pl-[5%]">A FUTURE</span>
-            <span className="block pl-[30%]">WHERE</span>
-            <span className="block pl-[20%]">DESIGN SHINES</span>
-          </h2>
+          <div className="space-y-6 text-base leading-relaxed text-foreground/80 md:text-lg">
+            <p>
+              I believe great design happens when user needs, business goals, and technology
+              align. My approach focuses on understanding problems deeply before designing
+              solutions.
+            </p>
+            <p>
+              Through research, prototyping, testing, and iteration, I create experiences
+              that are intuitive, accessible, and impactful — not just visually polished.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-3">
+          {[
+            {
+              icon: Search,
+              title: "Research",
+              copy: "Understand users and identify pain points through interviews, journey mapping, and competitive analysis.",
+            },
+            {
+              icon: Compass,
+              title: "Design",
+              copy: "Transform insights into intuitive interfaces with thoughtful flows, hierarchy, and interaction patterns.",
+            },
+            {
+              icon: CheckCircle2,
+              title: "Validate",
+              copy: "Test, iterate, and improve continuously based on real user feedback and measurable outcomes.",
+            },
+          ].map(({ icon: Icon, title, copy }) => (
+            <div key={title} className="group bg-background p-8 transition-colors duration-500 hover:bg-surface md:p-10">
+              <Icon className="h-7 w-7 text-accent" strokeWidth={1.5} />
+              <h3 className="mt-6 font-display text-2xl uppercase tracking-tight md:text-3xl">
+                {title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -185,14 +328,111 @@ function Index() {
         </div>
       </section>
 
+      {/* FEATURED CASE STUDY — OriginCerti */}
+      <section id="featured" className="px-5 py-24 md:px-10 md:py-32">
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Featured case study
+            </div>
+            <h2 className="mt-3 font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
+              Origin<span className="text-accent">Certi</span>
+            </h2>
+            <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-lg">
+              Blockchain-based digital credentialing platform — designed end to end from
+              problem definition to a working live product.
+            </p>
+          </div>
+          <a
+            href="https://origincerti.lovable.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => openExternalLink(e, "https://origincerti.lovable.app")}
+            className="hidden items-center gap-2 rounded-full border border-foreground/30 px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] hover:border-accent hover:text-accent md:inline-flex"
+          >
+            Visit live site <ArrowUpRight className="h-4 w-4" />
+          </a>
+        </div>
+
+        <div className="overflow-hidden rounded-2xl border border-border/70 bg-surface">
+          <div className="relative">
+            <img
+              src={work1}
+              alt="OriginCerti dashboard preview"
+              className="h-[40vh] w-full object-cover md:h-[60vh]"
+              loading="lazy"
+              width={1280}
+              height={896}
+            />
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-surface to-transparent" />
+          </div>
+
+          <div className="grid gap-px bg-border/70 md:grid-cols-4">
+            {[
+              { k: "My role", v: "Lead UI/UX Designer" },
+              { k: "Duration", v: "8 weeks · 2025" },
+              { k: "Tools", v: "Figma, Adobe XD" },
+              { k: "Status", v: "Live product" },
+            ].map((m) => (
+              <div key={m.k} className="bg-surface p-6">
+                <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{m.k}</div>
+                <div className="mt-2 text-sm">{m.v}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-10 p-8 md:grid-cols-2 md:p-12">
+            <CaseBlock
+              label="Problem"
+              body="Paper and PDF certificates are easy to forge, hard to verify, and impossible for issuers to revoke. Recruiters and institutions waste hours validating credentials manually."
+            />
+            <CaseBlock
+              label="Solution"
+              body="A blockchain-anchored credentialing platform where institutions issue tamper-proof certificates, recipients hold a single verified wallet, and verifiers confirm authenticity in one click."
+            />
+            <CaseBlock
+              label="Research"
+              body="Interviewed 8 students, 3 faculty members, and 2 hiring managers. Mapped current verification journeys and identified three recurring failure points around trust, time, and access."
+            />
+            <CaseBlock
+              label="User flow"
+              body="Three parallel flows — issuer onboarding and bulk issuance, recipient claim and share, and verifier scan and confirm — designed to converge around a single source of truth."
+            />
+            <CaseBlock
+              label="Design system"
+              body="Built a compact design system from scratch — type scale, color tokens, elevation, and a 24-component library — to keep dashboards, public verification, and emails visually consistent."
+            />
+            <CaseBlock
+              label="Key learnings"
+              body="Trust is a design problem before it is a technical one. Visual cues, microcopy, and progressive disclosure carried more weight than the underlying blockchain in user testing."
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border/70 p-6 md:p-8">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+              Prototype — live product
+            </div>
+            <a
+              href="https://origincerti.lovable.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => openExternalLink(e, "https://origincerti.lovable.app")}
+              className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-foreground hover:opacity-90"
+            >
+              Open OriginCerti <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* PROJECTS */}
-      <section id="work" className="px-5 py-24 md:px-10 md:py-32">
+      <section id="work" className="px-5 pb-10 md:px-10">
         <div className="mb-10 flex items-end justify-between">
           <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            Our Project
+            Selected work
           </span>
           <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            06 / Selected
+            06 / Projects
           </span>
         </div>
 
@@ -206,12 +446,14 @@ function Index() {
                 rel="noreferrer"
                 className="relative grid grid-cols-[auto_1fr_auto_auto] items-center gap-4 py-6 transition-all duration-500 group-hover/item:translate-x-4 md:py-8"
               >
-                <span className="font-mono text-xs text-muted-foreground transition-colors group-hover/item:text-accent md:text-sm">{p.id}</span>
+                <span className="font-mono text-xs text-muted-foreground transition-colors group-hover/item:text-accent md:text-sm">
+                  {p.id}
+                </span>
                 <span className="font-display text-2xl uppercase tracking-tight transition-colors group-hover/item:text-accent md:text-4xl">
                   {p.name}
                 </span>
                 <span className="font-mono text-xs text-muted-foreground md:text-sm">{p.year}</span>
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-accent transition-all duration-500 -rotate-45 group-hover/item:rotate-0 group-hover/item:border-accent group-hover/item:bg-accent group-hover/item:text-accent-foreground group-hover/item:scale-110">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground transition-all duration-500 -rotate-45 group-hover/item:rotate-0 group-hover/item:border-accent group-hover/item:bg-accent group-hover/item:text-accent-foreground group-hover/item:scale-110">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
               </a>
@@ -220,72 +462,78 @@ function Index() {
         </ul>
       </section>
 
-      <div className="px-5 pb-4 md:px-10">
+      <div className="px-5 pb-24 pt-4 md:px-10">
         <h2 className="font-display text-[12vw] font-bold uppercase leading-none tracking-tight text-foreground md:text-[8vw]">
           PROJECTS
         </h2>
       </div>
 
-      {/* FEATURED CASE STUDY */}
-      <section className="px-5 pb-24 md:px-10 md:pb-32">
-        <div className="overflow-hidden rounded-2xl border border-border/70 bg-surface">
-          <div className="grid gap-0 md:grid-cols-2">
-            <div className="relative bg-background">
-              <img
-                src={work1}
-                alt="OriginCerti dashboard preview"
-                className="h-full w-full object-cover"
-                loading="lazy"
-                width={1280}
-                height={896}
-              />
+      {/* WHY WORK WITH ME */}
+      <section className="bg-surface px-5 py-24 md:px-10 md:py-32">
+        <div className="mb-10 flex items-end justify-between">
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Trust &amp; credibility
             </div>
-            <div className="flex flex-col justify-between p-8 md:p-12">
-              <div>
-                <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                  Featured Case Study
-                </div>
-                <h3 className="mt-6 font-display text-4xl uppercase leading-[0.95] tracking-tight md:text-6xl">
-                  Origin<span className="text-accent">Certi</span>
-                </h3>
-                <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-                  A blockchain-based credentialing platform that lets institutions issue
-                  tamper-proof certificates and gives recipients a single source of truth.
-                  Full UI design, user flows, prototype, and design system — built from zero.
-                </p>
-              </div>
-
-              <dl className="mt-10 grid grid-cols-2 gap-y-6 text-sm">
-                <div>
-                  <dt className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Role</dt>
-                  <dd className="mt-1">UI/UX Designer</dd>
-                </div>
-                <div>
-                  <dt className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Year</dt>
-                  <dd className="mt-1">2025</dd>
-                </div>
-                <div>
-                  <dt className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Tools</dt>
-                  <dd className="mt-1">Figma, Adobe XD</dd>
-                </div>
-                <div>
-                  <dt className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Live</dt>
-                  <dd className="mt-1">
-                    <a
-                      href="https://origincerti.lovable.app"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-accent hover:underline"
-                    >
-                      origincerti.app ↗
-                    </a>
-                  </dd>
-                </div>
-              </dl>
-            </div>
+            <h2 className="mt-3 font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
+              Why work <span className="text-accent">with me</span>
+            </h2>
           </div>
         </div>
+
+        <div className="grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            { t: "UI/UX Design Intern at Student Tribe", c: "Shipping product UI inside a live design team — research, prototyping, and handoff." },
+            { t: "Computer science engineering background", c: "B.Tech CSE — comfortable speaking the language of both designers and engineers." },
+            { t: "Strong user-centered thinking", c: "Decisions backed by user interviews, journey mapping, and usability testing." },
+            { t: "Front-end technical knowledge", c: "HTML, CSS, JavaScript, and React — designs that respect implementation reality." },
+            { t: "Blockchain product design experience", c: "Designed OriginCerti end to end — a live credentialing product on blockchain rails." },
+            { t: "Continuous learning", c: "8+ professional certifications across UI/UX, AI, technology, business, and marketing." },
+          ].map((b) => (
+            <div key={b.t} className="bg-background p-7 transition-colors duration-500 hover:bg-surface md:p-8">
+              <CheckCircle2 className="h-5 w-5 text-accent" strokeWidth={1.75} />
+              <div className="mt-4 font-display text-lg uppercase leading-tight tracking-tight md:text-xl">
+                {b.t}
+              </div>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.c}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* DESIGN PROCESS — replaces FAQ */}
+      <section className="px-5 py-24 md:px-10 md:py-32">
+        <div className="mb-12">
+          <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+            How I think
+          </div>
+          <h2 className="mt-3 font-display text-5xl uppercase leading-[0.95] tracking-tight md:text-7xl">
+            My design <span className="text-accent">process</span>
+          </h2>
+        </div>
+
+        <ol className="grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-7">
+          {[
+            { t: "Research", c: "Interviews, surveys, and competitive scans to understand the real problem." },
+            { t: "Define", c: "Translate findings into sharp problem statements, personas, and goals." },
+            { t: "Ideate", c: "Explore many directions quickly — sketches, flows, and reference studies." },
+            { t: "Wireframe", c: "Lock structure, hierarchy, and interaction patterns before visuals." },
+            { t: "Prototype", c: "Build interactive prototypes in Figma to feel the experience early." },
+            { t: "Test", c: "Run usability sessions with target users to surface friction and gaps." },
+            { t: "Iterate", c: "Refine continuously — small, measurable improvements every cycle." },
+          ].map((step, i) => (
+            <li key={step.t} className="group bg-background p-6 transition-colors duration-500 hover:bg-surface md:p-7">
+              <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-accent">
+                <span className="font-mono">0{i + 1}</span>
+                <Lightbulb className="h-3 w-3 opacity-60" />
+              </div>
+              <div className="mt-3 font-display text-xl uppercase tracking-tight md:text-2xl">
+                {step.t}
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{step.c}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {/* AWARDS / GALLERY */}
@@ -306,7 +554,13 @@ function Index() {
               onClick={() => setLightbox(p)}
               className="group relative aspect-[3/4] w-full overflow-hidden rounded-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_40px_-10px_hsl(var(--accent)/0.6)] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
-              <img src={p.src} alt={`${p.caption} event poster`} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+              <img
+                src={p.src}
+                alt={`${p.caption} event poster`}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-black/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               <span className="pointer-events-none absolute bottom-3 left-3 right-3 translate-y-2 text-left text-sm font-medium uppercase tracking-wider text-white opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                 {p.caption}
@@ -333,12 +587,14 @@ function Index() {
           </button>
           <figure onClick={(e) => e.stopPropagation()} className="max-h-[90vh] max-w-[90vw] animate-scale-in">
             <img src={lightbox.src} alt={lightbox.caption} className="max-h-[85vh] w-auto rounded-xl object-contain shadow-2xl" />
-            <figcaption className="mt-3 text-center text-sm uppercase tracking-[0.22em] text-white/80">{lightbox.caption}</figcaption>
+            <figcaption className="mt-3 text-center text-sm uppercase tracking-[0.22em] text-white/80">
+              {lightbox.caption}
+            </figcaption>
           </figure>
         </div>
       )}
 
-      {/* SKILLS + EXPERIENCE */}
+      {/* SKILLS + TIMELINE */}
       <section className="px-5 py-24 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-2">
           <div>
@@ -346,7 +602,7 @@ function Index() {
               Toolkit
             </div>
             <h3 className="mt-4 font-display text-4xl uppercase leading-[0.95] tracking-tight md:text-6xl">
-              What I <span className="text-accent">work with</span>
+              What I work with
             </h3>
             <div className="mt-8 flex flex-wrap gap-2">
               {[
@@ -372,7 +628,7 @@ function Index() {
               Timeline
             </div>
             <h3 className="mt-4 font-display text-4xl uppercase leading-[0.95] tracking-tight md:text-6xl">
-              Path so <span className="text-accent">far</span>
+              Path so far
             </h3>
             <ol className="mt-8 space-y-6 border-l border-border/70 pl-6">
               {[
@@ -382,7 +638,7 @@ function Index() {
                   where: "Student Tribe",
                   logo: logoStudentTribe,
                   href: "https://studenttribe.in/",
-                  note: "User research, journey mapping, prototyping & shipping product UI.",
+                  note: "User research, journey mapping, prototyping, and shipping product UI.",
                 },
                 {
                   when: "Nov 2022 — May 2026",
@@ -430,29 +686,58 @@ function Index() {
         </div>
       </section>
 
-      {/* CERTIFICATIONS */}
+      {/* CERTIFICATIONS — filterable */}
       <section className="px-5 pb-24 md:px-10 md:pb-32">
-        <div className="mb-8 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-          Certifications
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Verified credentials
+            </div>
+            <h3 className="mt-3 font-display text-4xl uppercase leading-[0.95] tracking-tight md:text-6xl">
+              Certifications
+            </h3>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {certCategories.map((c) => (
+              <button
+                key={c}
+                onClick={() => setCertFilter(c)}
+                className={`rounded-full border px-3.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.16em] transition-colors ${
+                  certFilter === c
+                    ? "border-accent bg-accent text-accent-foreground"
+                    : "border-border/70 text-foreground/70 hover:border-foreground/40 hover:text-foreground"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
         </div>
+
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            { title: "Generative AI Foundations", issuer: "UpGrad × Microsoft", href: "https://certificates.upgrad.com/840ccdbb-9cf8-4562-a3c0-146af56e1caf-Gen-AI-jTMvFhyg8IYH4Qco.jpeg" },
-            { title: "Prompt to Prototype", issuer: "Google Startup School", href: "https://drive.google.com/file/d/1ylFu9i7k0kzFECX0TtYvdRjq4-5BH4sg/view?usp=sharing" },
-            { title: "Cybersecurity Certification", issuer: "Tech Mahindra", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/e87d68c3b2dd4f0a870513d22dc72661" },
-            { title: "Foundation Course in Finance", issuer: "Reliance Foundation", href: "https://drive.google.com/file/d/1J3G8AoqD0jBBmKXF_Xq1RSvQ_F_iLDI7/view" },
-            { title: "Branch Banking Executive", issuer: "NSDC", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/c3840e379d104884b60013902352e937" },
-            { title: "Microsoft Excel", issuer: "Coursera", href: "https://www.coursera.org/account/accomplishments/certificate/NQW69DUGMRGD" },
-            { title: "Fundamentals of Digital Marketing", issuer: "Google", href: "https://drive.google.com/file/d/1ClSCnYvReDnCZsgj7L_2OjDjRPtNDYAd/view" },
-            { title: "Logo Design with Canva", issuer: "Coursera", href: "https://www.coursera.org/account/accomplishments/verify/GPHT69EUFNEB" },
-          ].map((cert) => {
-            const el = (
-              <div className="group flex items-start justify-between gap-4 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent">
+          {filteredCerts.map((cert) => {
+            const inner = (
+              <div className="group flex h-full flex-col justify-between gap-6 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-background text-[10px] font-semibold uppercase tracking-wider text-accent">
+                    {cert.category.slice(0, 2)}
+                  </div>
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                    {cert.category}
+                  </span>
+                </div>
                 <div>
                   <div className="font-display text-lg uppercase leading-tight tracking-tight">{cert.title}</div>
                   <div className="mt-1 text-xs text-muted-foreground">{cert.issuer}</div>
+                  <div className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                    <span>Issued {cert.date}</span>
+                    {cert.href && (
+                      <span className="inline-flex items-center gap-1 text-foreground/80 transition-colors group-hover:text-accent">
+                        Verify <ArrowUpRight className="h-3 w-3" />
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-accent" />
               </div>
             );
             return cert.href ? (
@@ -464,10 +749,10 @@ function Index() {
                 onClick={(e) => openExternalLink(e, cert.href!)}
                 className="block cursor-pointer"
               >
-                {el}
+                {inner}
               </a>
             ) : (
-              <div key={cert.title}>{el}</div>
+              <div key={cert.title}>{inner}</div>
             );
           })}
         </div>
@@ -514,7 +799,7 @@ function Index() {
         <div className="mt-12 flex flex-wrap items-center gap-4">
           <Link
             to="/hire"
-            className="inline-flex items-center gap-3 rounded-full border border-foreground/80 px-7 py-4 font-display text-lg uppercase tracking-tight transition-colors hover:bg-accent hover:border-accent hover:text-accent-foreground"
+            className="inline-flex items-center gap-3 rounded-full bg-accent px-7 py-4 font-display text-lg uppercase tracking-tight text-accent-foreground transition-opacity hover:opacity-90"
           >
             Get in touch <ArrowUpRight className="h-5 w-5" />
           </Link>
@@ -523,44 +808,97 @@ function Index() {
             download="RAKESH_GAJRE_RESUME.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-accent px-7 py-4 font-display text-lg uppercase tracking-tight text-accent-foreground transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-full border border-foreground/30 px-7 py-4 font-display text-lg uppercase tracking-tight transition-colors hover:border-foreground/60"
           >
             <Download className="h-5 w-5" /> Resume
           </a>
         </div>
       </section>
 
-      {/* FOOTER WORDMARK */}
-      <footer className="overflow-hidden border-t border-border/70 px-5 pt-12 md:px-10">
-        <div className="flex flex-wrap items-end justify-between gap-6 pb-8 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-          <span>© {new Date().getFullYear()} Rakesh Gajre</span>
-          <div className="flex items-center gap-3">
-            {socials.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${s.label} profile`}
-                onClick={(event) => openExternalLink(event, s.href)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
-              >
-                <s.Icon className="h-5 w-5" strokeWidth={1.75} />
-              </a>
-            ))}
+      {/* FOOTER */}
+      <footer className="overflow-hidden border-t border-border/70 px-5 pt-16 md:px-10">
+        <div className="grid gap-12 pb-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
+          <div>
+            <img src={rLogo} alt="R." className="h-10 w-10" />
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              UI/UX designer and CS engineer designing intuitive digital experiences through
+              research, interaction design, and user-centered thinking.
+            </p>
           </div>
-          <a href="#" className="hover:text-accent">Back to top ↑</a>
+
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Quick links
+            </div>
+            <ul className="mt-4 space-y-2 text-sm">
+              <li><button onClick={() => scrollToId("featured")} className="hover:text-accent">Case studies</button></li>
+              <li><button onClick={() => scrollToId("work")} className="hover:text-accent">Projects</button></li>
+              <li><button onClick={() => scrollToId("glance")} className="hover:text-accent">At a glance</button></li>
+              <li><Link to="/hire" className="hover:text-accent">Hire me</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Resources
+            </div>
+            <ul className="mt-4 space-y-2 text-sm">
+              <li>
+                <a
+                  href={resumeAsset.url}
+                  download="RAKESH_GAJRE_RESUME.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 hover:text-accent"
+                >
+                  <Download className="h-3.5 w-3.5" /> Download resume
+                </a>
+              </li>
+              <li><a href="mailto:rakeshgajre.work@gmail.com" className="hover:text-accent">Email me</a></li>
+              <li><a href="tel:+917989975435" className="hover:text-accent">+91 79899 75435</a></li>
+              <li>Hyderabad, India</li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              Social
+            </div>
+            <div className="mt-4 flex items-center gap-3">
+              {socials.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${s.label} profile`}
+                  onClick={(event) => openExternalLink(event, s.href)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
+                >
+                  <s.Icon className="h-5 w-5" strokeWidth={1.75} />
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-        <h2 className="group/word -mb-6 select-none cursor-default flex flex-col items-center leading-none">
+
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border/70 py-6 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+          <span>© {new Date().getFullYear()} Rakesh Gajre — All rights reserved</span>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-accent">
+            Back to top ↑
+          </button>
+        </div>
+
+        <h2 className="group/word -mb-4 select-none cursor-default flex flex-col items-center leading-none">
           <span
-            className="font-display text-[26vw] leading-[0.78] tracking-tight text-foreground transition-all duration-700 group-hover/word:tracking-tighter"
-            style={{ textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
+            className="font-display text-[18vw] leading-[0.78] tracking-tight text-foreground/90 transition-all duration-700 group-hover/word:tracking-tighter"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.6)" }}
           >
             RAKESH
           </span>
           <span
-            className="font-display text-[26vw] leading-[0.78] tracking-tight text-accent -mt-[7vw] transition-all duration-700 group-hover/word:text-foreground"
-            style={{ textShadow: '0 2px 24px rgba(0,0,0,0.6)' }}
+            className="font-display text-[18vw] leading-[0.78] tracking-tight text-accent -mt-[5vw] transition-all duration-700 group-hover/word:text-foreground"
+            style={{ textShadow: "0 2px 24px rgba(0,0,0,0.6)" }}
           >
             GAJRE
           </span>
@@ -568,5 +906,16 @@ function Index() {
         <div className="h-1 bg-accent" />
       </footer>
     </main>
+  );
+}
+
+function CaseBlock({ label, body }: { label: string; body: string }) {
+  return (
+    <div>
+      <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-accent">
+        {label}
+      </div>
+      <p className="mt-3 text-sm leading-relaxed text-foreground/85 md:text-base">{body}</p>
+    </div>
   );
 }
