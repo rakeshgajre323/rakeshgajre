@@ -32,6 +32,7 @@ import upgradLogo from "@/assets/upgrad-logo.png.asset.json";
 import googleStartupsLogo from "@/assets/google-startups-logo.png.asset.json";
 import techMahindraLogo from "@/assets/techmahindra-logo.png.asset.json";
 import relianceFoundationLogo from "@/assets/reliance-foundation-logo.png.asset.json";
+import nsdcLogo from "@/assets/nsdc-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -87,7 +88,7 @@ const certifications: {
   { title: "Prompt to Prototype", issuer: "Google Startup School", date: "2024", category: "AI", href: "https://drive.google.com/file/d/1ylFu9i7k0kzFECX0TtYvdRjq4-5BH4sg/view?usp=sharing", logo: googleStartupsLogo.url },
   { title: "Cybersecurity Certification", issuer: "Tech Mahindra", date: "2024", category: "Technology", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/e87d68c3b2dd4f0a870513d22dc72661", logo: techMahindraLogo.url },
   { title: "Foundation Course in Finance", issuer: "Reliance Foundation", date: "2023", category: "Business", href: "https://drive.google.com/file/d/1J3G8AoqD0jBBmKXF_Xq1RSvQ_F_iLDI7/view", logo: relianceFoundationLogo.url },
-  { title: "Branch Banking Executive", issuer: "NSDC", date: "2023", category: "Business", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/c3840e379d104884b60013902352e937" },
+  { title: "Branch Banking Executive", issuer: "NSDC", date: "2023", category: "Business", href: "https://courses.skillindiadigital.gov.in/api/custom_api/view_certificate/c3840e379d104884b60013902352e937", logo: nsdcLogo.url },
   { title: "Microsoft Excel", issuer: "Coursera", date: "2023", category: "Technology", href: "https://www.coursera.org/account/accomplishments/certificate/NQW69DUGMRGD" },
   { title: "Fundamentals of Digital Marketing", issuer: "Google", date: "2023", category: "Marketing", href: "https://drive.google.com/file/d/1ClSCnYvReDnCZsgj7L_2OjDjRPtNDYAd/view" },
   { title: "Logo Design with Canva", issuer: "Coursera", date: "2023", category: "UI/UX", href: "https://www.coursera.org/account/accomplishments/verify/GPHT69EUFNEB" },
