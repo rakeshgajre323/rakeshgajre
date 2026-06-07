@@ -716,8 +716,12 @@ function Index() {
             const inner = (
               <div className="group flex h-full flex-col justify-between gap-6 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-background text-[10px] font-semibold uppercase tracking-wider text-accent">
-                    {cert.category.slice(0, 2)}
+                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-border/70 bg-background text-[10px] font-semibold uppercase tracking-wider text-accent">
+                    {cert.logo ? (
+                      <img src={cert.logo} alt={`${cert.issuer} logo`} className="h-full w-full object-cover" />
+                    ) : (
+                      cert.category.slice(0, 2)
+                    )}
                   </div>
                   <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                     {cert.category}
