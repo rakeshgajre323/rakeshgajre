@@ -336,7 +336,7 @@ function Index() {
 
 
       {/* AT A GLANCE — metrics */}
-      <section id="glance" className="px-5 pt-20 md:px-10 md:pt-28">
+      <section id="glance" data-reveal className="cv-auto px-5 pt-20 md:px-10 md:pt-28">
         <div className="mb-8 flex items-end justify-between">
           <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
             At a glance
@@ -370,7 +370,7 @@ function Index() {
       </section>
 
       {/* DESIGN PHILOSOPHY */}
-      <section className="px-5 py-24 md:px-10 md:py-32">
+      <section data-reveal className="cv-auto px-5 py-24 md:px-10 md:py-32">
         <div className="grid gap-12 md:grid-cols-[1fr_2fr]">
           <div>
             <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
@@ -438,7 +438,7 @@ function Index() {
       </section>
 
       {/* FEATURED CASE STUDY — OriginCerti */}
-      <section id="featured" className="px-5 py-24 md:px-10 md:py-32">
+      <section id="featured" data-reveal className="cv-auto px-5 py-24 md:px-10 md:py-32">
         <div className="mb-8 flex items-end justify-between">
           <div>
             <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
@@ -535,7 +535,7 @@ function Index() {
       </section>
 
       {/* PROJECTS */}
-      <section id="work" className="px-5 pb-10 md:px-10">
+      <section id="work" data-reveal className="cv-auto px-5 pb-10 md:px-10">
         <div className="mb-10 flex items-end justify-between">
           <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
             Selected work
@@ -573,7 +573,7 @@ function Index() {
 
 
       {/* WHY WORK WITH ME */}
-      <section className="bg-surface px-5 py-24 md:px-10 md:py-32">
+      <section data-reveal className="cv-auto bg-surface px-5 py-24 md:px-10 md:py-32">
         <div className="mb-10 flex items-end justify-between">
           <div>
             <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
@@ -606,7 +606,7 @@ function Index() {
       </section>
 
       {/* DESIGN PROCESS — replaces FAQ */}
-      <section className="px-5 py-24 md:px-10 md:py-32">
+      <section data-reveal className="cv-auto px-5 py-24 md:px-10 md:py-32">
         <div className="mb-12">
           <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
             How I think
@@ -641,7 +641,7 @@ function Index() {
       </section>
 
       {/* AWARDS / GALLERY */}
-      <section className="px-5 pb-10 md:px-10">
+      <section data-reveal className="cv-auto px-5 pb-10 md:px-10">
         <div className="mb-6 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
           Recognition
         </div>
@@ -699,7 +699,7 @@ function Index() {
       )}
 
       {/* SKILLS + TIMELINE */}
-      <section className="px-5 py-24 md:px-10 md:py-32">
+      <section data-reveal className="cv-auto px-5 py-24 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-2">
           <div>
             <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
@@ -791,7 +791,7 @@ function Index() {
       </section>
 
       {/* CERTIFICATIONS — filterable */}
-      <section className="px-5 pb-24 md:px-10 md:pb-32">
+      <section data-reveal className="cv-auto px-5 pb-24 md:px-10 md:pb-32">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
@@ -867,7 +867,7 @@ function Index() {
       </section>
 
       {/* CTA */}
-      <section id="contact" className="relative overflow-hidden bg-surface px-5 py-24 md:px-10 md:py-32">
+      <section id="contact" data-reveal className="cv-auto relative overflow-hidden bg-surface px-5 py-24 md:px-10 md:py-32">
         <div className="mb-10 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
           Let's get started
         </div>
