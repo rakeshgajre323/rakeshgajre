@@ -69,7 +69,7 @@
   ::selection { background: var(--color-accent); color: var(--color-accent-foreground); }
 }
 
-@utility font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+@utility font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
 @utility text-balance { text-wrap: balance; }
 
 @utility marquee-track {
