@@ -182,7 +182,7 @@ function Index() {
               src={rLogo}
               alt="R."
               className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
-            />
+             loading="lazy" decoding="async" />
             <Link
               to="/hire"
               className="inline-flex min-h-11 items-center rounded-2xl border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-5"
@@ -690,7 +690,7 @@ function Index() {
             <X className="h-5 w-5" />
           </button>
           <figure onClick={(e) => e.stopPropagation()} className="max-h-[90vh] max-w-[90vw] animate-scale-in">
-            <img src={lightbox.src} alt={lightbox.caption} className="max-h-[85vh] w-auto rounded-xl object-contain shadow-2xl" />
+            <img src={lightbox.src} alt={lightbox.caption} className="max-h-[85vh] w-auto rounded-xl object-contain shadow-2xl"  loading="lazy" decoding="async" />
             <figcaption className="mt-3 text-center text-sm uppercase tracking-[0.22em] text-white/80">
               {lightbox.caption}
             </figcaption>
@@ -776,7 +776,7 @@ function Index() {
                       rel="noreferrer"
                       className="mt-1 inline-flex items-center gap-2 text-sm text-foreground/80 hover:text-accent"
                     >
-                      <img src={e.logo} alt="" className="h-5 w-5 object-contain" />
+                      <img src={e.logo} alt="" className="h-5 w-5 object-contain"  loading="lazy" decoding="async" />
                       <span>{e.where}</span>
                     </a>
                   ) : (
@@ -825,7 +825,7 @@ function Index() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-border/70 bg-background text-[10px] font-semibold uppercase tracking-wider text-accent">
                     {cert.logo ? (
-                      <img src={cert.logo} alt={`${cert.issuer} logo`} className="h-full w-full object-cover" />
+                      <img src={cert.logo} alt={`${cert.issuer} logo`} className="h-full w-full object-cover"  loading="lazy" decoding="async" />
                     ) : (
                       cert.category.slice(0, 2)
                     )}
@@ -927,7 +927,7 @@ function Index() {
       <footer className="overflow-hidden border-t border-border/70 px-5 pt-16 md:px-10">
         <div className="grid gap-12 pb-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <img src={rLogo} alt="R." className="h-10 w-10" />
+            <img src={rLogo} alt="R." className="h-10 w-10"  loading="lazy" decoding="async" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               UI/UX designer and CS engineer designing intuitive digital experiences through
               research, interaction design, and user-centered thinking.
