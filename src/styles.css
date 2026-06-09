@@ -29,7 +29,7 @@
   --color-ring-offset-background: var(--background);
   --color-accent-foreground-alt: var(--foreground);
 
-  --font-display: "Archivo Black", "Impact", sans-serif;
+  --font-display: "Anton", "Impact", sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
@@ -69,7 +69,7 @@
   ::selection { background: var(--color-accent); color: var(--color-accent-foreground); }
 }
 
-@utility font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+@utility font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
 @utility text-balance { text-wrap: balance; }
 
 @utility marquee-track {
