@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect, useRef, type MouseEvent } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowUpRight,
   Download,
@@ -171,6 +171,7 @@ function Index() {
 
   const [certFilter, setCertFilter] = useState<CertCategory>("All");
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
 
   const filteredCerts = useMemo(
@@ -311,12 +312,10 @@ function Index() {
               />
               <ThemeToggle />
             </div>
-            <Link to="/hire" className="contents">
-              <LiquidButton size="default" type="button">
-                <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
-                <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
-              </LiquidButton>
-            </Link>
+            <LiquidButton size="default" type="button" onClick={() => navigate({ to: "/hire" })}>
+              <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
+              <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
+            </LiquidButton>
           </div>
 
           {/* Headline */}
