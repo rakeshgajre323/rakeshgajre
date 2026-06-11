@@ -129,6 +129,28 @@ const scrollToId = (id: string) => {
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openCert = (href: string, title: string) => {
+    const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(href);
+    if (isImage) setLightbox({ src: href, caption: title });
+    else setCertPreview({ src: href, title });
+  };
+
+  const handleCertHoverStart = (href: string, title: string) => {
+    // Desktop hover-to-preview: only when device supports hover (skip touch)
+    if (typeof window !== "undefined" && !window.matchMedia("(hover: hover)").matches) return;
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = setTimeout(() => openCert(href, title), 1000);
+  };
+
+  const handleCertHoverEnd = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  };
+
   const [certFilter, setCertFilter] = useState<CertCategory>("All");
   const [menuOpen, setMenuOpen] = useState(false);
 
