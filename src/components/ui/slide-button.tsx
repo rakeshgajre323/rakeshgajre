@@ -25,7 +25,7 @@ const ANIMATION_CONFIG = {
 type Status = "idle" | "loading" | "success" | "error";
 
 const StatusIcon: React.FC<{ status: Status }> = ({ status }) => {
-  const map: Partial<Record<Status, JSX.Element>> = {
+  const map: Partial<Record<Status, React.ReactElement>> = {
     loading: <Loader2 className="animate-spin" size={20} />,
     success: <Check size={20} />,
     error: <X size={20} />,
