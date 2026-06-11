@@ -45,6 +45,7 @@ import relianceFoundationLogo from "@/assets/reliance-foundation-logo.png.asset.
 import nsdcLogo from "@/assets/nsdc-logo.png.asset.json";
 import courseraLogo from "@/assets/coursera-logo.png.asset.json";
 import googleLogo from "@/assets/google-logo.png.asset.json";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -301,11 +302,14 @@ function Index() {
               <span className="hidden xs:inline">MENU</span>
               <span className="xs:hidden">MENU</span>
             </button>
-            <img
-              src={rLogo}
-              alt="R."
-              className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
-            />
+            <div className="flex items-center gap-3">
+              <img
+                src={rLogo}
+                alt="R."
+                className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
+              />
+              <ThemeToggle />
+            </div>
             <Link
               to="/hire"
               className="inline-flex min-h-11 items-center rounded-2xl border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-5"
