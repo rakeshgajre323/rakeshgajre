@@ -130,7 +130,7 @@ const scrollToId = (id: string) => {
 
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
-  const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
+  const [certPreview, setCertPreview] = useState<{ src: string; title: string; isImage?: boolean } | null>(null);
   const [certLoadState, setCertLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastCertImageRef = useRef<string | null>(null);
@@ -143,8 +143,7 @@ function Index() {
 
   const openCert = (href: string, title: string, opts?: { scroll?: boolean }) => {
     const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(href);
-    if (isImage) setLightbox({ src: href, caption: title });
-    else setCertPreview({ src: href, title });
+    setCertPreview({ src: href, title, isImage });
     if (opts?.scroll && typeof window !== "undefined") {
       // Smooth-scroll to the certifications section and align the inline preview
       requestAnimationFrame(() => {
@@ -981,12 +980,15 @@ function Index() {
               {certLoadState !== 'error' && (
                 <img
                   key={`${certPreview.src}-${certRetryKey}`}
-                  src={`https://image.thum.io/get/width/1200/noanimate/wait/4/${certPreview.src}?r=${certRetryKey}`}
+                  src={certPreview.isImage
+                    ? `${certPreview.src}${certRetryKey ? (certPreview.src.includes('?') ? '&' : '?') + 'r=' + certRetryKey : ''}`
+                    : `https://image.thum.io/get/width/1200/noanimate/wait/4/${certPreview.src}?r=${certRetryKey}`}
                   alt={`${certPreview.title} certificate preview`}
                   className={`h-auto w-full max-w-3xl rounded-md bg-white shadow-md transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
                   loading="eager"
-                  onLoad={() => {
-                    lastCertImageRef.current = `https://image.thum.io/get/width/1200/noanimate/${certPreview.src}`;
+                  referrerPolicy="no-referrer"
+                  onLoad={(e) => {
+                    lastCertImageRef.current = (e.currentTarget as HTMLImageElement).src;
                     setCertLoadState('loaded');
                   }}
                   onError={() => setCertLoadState('error')}
