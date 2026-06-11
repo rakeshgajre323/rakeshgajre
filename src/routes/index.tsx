@@ -143,8 +143,7 @@ function Index() {
 
   const openCert = (href: string, title: string, opts?: { scroll?: boolean }) => {
     const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(href);
-    if (isImage) setLightbox({ src: href, caption: title });
-    else setCertPreview({ src: href, title });
+    setCertPreview({ src: href, title, isImage });
     if (opts?.scroll && typeof window !== "undefined") {
       // Smooth-scroll to the certifications section and align the inline preview
       requestAnimationFrame(() => {
