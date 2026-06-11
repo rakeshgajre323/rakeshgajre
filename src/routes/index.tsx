@@ -46,6 +46,7 @@ import nsdcLogo from "@/assets/nsdc-logo.png.asset.json";
 import courseraLogo from "@/assets/coursera-logo.png.asset.json";
 import googleLogo from "@/assets/google-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LiquidButton } from "@/components/ui/liquid-glass-button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -310,13 +311,12 @@ function Index() {
               />
               <ThemeToggle />
             </div>
-            <Link
-              to="/hire"
-              className="inline-flex min-h-11 items-center rounded-2xl border border-white/20 bg-white/10 px-4 py-2.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] transition hover:bg-white/20 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:px-5"
-            >
-              <span className="hidden xs:inline">CONTACT&nbsp;ME</span>
-              <span className="xs:hidden">CONTACT</span>
-            </Link>
+            <LiquidButton asChild size="default">
+              <Link to="/hire">
+                <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
+                <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
+              </Link>
+            </LiquidButton>
           </div>
 
           {/* Headline */}
