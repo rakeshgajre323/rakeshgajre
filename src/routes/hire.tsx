@@ -192,9 +192,6 @@ function HirePage() {
                       formRef.current?.requestSubmit();
                     }}
                   />
-                  <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-                    Slide to submit
-                  </p>
                 </div>
                 <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   Your details are sent straight to my inbox.
