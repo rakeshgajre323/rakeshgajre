@@ -980,12 +980,16 @@ function Index() {
               {certLoadState !== 'error' && (
                 <img
                   key={`${certPreview.src}-${certRetryKey}`}
-                  src={`https://image.thum.io/get/width/1200/noanimate/wait/4/${certPreview.src}?r=${certRetryKey}`}
+                  src={certPreview.isImage
+                    ? `${certPreview.src}${certRetryKey ? (certPreview.src.includes('?') ? '&' : '?') + 'r=' + certRetryKey : ''}`
+                    : `https://image.thum.io/get/width/1200/noanimate/wait/4/${certPreview.src}?r=${certRetryKey}`}
                   alt={`${certPreview.title} certificate preview`}
                   className={`h-auto w-full max-w-3xl rounded-md bg-white shadow-md transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
                   loading="eager"
-                  onLoad={() => {
-                    lastCertImageRef.current = `https://image.thum.io/get/width/1200/noanimate/${certPreview.src}`;
+                  referrerPolicy="no-referrer"
+                  crossOrigin="anonymous"
+                  onLoad={(e) => {
+                    lastCertImageRef.current = (e.currentTarget as HTMLImageElement).src;
                     setCertLoadState('loaded');
                   }}
                   onError={() => setCertLoadState('error')}
