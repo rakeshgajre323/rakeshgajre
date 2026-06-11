@@ -1071,7 +1071,7 @@ function Index() {
                   if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
                   e.preventDefault();
                   handleCertHoverEnd();
-                  openCert(cert.href!, cert.title);
+                  openCert(cert.href!, cert.title, { scroll: true });
                 }}
                 className="block cursor-pointer"
               >
