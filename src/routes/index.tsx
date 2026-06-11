@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   ArrowRight,
   Menu as MenuIcon,
+  Loader,
 } from "lucide-react";
 import {
   Sheet,
@@ -129,7 +130,12 @@ const scrollToId = (id: string) => {
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
+  const [certLoadState, setCertLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (certPreview) setCertLoadState('loading');
+  }, [certPreview]);
 
   const openCert = (href: string, title: string) => {
     const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(href);
@@ -843,14 +849,41 @@ function Index() {
                 </button>
               </div>
             </div>
-            <div className="flex h-full w-full flex-1 items-start justify-center overflow-auto bg-neutral-100 p-3">
-              <img
-                key={certPreview.src}
-                src={`https://image.thum.io/get/width/1400/noanimate/${certPreview.src}`}
-                alt={`${certPreview.title} certificate preview`}
-                className="h-auto w-full max-w-4xl rounded-lg bg-white shadow-xl"
-                loading="eager"
-              />
+            <div className="relative flex h-full w-full flex-1 items-start justify-center overflow-auto bg-neutral-100 p-3">
+              {certLoadState !== 'error' && (
+                <img
+                  key={certPreview.src}
+                  src={`https://image.thum.io/get/width/1400/noanimate/${certPreview.src}`}
+                  alt={`${certPreview.title} certificate preview`}
+                  className={`h-auto w-full max-w-4xl rounded-lg bg-white shadow-xl transition-opacity duration-300 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
+                  loading="eager"
+                  onLoad={() => setCertLoadState('loaded')}
+                  onError={() => setCertLoadState('error')}
+                />
+              )}
+              {certLoadState === 'loading' && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                  <Loader className="h-8 w-8 animate-spin text-muted-foreground" />
+                  <p className="text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    Loading preview…
+                  </p>
+                </div>
+              )}
+              {certLoadState === 'error' && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center">
+                  <p className="max-w-md text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    Preview unavailable — the certificate page blocks screenshots.
+                  </p>
+                  <a
+                    href={certPreview.src}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs uppercase tracking-[0.18em] text-foreground transition hover:bg-white/10"
+                  >
+                    Open Official Link <ArrowUpRight className="h-3.5 w-3.5" />
+                  </a>
+                </div>
+              )}
             </div>
             <div className="border-t border-white/10 bg-background/80 px-4 py-2 text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
               Live screenshot of the certificate page — tap “Open” for the official source.
