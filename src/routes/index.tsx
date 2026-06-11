@@ -43,7 +43,6 @@ import googleStartupsLogo from "@/assets/google-startups-logo.png.asset.json";
 import techMahindraLogo from "@/assets/techmahindra-logo.png.asset.json";
 import relianceFoundationLogo from "@/assets/reliance-foundation-logo.png.asset.json";
 import nsdcLogo from "@/assets/nsdc-logo.png.asset.json";
-import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import courseraLogo from "@/assets/coursera-logo.png.asset.json";
 import googleLogo from "@/assets/google-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
