@@ -45,6 +45,7 @@ import relianceFoundationLogo from "@/assets/reliance-foundation-logo.png.asset.
 import nsdcLogo from "@/assets/nsdc-logo.png.asset.json";
 import courseraLogo from "@/assets/coursera-logo.png.asset.json";
 import googleLogo from "@/assets/google-logo.png.asset.json";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
