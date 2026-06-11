@@ -177,17 +177,25 @@ function HirePage() {
                   </p>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-accent px-7 py-4 font-display text-lg uppercase tracking-tight text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
-                >
-                  {status === "sending" ? "Sending…" : (
-                    <>
-                      Submit <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </>
-                  )}
-                </button>
+                <div className="flex flex-col items-center gap-3 pt-2">
+                  <SlideButton
+                    status={
+                      status === "sending"
+                        ? "loading"
+                        : status === "success"
+                        ? "success"
+                        : status === "error"
+                        ? "error"
+                        : "idle"
+                    }
+                    onComplete={() => {
+                      formRef.current?.requestSubmit();
+                    }}
+                  />
+                  <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                    Slide to submit
+                  </p>
+                </div>
                 <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   Your details are sent straight to my inbox.
                 </p>
