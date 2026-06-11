@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   ArrowRight,
   Menu as MenuIcon,
+  Loader,
 } from "lucide-react";
 import {
   Sheet,
@@ -129,7 +130,12 @@ const scrollToId = (id: string) => {
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
+  const [certLoadState, setCertLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (certPreview) setCertLoadState('loading');
+  }, [certPreview]);
 
   const openCert = (href: string, title: string) => {
     const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(href);
