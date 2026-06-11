@@ -239,9 +239,15 @@ function Index() {
             height={877}
             fetchPriority="high"
             decoding="async"
+            data-parallax="0.18"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/40" />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/40"
+            data-parallax="0.08"
+            aria-hidden="true"
+          />
+
 
           {/* Top bar */}
           <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-2 px-4 py-4 text-[11px] font-medium tracking-[0.18em] text-foreground/90 sm:px-5 sm:py-5 md:px-8">
