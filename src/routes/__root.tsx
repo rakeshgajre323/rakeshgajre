@@ -125,6 +125,49 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
+  // Cursor-velocity-aware motion: speeds animations up when the user moves quickly
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+
+    const root = document.documentElement;
+    let lastX = 0, lastY = 0, lastT = 0;
+    let smoothed = 0; // px/ms, exponentially smoothed
+    let currentLevel = ""; // "", "fast", "turbo"
+    let idleTimer: number | undefined;
+
+    const setLevel = (lvl: string) => {
+      if (lvl === currentLevel) return;
+      currentLevel = lvl;
+      if (lvl) root.setAttribute("data-cursor-speed", lvl);
+      else root.removeAttribute("data-cursor-speed");
+    };
+
+    const onMove = (e: PointerEvent) => {
+      const now = performance.now();
+      if (lastT) {
+        const dt = Math.max(1, now - lastT);
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        const v = Math.hypot(dx, dy) / dt; // px/ms
+        smoothed = smoothed * 0.6 + v * 0.4;
+        if (smoothed > 2.2) setLevel("turbo");
+        else if (smoothed > 1.0) setLevel("fast");
+        else setLevel("");
+      }
+      lastX = e.clientX; lastY = e.clientY; lastT = now;
+      window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(() => { smoothed = 0; setLevel(""); }, 220);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.clearTimeout(idleTimer);
+      setLevel("");
+    };
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* key on pathname so each route mount replays the enter animation */}
@@ -135,4 +178,5 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
 
