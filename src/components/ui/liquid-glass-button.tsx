@@ -1,117 +1,110 @@
 "use client";
 
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-export const liquidButtonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl text-sm font-medium cursor-pointer transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 overflow-hidden isolate",
+const liquidbuttonVariants = cva(
+  "relative inline-flex items-center justify-center cursor-pointer gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-accent/70 overflow-hidden",
   {
     variants: {
+      variant: {
+        default: "bg-transparent hover:scale-[1.03] text-foreground",
+        outline:
+          "border border-foreground/30 bg-white/5 hover:bg-white/10 text-foreground",
+      },
       size: {
-        sm: "h-9 px-4 text-xs",
-        default: "h-11 px-5",
-        lg: "h-12 px-6 text-base",
-        xl: "h-14 px-8 text-base",
-        icon: "h-11 w-11",
+        default: "h-9 px-4 py-2",
+        sm: "h-8 px-4 text-xs",
+        lg: "h-11 px-6",
+        xl: "h-12 px-8",
+        xxl: "h-14 px-10",
       },
     },
-    defaultVariants: { size: "default" },
-  },
+    defaultVariants: { variant: "default", size: "xxl" },
+  }
 );
-
-let filterIdCounter = 0;
-
-type CommonProps = {
-  children?: React.ReactNode;
-  className?: string;
-} & VariantProps<typeof liquidButtonVariants>;
-
-function LiquidContent({ filterId }: { filterId: string }) {
-  return (
-    <>
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 rounded-2xl"
-        style={{
-          backdropFilter: `url(#${filterId}) blur(2px)`,
-          WebkitBackdropFilter: "blur(8px)",
-          background:
-            "linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06))",
-        }}
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 rounded-2xl border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_8px_30px_-12px_rgba(0,0,0,0.4)]"
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-3 top-0 h-1/2 rounded-2xl bg-gradient-to-b from-white/25 to-transparent opacity-60 blur-[2px]"
-      />
-      <svg aria-hidden="true" className="pointer-events-none absolute h-0 w-0">
-        <defs>
-          <filter id={filterId} x="0%" y="0%" width="100%" height="100%">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.012 0.012"
-              numOctaves="1"
-              seed="7"
-              result="noise"
-            />
-            <feGaussianBlur in="noise" stdDeviation="2" result="blurredNoise" />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="blurredNoise"
-              scale="60"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </>
-  );
-}
 
 export interface LiquidButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    CommonProps {}
+    VariantProps<typeof liquidbuttonVariants> {
+  asChild?: boolean;
+}
+
+function GlassFilter() {
+  return (
+    <svg className="hidden">
+      <defs>
+        <filter
+          id="liquid-glass-filter"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+        >
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.05 0.05"
+            numOctaves="1"
+            seed="1"
+            result="turbulence"
+          />
+          <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="blurredNoise"
+            scale="70"
+            xChannelSelector="R"
+            yChannelSelector="B"
+            result="displaced"
+          />
+          <feGaussianBlur in="displaced" stdDeviation="3" result="finalBlur" />
+          <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+        </filter>
+      </defs>
+    </svg>
+  );
+}
 
 export const LiquidButton = React.forwardRef<HTMLButtonElement, LiquidButtonProps>(
-  ({ className, size, children, ...props }, ref) => {
-    const filterId = React.useMemo(() => `liquid-glass-${++filterIdCounter}`, []);
+  ({ className, variant, size, asChild = false, children, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
     return (
-      <button
-        ref={ref}
-        className={cn(liquidButtonVariants({ size }), "text-foreground", className)}
-        {...props}
-      >
-        <LiquidContent filterId={filterId} />
-        <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
-      </button>
+      <>
+        <GlassFilter />
+        <Comp
+          ref={ref}
+          className={cn(liquidbuttonVariants({ variant, size, className }))}
+          {...props}
+        >
+          {/* Glass layer */}
+          <span
+            className="pointer-events-none absolute inset-0 rounded-full"
+            style={{
+              backdropFilter: "url(#liquid-glass-filter)",
+              WebkitBackdropFilter: "url(#liquid-glass-filter)",
+              background: "rgba(255,255,255,0.04)",
+              boxShadow:
+                "inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 -8px 24px rgba(255,255,255,0.06), inset 0 8px 24px rgba(255,255,255,0.08)",
+            }}
+          />
+          {/* Sheen */}
+          <span
+            className="pointer-events-none absolute inset-0 rounded-full opacity-60"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0) 65%, rgba(255,255,255,0.12) 100%)",
+            }}
+          />
+          <span className="relative z-10 inline-flex items-center gap-2">
+            {children}
+          </span>
+        </Comp>
+      </>
     );
-  },
+  }
 );
 LiquidButton.displayName = "LiquidButton";
 
-export interface LiquidLinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
-    CommonProps {}
-
-/** Same look as LiquidButton, but renders an <a> so it can wrap a router Link via render-prop or be used standalone. */
-export const LiquidLink = React.forwardRef<HTMLAnchorElement, LiquidLinkProps>(
-  ({ className, size, children, ...props }, ref) => {
-    const filterId = React.useMemo(() => `liquid-glass-${++filterIdCounter}`, []);
-    return (
-      <a
-        ref={ref}
-        className={cn(liquidButtonVariants({ size }), "text-foreground no-underline", className)}
-        {...props}
-      >
-        <LiquidContent filterId={filterId} />
-        <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
-      </a>
-    );
-  },
-);
-LiquidLink.displayName = "LiquidLink";
+export { liquidbuttonVariants };
