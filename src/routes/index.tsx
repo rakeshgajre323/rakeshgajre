@@ -472,7 +472,7 @@ function Index() {
           <h2 className="mt-6 font-display text-[10vw] leading-[0.95] tracking-tight text-foreground/80 sm:text-[8vw] md:text-[5.2vw]">
             Your{" "}
             <AnimatedTextCycle
-              words={["team", "workflow", "product", "users", "story"]}
+              words={["team", "workflow", "product", "audience", "story"]}
               interval={2600}
               className="text-foreground"
             />{" "}
