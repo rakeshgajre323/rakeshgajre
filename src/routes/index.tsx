@@ -603,15 +603,16 @@ function Index() {
               problem definition to a working live product.
             </p>
           </div>
-          <a
-            href="https://origincerti.lovable.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => openExternalLink(e, "https://origincerti.lovable.app")}
-            className="hidden items-center gap-2 rounded-full border border-foreground/30 px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.18em] hover:border-accent hover:text-accent md:inline-flex"
-          >
-            Visit live site <ArrowUpRight className="h-4 w-4" />
-          </a>
+          <LiquidButton asChild size="default" className="hidden md:inline-flex text-[11px] font-medium uppercase tracking-[0.18em]">
+            <a
+              href="https://origincerti.lovable.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => openExternalLink(e, "https://origincerti.lovable.app")}
+            >
+              Visit live site <ArrowUpRight className="h-4 w-4" />
+            </a>
+          </LiquidButton>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-border/70 bg-surface">
