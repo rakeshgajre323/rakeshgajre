@@ -132,6 +132,7 @@ function Index() {
   const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
   const [certLoadState, setCertLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastCertImageRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (certPreview) setCertLoadState('loading');
