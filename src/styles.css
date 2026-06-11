@@ -168,6 +168,34 @@
   to   { opacity: 1; transform: none; filter: blur(0); }
 }
 
+/* Cursor-velocity-aware motion — scale durations when the user moves fast */
+html[data-cursor-speed="fast"] [data-reveal] {
+  transition-duration: 0.28s, 0.28s;
+}
+html[data-cursor-speed="turbo"] [data-reveal] {
+  transition-duration: 0.16s, 0.16s;
+  transition-delay: 0ms !important;
+}
+@media (min-width: 768px) {
+  html[data-cursor-speed="fast"] [data-reveal] {
+    transition-duration: 0.7s, 0.7s;
+  }
+  html[data-cursor-speed="turbo"] [data-reveal] {
+    transition-duration: 0.35s, 0.35s;
+    transition-delay: 0ms !important;
+  }
+}
+html[data-cursor-speed="fast"] .route-transition {
+  animation-duration: 0.38s;
+}
+html[data-cursor-speed="turbo"] .route-transition {
+  animation-duration: 0.22s;
+}
+html[data-cursor-speed="turbo"] * {
+  scroll-behavior: auto;
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal],
   [data-parallax],
