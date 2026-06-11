@@ -215,9 +215,9 @@ function Index() {
       children.forEach((child, i) => {
         if (child.hasAttribute("data-reveal")) return;
         child.setAttribute("data-reveal", "");
-        // Mobile: tighter stagger; desktop: more cinematic
-        child.style.setProperty("--reveal-delay-mobile", `${Math.min(i * 35, 350)}ms`);
-        child.style.setProperty("--reveal-delay", `${Math.min(i * 80, 800)}ms`);
+        // Mobile: snappier, smaller stagger; desktop: more cinematic stagger
+        child.style.setProperty("--reveal-delay-mobile", `${Math.min(i * 25, 250)}ms`);
+        child.style.setProperty("--reveal-delay", `${Math.min(i * 90, 900)}ms`);
         targets.push(child);
       });
     });
