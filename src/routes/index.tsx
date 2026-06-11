@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, type MouseEvent } from "react";
+import { useMemo, useState, useEffect, useRef, type MouseEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
