@@ -18,6 +18,7 @@ import {
   ArrowRight,
   Menu as MenuIcon,
   Loader,
+  RefreshCw,
 } from "lucide-react";
 import {
   Sheet,
@@ -138,10 +139,19 @@ function Index() {
     if (certPreview) setCertLoadState('loading');
   }, [certPreview]);
 
-  const openCert = (href: string, title: string) => {
+  const [certRetryKey, setCertRetryKey] = useState(0);
+
+  const openCert = (href: string, title: string, opts?: { scroll?: boolean }) => {
     const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(href);
     if (isImage) setLightbox({ src: href, caption: title });
     else setCertPreview({ src: href, title });
+    if (opts?.scroll && typeof window !== "undefined") {
+      // Smooth-scroll to the certifications section and align the inline preview
+      requestAnimationFrame(() => {
+        const el = document.getElementById("certifications");
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
   };
 
   const handleCertHoverStart = (href: string, title: string) => {
@@ -206,9 +216,9 @@ function Index() {
       children.forEach((child, i) => {
         if (child.hasAttribute("data-reveal")) return;
         child.setAttribute("data-reveal", "");
-        // Mobile: tighter stagger; desktop: more cinematic
-        child.style.setProperty("--reveal-delay-mobile", `${Math.min(i * 35, 350)}ms`);
-        child.style.setProperty("--reveal-delay", `${Math.min(i * 80, 800)}ms`);
+        // Mobile: snappier, smaller stagger; desktop: more cinematic stagger
+        child.style.setProperty("--reveal-delay-mobile", `${Math.min(i * 25, 250)}ms`);
+        child.style.setProperty("--reveal-delay", `${Math.min(i * 90, 900)}ms`);
         targets.push(child);
       });
     });
@@ -908,7 +918,7 @@ function Index() {
       </section>
 
       {/* CERTIFICATIONS — filterable */}
-      <section className="px-5 pb-24 md:px-10 md:pb-32">
+      <section id="certifications" className="px-5 pb-24 md:px-10 md:pb-32 scroll-mt-24">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
@@ -961,17 +971,17 @@ function Index() {
                   type="button"
                   onClick={() => setCertPreview(null)}
                   aria-label="Close certificate preview"
-                  className="rounded-full border border-border/70 bg-background p-1.5 text-foreground transition hover:border-accent hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:border-accent hover:text-accent"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <X className="h-3.5 w-3.5" /> Close
                 </button>
               </div>
             </div>
             <div className="relative flex max-h-[60vh] w-full items-start justify-center overflow-auto bg-neutral-100 p-3">
               {certLoadState !== 'error' && (
                 <img
-                  key={certPreview.src}
-                  src={`https://image.thum.io/get/width/1200/noanimate/${certPreview.src}`}
+                  key={`${certPreview.src}-${certRetryKey}`}
+                  src={`https://image.thum.io/get/width/1200/noanimate/wait/4/${certPreview.src}?r=${certRetryKey}`}
                   alt={`${certPreview.title} certificate preview`}
                   className={`h-auto w-full max-w-3xl rounded-md bg-white shadow-md transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
                   loading="eager"
@@ -1003,15 +1013,29 @@ function Index() {
               )}
               {certLoadState === 'error' && (
                 <div className="flex min-h-[220px] flex-col items-center justify-center gap-3 px-4 py-8 text-center">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">Preview unavailable.</p>
-                  <a
-                    href={certPreview.src}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:border-accent hover:text-accent"
-                  >
-                    Open Official Link <ArrowUpRight className="h-3 w-3" />
-                  </a>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    Preview unavailable — the screenshot couldn't be captured.
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCertLoadState('loading');
+                        setCertRetryKey((k) => k + 1);
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 bg-accent/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <RefreshCw className="h-3 w-3" /> Retry
+                    </button>
+                    <a
+                      href={certPreview.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:border-accent hover:text-accent"
+                    >
+                      Open Official Link <ArrowUpRight className="h-3 w-3" />
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
@@ -1062,7 +1086,7 @@ function Index() {
                   if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
                   e.preventDefault();
                   handleCertHoverEnd();
-                  openCert(cert.href!, cert.title);
+                  openCert(cert.href!, cert.title, { scroll: true });
                 }}
                 className="block cursor-pointer"
               >
