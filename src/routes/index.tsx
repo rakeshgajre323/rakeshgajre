@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, type MouseEvent } from "react";
+import { useMemo, useState, useEffect, useRef, type MouseEvent } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowUpRight,
@@ -129,6 +129,28 @@ const scrollToId = (id: string) => {
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openCert = (href: string, title: string) => {
+    const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(href);
+    if (isImage) setLightbox({ src: href, caption: title });
+    else setCertPreview({ src: href, title });
+  };
+
+  const handleCertHoverStart = (href: string, title: string) => {
+    // Desktop hover-to-preview: only when device supports hover (skip touch)
+    if (typeof window !== "undefined" && !window.matchMedia("(hover: hover)").matches) return;
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = setTimeout(() => openCert(href, title), 1000);
+  };
+
+  const handleCertHoverEnd = () => {
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  };
+
   const [certFilter, setCertFilter] = useState<CertCategory>("All");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -994,21 +1016,21 @@ function Index() {
                 href={cert.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onMouseEnter={() => handleCertHoverStart(cert.href!, cert.title)}
+                onMouseLeave={handleCertHoverEnd}
+                onFocus={() => handleCertHoverStart(cert.href!, cert.title)}
+                onBlur={handleCertHoverEnd}
                 onClick={(e) => {
-                  // Open in an in-page mini window instead of leaving the site
                   if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
                   e.preventDefault();
-                  const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(cert.href!);
-                  if (isImage) {
-                    setLightbox({ src: cert.href!, caption: cert.title });
-                  } else {
-                    setCertPreview({ src: cert.href!, title: cert.title });
-                  }
+                  handleCertHoverEnd();
+                  openCert(cert.href!, cert.title);
                 }}
                 className="block cursor-pointer"
               >
                 {inner}
               </a>
+
             ) : (
               <div key={cert.title}>{inner}</div>
             );
