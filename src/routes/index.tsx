@@ -128,8 +128,10 @@ const scrollToId = (id: string) => {
 
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
+  const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
   const [certFilter, setCertFilter] = useState<CertCategory>("All");
   const [menuOpen, setMenuOpen] = useState(false);
+
 
   const filteredCerts = useMemo(
     () => (certFilter === "All" ? certifications : certifications.filter((c) => c.category === certFilter)),
@@ -781,6 +783,61 @@ function Index() {
         </div>
       )}
 
+      {certPreview && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${certPreview.title} certificate preview`}
+          onClick={() => setCertPreview(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 backdrop-blur-md animate-fade-in sm:p-6"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative flex h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-background shadow-2xl animate-scale-in"
+          >
+            <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-background/80 px-4 py-3 backdrop-blur-md">
+              <div className="min-w-0">
+                <div className="truncate font-display text-sm uppercase tracking-[0.18em] text-foreground">
+                  {certPreview.title}
+                </div>
+                <div className="truncate text-[11px] text-muted-foreground">{certPreview.src}</div>
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <a
+                  href={certPreview.src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-foreground transition hover:bg-white/10"
+                >
+                  Open <ArrowUpRight className="h-3 w-3" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setCertPreview(null)}
+                  aria-label="Close certificate preview"
+                  className="rounded-full border border-white/20 bg-white/10 p-2 text-foreground transition hover:bg-white/20"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+            <iframe
+              key={certPreview.src}
+              src={certPreview.src}
+              title={certPreview.title}
+              className="h-full w-full flex-1 bg-white"
+              referrerPolicy="no-referrer"
+              sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+            />
+            <div className="border-t border-white/10 bg-background/80 px-4 py-2 text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              Some issuers block embedding — if blank, tap “Open” to view it in a new tab.
+            </div>
+          </div>
+        </div>
+      )}
+
+
+
       {/* SKILLS + TIMELINE */}
       <section className="px-5 py-24 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-2">
@@ -937,7 +994,17 @@ function Index() {
                 href={cert.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => openExternalLink(e, cert.href!)}
+                onClick={(e) => {
+                  // Open in an in-page mini window instead of leaving the site
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+                  e.preventDefault();
+                  const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(cert.href!);
+                  if (isImage) {
+                    setLightbox({ src: cert.href!, caption: cert.title });
+                  } else {
+                    setCertPreview({ src: cert.href!, title: cert.title });
+                  }
+                }}
                 className="block cursor-pointer"
               >
                 {inner}
@@ -945,6 +1012,7 @@ function Index() {
             ) : (
               <div key={cert.title}>{inner}</div>
             );
+
           })}
         </div>
       </section>
