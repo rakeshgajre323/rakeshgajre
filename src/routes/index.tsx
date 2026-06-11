@@ -132,6 +132,7 @@ function Index() {
   const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
   const [certLoadState, setCertLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastCertImageRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (certPreview) setCertLoadState('loading');
@@ -855,13 +856,31 @@ function Index() {
                   key={certPreview.src}
                   src={`https://image.thum.io/get/width/1400/noanimate/${certPreview.src}`}
                   alt={`${certPreview.title} certificate preview`}
-                  className={`h-auto w-full max-w-4xl rounded-lg bg-white shadow-xl transition-opacity duration-300 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
+                  className={`h-auto w-full max-w-4xl rounded-lg bg-white shadow-xl transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
                   loading="eager"
-                  onLoad={() => setCertLoadState('loaded')}
+                  onLoad={() => {
+                    lastCertImageRef.current = `https://image.thum.io/get/width/1400/noanimate/${certPreview.src}`;
+                    setCertLoadState('loaded');
+                  }}
                   onError={() => setCertLoadState('error')}
                 />
               )}
-              {certLoadState === 'loading' && (
+              {certLoadState === 'loading' && lastCertImageRef.current && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <img
+                    src={lastCertImageRef.current}
+                    alt=""
+                    className="h-auto w-full max-w-4xl rounded-lg bg-white shadow-xl blur-sm brightness-75"
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/20 backdrop-blur-[2px]">
+                    <Loader className="h-8 w-8 animate-spin text-white/90" />
+                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-white/90">
+                      Loading preview…
+                    </p>
+                  </div>
+                </div>
+              )}
+              {certLoadState === 'loading' && !lastCertImageRef.current && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                   <Loader className="h-8 w-8 animate-spin text-muted-foreground" />
                   <p className="text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
