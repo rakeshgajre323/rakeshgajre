@@ -147,7 +147,7 @@ function HirePage() {
                 </Link>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-6 md:grid-cols-2">
                   <Field label="Your Name *" name="name" required placeholder="Jane Doe" />
                   <Field label="Email *" name="email" type="email" required placeholder="you@company.com" />
