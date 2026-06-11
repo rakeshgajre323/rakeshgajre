@@ -1008,9 +1008,14 @@ function Index() {
                 </div>
               )}
               {certLoadState === 'loading' && !lastCertImageRef.current && (
-                <div className="flex min-h-[220px] flex-col items-center justify-center gap-3 py-8">
-                  <Loader className="h-6 w-6 animate-spin text-muted-foreground" />
-                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">Loading preview…</p>
+                <div className="flex min-h-[340px] flex-col items-center justify-center gap-4 py-10">
+                  <div className="relative w-full max-w-3xl">
+                    <div className="aspect-[1.4/1] w-full animate-pulse rounded-md bg-muted/60" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                      <Loader className="h-7 w-7 animate-spin text-foreground/70" />
+                      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-foreground/70">Loading preview…</p>
+                    </div>
+                  </div>
                 </div>
               )}
               {certLoadState === 'error' && (
