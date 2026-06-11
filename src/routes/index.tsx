@@ -311,12 +311,12 @@ function Index() {
               />
               <ThemeToggle />
             </div>
-            <LiquidButton asChild size="default">
-              <Link to="/hire">
+            <Link to="/hire" className="inline-flex">
+              <LiquidButton size="default">
                 <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
                 <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
-              </Link>
-            </LiquidButton>
+              </LiquidButton>
+            </Link>
           </div>
 
           {/* Headline */}
