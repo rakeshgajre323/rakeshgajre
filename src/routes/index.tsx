@@ -149,31 +149,35 @@ function Index() {
     setTimeout(() => scrollToId(id), 200);
   };
 
-  // Auto-apply scroll reveal animations to sections and their key children
+  // Scroll reveal + hero parallax. Both respect prefers-reduced-motion.
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) return;
+
     const main = document.querySelector("main");
     if (!main) return;
 
+    // --- Reveal on scroll ---
     const sections = Array.from(main.querySelectorAll("section"));
     const targets: HTMLElement[] = [];
 
     sections.forEach((section, sIdx) => {
-      // Skip hero (first section) — it's above the fold
-      if (sIdx === 0) return;
+      if (sIdx === 0) return; // skip hero
       const el = section as HTMLElement;
       if (!el.hasAttribute("data-reveal")) {
         el.setAttribute("data-reveal", "");
         targets.push(el);
       }
-      // Stagger immediate children (headings, cards, rows)
       const children = Array.from(el.querySelectorAll<HTMLElement>(
         ":scope > div > *, :scope > div > div > *",
       )).slice(0, 24);
       children.forEach((child, i) => {
         if (child.hasAttribute("data-reveal")) return;
         child.setAttribute("data-reveal", "");
-        child.style.setProperty("--reveal-delay", `${Math.min(i * 60, 600)}ms`);
+        // Mobile: tighter stagger; desktop: more cinematic
+        child.style.setProperty("--reveal-delay-mobile", `${Math.min(i * 35, 350)}ms`);
+        child.style.setProperty("--reveal-delay", `${Math.min(i * 80, 800)}ms`);
         targets.push(child);
       });
     });
@@ -189,10 +193,36 @@ function Index() {
       },
       { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
     );
-
     targets.forEach((t) => io.observe(t));
-    return () => io.disconnect();
+
+    // --- Hero parallax ---
+    const parallaxEls = Array.from(
+      main.querySelectorAll<HTMLElement>("[data-parallax]"),
+    );
+    let rafId = 0;
+    let lastY = window.scrollY;
+    const update = () => {
+      rafId = 0;
+      const y = lastY;
+      parallaxEls.forEach((el) => {
+        const speed = parseFloat(el.dataset.parallax || "0.2");
+        el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
+      });
+    };
+    const onScroll = () => {
+      lastY = window.scrollY;
+      if (!rafId) rafId = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
+
 
 
 
@@ -209,9 +239,15 @@ function Index() {
             height={877}
             fetchPriority="high"
             decoding="async"
+            data-parallax="0.18"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/40" />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/40"
+            data-parallax="0.08"
+            aria-hidden="true"
+          />
+
 
           {/* Top bar */}
           <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-2 px-4 py-4 text-[11px] font-medium tracking-[0.18em] text-foreground/90 sm:px-5 sm:py-5 md:px-8">
