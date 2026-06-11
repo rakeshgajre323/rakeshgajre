@@ -1081,29 +1081,44 @@ function Index() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {filteredCerts.map((cert) => {
             const inner = (
-              <div className="group flex h-full flex-col justify-between gap-6 rounded-xl border border-border/70 bg-surface p-5 transition-colors hover:border-accent">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-border/70 bg-background text-[10px] font-semibold uppercase tracking-wider text-accent">
-                    {cert.logo ? (
-                      <img src={cert.logo} alt={`${cert.issuer} logo`} className="h-full w-full object-cover" />
-                    ) : (
-                      cert.category.slice(0, 2)
-                    )}
+              <div className="group relative h-full overflow-hidden rounded-xl border border-white/15 bg-white/[0.04] p-[1px] shadow-[0_8px_32px_-12px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-300 hover:border-accent/60 hover:shadow-[0_12px_40px_-12px_color-mix(in_oklab,var(--accent)_35%,transparent)]">
+                {/* glass sheen layers */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-br from-white/15 via-white/5 to-transparent opacity-70"
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -top-1/2 left-0 right-0 h-1/2 rounded-xl bg-gradient-to-b from-white/25 to-transparent blur-2xl"
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                />
+                <div className="relative flex h-full flex-col justify-between gap-6 rounded-[11px] p-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-white/20 bg-white/10 text-[10px] font-semibold uppercase tracking-wider text-accent backdrop-blur-md">
+                      {cert.logo ? (
+                        <img src={cert.logo} alt={`${cert.issuer} logo`} className="h-full w-full object-cover" />
+                      ) : (
+                        cert.category.slice(0, 2)
+                      )}
+                    </div>
+                    <span className="rounded-full border border-white/15 bg-white/5 px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] text-muted-foreground backdrop-blur-md">
+                      {cert.category}
+                    </span>
                   </div>
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                    {cert.category}
-                  </span>
-                </div>
-                <div>
-                  <div className="font-display text-lg uppercase leading-tight tracking-tight">{cert.title}</div>
-                  <div className="mt-1 text-xs text-muted-foreground">{cert.issuer}</div>
-                  <div className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                    <span>Issued {cert.date}</span>
-                    {cert.href && (
-                      <span className="inline-flex items-center gap-1 text-foreground/80 transition-colors group-hover:text-accent">
-                        Verify <ArrowUpRight className="h-3 w-3" />
-                      </span>
-                    )}
+                  <div>
+                    <div className="font-display text-lg uppercase leading-tight tracking-tight">{cert.title}</div>
+                    <div className="mt-1 text-xs text-muted-foreground">{cert.issuer}</div>
+                    <div className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+                      <span>Issued {cert.date}</span>
+                      {cert.href && (
+                        <span className="inline-flex items-center gap-1 text-foreground/80 transition-colors group-hover:text-accent">
+                          Verify <ArrowUpRight className="h-3 w-3" />
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
