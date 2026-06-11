@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, ArrowLeft, Mail, MapPin, Phone, Send, CheckCircle2 } from "lucide-react";
 import rLogo from "@/assets/r-logo.png";
+import { SlideButton } from "@/components/ui/slide-button";
 
 export const Route = createFileRoute("/hire")({
   head: () => ({
@@ -18,6 +19,7 @@ const FORM_ENDPOINT = "https://formsubmit.co/ajax/rakeshgajre.work@gmail.com";
 function HirePage() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -145,7 +147,7 @@ function HirePage() {
                 </Link>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid gap-6 md:grid-cols-2">
                   <Field label="Your Name *" name="name" required placeholder="Jane Doe" />
                   <Field label="Email *" name="email" type="email" required placeholder="you@company.com" />
@@ -177,17 +179,23 @@ function HirePage() {
                   </p>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-accent px-7 py-4 font-display text-lg uppercase tracking-tight text-accent-foreground transition-opacity hover:opacity-90 disabled:opacity-60"
-                >
-                  {status === "sending" ? "Sending…" : (
-                    <>
-                      Submit <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </>
-                  )}
-                </button>
+                <div className="flex flex-col items-center gap-3 pt-2">
+                  <SlideButton
+                    status={
+                      status === "sending"
+                        ? "loading"
+                        : status === "error"
+                        ? "error"
+                        : "idle"
+                    }
+                    onComplete={() => {
+                      formRef.current?.requestSubmit();
+                    }}
+                  />
+                  <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                    Slide to submit
+                  </p>
+                </div>
                 <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                   Your details are sent straight to my inbox.
                 </p>
