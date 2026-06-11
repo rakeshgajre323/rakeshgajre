@@ -970,17 +970,17 @@ function Index() {
                   type="button"
                   onClick={() => setCertPreview(null)}
                   aria-label="Close certificate preview"
-                  className="rounded-full border border-border/70 bg-background p-1.5 text-foreground transition hover:border-accent hover:text-accent"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:border-accent hover:text-accent"
                 >
-                  <X className="h-3.5 w-3.5" />
+                  <X className="h-3.5 w-3.5" /> Close
                 </button>
               </div>
             </div>
             <div className="relative flex max-h-[60vh] w-full items-start justify-center overflow-auto bg-neutral-100 p-3">
               {certLoadState !== 'error' && (
                 <img
-                  key={certPreview.src}
-                  src={`https://image.thum.io/get/width/1200/noanimate/${certPreview.src}`}
+                  key={`${certPreview.src}-${certRetryKey}`}
+                  src={`https://image.thum.io/get/width/1200/noanimate/wait/4/${certPreview.src}?r=${certRetryKey}`}
                   alt={`${certPreview.title} certificate preview`}
                   className={`h-auto w-full max-w-3xl rounded-md bg-white shadow-md transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
                   loading="eager"
