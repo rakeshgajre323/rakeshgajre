@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight, ArrowLeft, Mail, MapPin, Phone, Send, CheckCircle2 } from "lucide-react";
 import rLogo from "@/assets/r-logo.png";
+import { SlideButton } from "@/components/ui/slide-button";
 
 export const Route = createFileRoute("/hire")({
   head: () => ({
