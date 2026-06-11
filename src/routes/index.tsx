@@ -815,28 +815,23 @@ function Index() {
       {certPreview && (
         <div
           role="dialog"
-          aria-modal="true"
           aria-label={`${certPreview.title} certificate preview`}
-          onClick={() => setCertPreview(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-3 backdrop-blur-md animate-fade-in sm:p-6"
+          className="fixed bottom-4 right-4 z-50 w-[min(92vw,420px)] animate-scale-in"
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative flex h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/15 bg-background shadow-2xl animate-scale-in"
-          >
-            <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-background/80 px-4 py-3 backdrop-blur-md">
+          <div className="relative flex max-h-[70vh] flex-col overflow-hidden rounded-2xl border border-white/15 bg-background shadow-2xl">
+            <div className="flex items-center justify-between gap-2 border-b border-white/10 bg-background/90 px-3 py-2">
               <div className="min-w-0">
-                <div className="truncate font-display text-sm uppercase tracking-[0.18em] text-foreground">
+                <div className="truncate font-display text-[11px] uppercase tracking-[0.18em] text-foreground">
                   {certPreview.title}
                 </div>
-                <div className="truncate text-[11px] text-muted-foreground">{certPreview.src}</div>
+                <div className="truncate text-[10px] text-muted-foreground">{certPreview.src}</div>
               </div>
-              <div className="flex shrink-0 items-center gap-2">
+              <div className="flex shrink-0 items-center gap-1.5">
                 <a
                   href={certPreview.src}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-foreground transition hover:bg-white/10"
+                  className="inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:bg-white/10"
                 >
                   Open <ArrowUpRight className="h-3 w-3" />
                 </a>
@@ -844,22 +839,22 @@ function Index() {
                   type="button"
                   onClick={() => setCertPreview(null)}
                   aria-label="Close certificate preview"
-                  className="rounded-full border border-white/20 bg-white/10 p-2 text-foreground transition hover:bg-white/20"
+                  className="rounded-full border border-white/20 bg-white/10 p-1.5 text-foreground transition hover:bg-white/20"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>
-            <div className="relative flex h-full w-full flex-1 items-start justify-center overflow-auto bg-neutral-100 p-3">
+            <div className="relative flex max-h-[55vh] w-full flex-1 items-start justify-center overflow-auto bg-neutral-100 p-2">
               {certLoadState !== 'error' && (
                 <img
                   key={certPreview.src}
-                  src={`https://image.thum.io/get/width/1400/noanimate/${certPreview.src}`}
+                  src={`https://image.thum.io/get/width/800/noanimate/${certPreview.src}`}
                   alt={`${certPreview.title} certificate preview`}
-                  className={`h-auto w-full max-w-4xl rounded-lg bg-white shadow-xl transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
+                  className={`h-auto w-full rounded-md bg-white shadow-md transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
                   loading="eager"
                   onLoad={() => {
-                    lastCertImageRef.current = `https://image.thum.io/get/width/1400/noanimate/${certPreview.src}`;
+                    lastCertImageRef.current = `https://image.thum.io/get/width/800/noanimate/${certPreview.src}`;
                     setCertLoadState('loaded');
                   }}
                   onError={() => setCertLoadState('error')}
@@ -870,44 +865,40 @@ function Index() {
                   <img
                     src={lastCertImageRef.current}
                     alt=""
-                    className="h-auto w-full max-w-4xl rounded-lg bg-white shadow-xl blur-sm brightness-75"
+                    className="h-auto w-full rounded-md bg-white shadow-md blur-sm brightness-75"
                   />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/20 backdrop-blur-[2px]">
-                    <Loader className="h-8 w-8 animate-spin text-white/90" />
-                    <p className="text-sm font-medium uppercase tracking-[0.18em] text-white/90">
-                      Loading preview…
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/20 backdrop-blur-[2px]">
+                    <Loader className="h-6 w-6 animate-spin text-white/90" />
+                    <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-white/90">
+                      Loading…
                     </p>
                   </div>
                 </div>
               )}
               {certLoadState === 'loading' && !lastCertImageRef.current && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-                  <Loader className="h-8 w-8 animate-spin text-muted-foreground" />
-                  <p className="text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                <div className="flex min-h-[180px] flex-col items-center justify-center gap-3 py-6">
+                  <Loader className="h-6 w-6 animate-spin text-muted-foreground" />
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
                     Loading preview…
                   </p>
                 </div>
               )}
               {certLoadState === 'error' && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 px-6 text-center">
-                  <p className="max-w-md text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                    Preview unavailable — the certificate page blocks screenshots.
+                <div className="flex min-h-[180px] flex-col items-center justify-center gap-3 px-4 py-6 text-center">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    Preview unavailable.
                   </p>
                   <a
                     href={certPreview.src}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs uppercase tracking-[0.18em] text-foreground transition hover:bg-white/10"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:bg-white/10"
                   >
-                    Open Official Link <ArrowUpRight className="h-3.5 w-3.5" />
+                    Open Official Link <ArrowUpRight className="h-3 w-3" />
                   </a>
                 </div>
               )}
             </div>
-            <div className="border-t border-white/10 bg-background/80 px-4 py-2 text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Live screenshot of the certificate page — tap “Open” for the official source.
-            </div>
-
           </div>
         </div>
       )}
