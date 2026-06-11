@@ -466,7 +466,6 @@ function Index() {
       <section
         id="promise"
         className="relative overflow-hidden px-5 pt-24 pb-20 md:px-10 md:pt-32 md:pb-28"
-        data-reveal
       >
         <div className="pointer-events-none absolute inset-0 -z-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,80,80,0.10),transparent_60%)]" />
         <div className="relative mx-auto max-w-5xl">
