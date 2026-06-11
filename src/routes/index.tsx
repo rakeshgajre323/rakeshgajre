@@ -987,7 +987,6 @@ function Index() {
                   className={`h-auto w-full max-w-3xl rounded-md bg-white shadow-md transition-opacity duration-500 ${certLoadState === 'loaded' ? 'opacity-100' : 'opacity-0'}`}
                   loading="eager"
                   referrerPolicy="no-referrer"
-                  crossOrigin="anonymous"
                   onLoad={(e) => {
                     lastCertImageRef.current = (e.currentTarget as HTMLImageElement).src;
                     setCertLoadState('loaded');
