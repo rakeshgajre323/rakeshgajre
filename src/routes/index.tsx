@@ -1182,15 +1182,16 @@ function Index() {
           >
             Get in touch <ArrowUpRight className="h-5 w-5" />
           </Link>
-          <a
-            href={resumeAsset.url}
-            download="RAKESH_GAJRE_RESUME.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-foreground/30 px-7 py-4 font-display text-lg uppercase tracking-tight transition-colors hover:border-foreground/60"
-          >
-            <Download className="h-5 w-5" /> Resume
-          </a>
+          <LiquidButton asChild size="xl" className="font-display text-lg uppercase tracking-tight">
+            <a
+              href={resumeAsset.url}
+              download="RAKESH_GAJRE_RESUME.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Download className="h-5 w-5" /> Resume
+            </a>
+          </LiquidButton>
         </div>
       </section>
 
