@@ -340,16 +340,17 @@ function Index() {
                   View Case Studies
                   <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" />
                 </button>
-                <a
-                  href={resumeAsset.url}
-                  download="RAKESH_GAJRE_RESUME.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-12 items-center gap-3 rounded-full border border-foreground/30 bg-white/5 px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-foreground backdrop-blur-md transition-all hover:border-foreground/60 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                >
-                  <Download className="h-4 w-4" />
-                  Download Resume
-                </a>
+                <LiquidButton asChild size="lg" className="text-xs font-semibold uppercase tracking-[0.18em]">
+                  <a
+                    href={resumeAsset.url}
+                    download="RAKESH_GAJRE_RESUME.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Download className="h-4 w-4" />
+                    Download Resume
+                  </a>
+                </LiquidButton>
               </div>
 
               <div className="mt-6 max-w-xl text-[11px] uppercase tracking-[0.18em] text-foreground/60">
