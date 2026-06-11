@@ -47,6 +47,7 @@ import courseraLogo from "@/assets/coursera-logo.png.asset.json";
 import googleLogo from "@/assets/google-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
+import AnimatedTextCycle from "@/components/ui/animated-text-cycle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -461,7 +462,35 @@ function Index() {
       </Sheet>
 
 
+      {/* ANIMATED TEXT CYCLE — promise statement */}
+      <section
+        id="promise"
+        className="relative overflow-hidden px-5 pt-24 pb-20 md:px-10 md:pt-32 md:pb-28"
+        data-reveal
+      >
+        <div className="pointer-events-none absolute inset-0 -z-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,80,80,0.10),transparent_60%)]" />
+        <div className="relative mx-auto max-w-5xl">
+          <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+            The promise
+          </span>
+          <h2 className="mt-6 font-display text-[10vw] leading-[0.95] tracking-tight text-foreground/80 sm:text-[8vw] md:text-[5.2vw]">
+            Your{" "}
+            <AnimatedTextCycle
+              words={["team", "workflow", "product", "users", "story"]}
+              interval={2600}
+              className="text-foreground"
+            />{" "}
+            deserves better tools.
+          </h2>
+          <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-foreground/70 md:text-base">
+            Interfaces that move with intent — calm, fast, and shaped by research,
+            not guesswork.
+          </p>
+        </div>
+      </section>
+
       {/* AT A GLANCE — metrics */}
+
       <section id="glance" className="px-5 pt-20 md:px-10 md:pt-28">
         <div className="mb-8 flex items-end justify-between">
           <span className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
