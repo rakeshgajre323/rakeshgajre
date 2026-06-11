@@ -1016,21 +1016,21 @@ function Index() {
                 href={cert.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onMouseEnter={() => handleCertHoverStart(cert.href!, cert.title)}
+                onMouseLeave={handleCertHoverEnd}
+                onFocus={() => handleCertHoverStart(cert.href!, cert.title)}
+                onBlur={handleCertHoverEnd}
                 onClick={(e) => {
-                  // Open in an in-page mini window instead of leaving the site
                   if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
                   e.preventDefault();
-                  const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(cert.href!);
-                  if (isImage) {
-                    setLightbox({ src: cert.href!, caption: cert.title });
-                  } else {
-                    setCertPreview({ src: cert.href!, title: cert.title });
-                  }
+                  handleCertHoverEnd();
+                  openCert(cert.href!, cert.title);
                 }}
                 className="block cursor-pointer"
               >
                 {inner}
               </a>
+
             ) : (
               <div key={cert.title}>{inner}</div>
             );
