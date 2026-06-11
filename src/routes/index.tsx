@@ -351,7 +351,6 @@ function Index() {
                     Download Resume
                   </a>
                 </LiquidButton>
-                </a>
               </div>
 
               <div className="mt-6 max-w-xl text-[11px] uppercase tracking-[0.18em] text-foreground/60">
