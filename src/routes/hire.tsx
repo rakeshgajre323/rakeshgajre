@@ -19,6 +19,7 @@ const FORM_ENDPOINT = "https://formsubmit.co/ajax/rakeshgajre.work@gmail.com";
 function HirePage() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
