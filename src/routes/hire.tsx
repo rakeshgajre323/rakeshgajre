@@ -184,8 +184,6 @@ function HirePage() {
                     status={
                       status === "sending"
                         ? "loading"
-                        : status === "success"
-                        ? "success"
                         : status === "error"
                         ? "error"
                         : "idle"
