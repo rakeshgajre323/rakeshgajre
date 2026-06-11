@@ -128,8 +128,10 @@ const scrollToId = (id: string) => {
 
 function Index() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
+  const [certPreview, setCertPreview] = useState<{ src: string; title: string } | null>(null);
   const [certFilter, setCertFilter] = useState<CertCategory>("All");
   const [menuOpen, setMenuOpen] = useState(false);
+
 
   const filteredCerts = useMemo(
     () => (certFilter === "All" ? certifications : certifications.filter((c) => c.category === certFilter)),
