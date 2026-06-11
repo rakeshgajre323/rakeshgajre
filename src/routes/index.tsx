@@ -305,14 +305,11 @@ function Index() {
               <span className="hidden xs:inline">MENU</span>
               <span className="xs:hidden">MENU</span>
             </button>
-            <div className="flex items-center gap-3">
-              <img
-                src={rLogo}
-                alt="R."
-                className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
-              />
-              <ThemeToggle />
-            </div>
+            <img
+              src={rLogo}
+              alt="R."
+              className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
+            />
             <LiquidButton size="default" type="button" onClick={() => navigate({ to: "/hire" })}>
               <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
               <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
