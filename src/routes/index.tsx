@@ -939,7 +939,17 @@ function Index() {
                 href={cert.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => openExternalLink(e, cert.href!)}
+                onClick={(e) => {
+                  // Open in an in-page mini window instead of leaving the site
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+                  e.preventDefault();
+                  const isImage = /\.(jpe?g|png|webp|gif|svg)(\?|$)/i.test(cert.href!);
+                  if (isImage) {
+                    setLightbox({ src: cert.href!, caption: cert.title });
+                  } else {
+                    setCertPreview({ src: cert.href!, title: cert.title });
+                  }
+                }}
                 className="block cursor-pointer"
               >
                 {inner}
@@ -947,6 +957,7 @@ function Index() {
             ) : (
               <div key={cert.title}>{inner}</div>
             );
+
           })}
         </div>
       </section>
