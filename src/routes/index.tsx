@@ -1246,17 +1246,22 @@ function Index() {
             </div>
             <div className="mt-4 flex items-center gap-3">
               {socials.map((s) => (
-                <a
+                <LiquidButton
                   key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  asChild
+                  size="sm"
+                  className="h-10 w-10 !p-0 rounded-full"
                   aria-label={`${s.label} profile`}
-                  onClick={(event) => openExternalLink(event, s.href)}
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/70 text-foreground transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground"
                 >
-                  <s.Icon className="h-5 w-5" strokeWidth={1.75} />
-                </a>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(event) => openExternalLink(event, s.href)}
+                  >
+                    <s.Icon className="h-5 w-5" strokeWidth={1.75} />
+                  </a>
+                </LiquidButton>
               ))}
             </div>
           </div>
