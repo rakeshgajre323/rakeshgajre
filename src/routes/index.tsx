@@ -107,19 +107,19 @@ const certifications: {
 const certCategories: CertCategory[] = ["All", "UI/UX", "Technology", "AI", "BANKING", "Marketing"];
 
 const openExternalLink = (event: MouseEvent<HTMLAnchorElement>, href: string) => {
-  event.preventDefault();
-  const externalWindow = window.open("about:blank", "_blank");
-  if (externalWindow) {
-    externalWindow.opener = null;
-    try {
-      externalWindow.location.replace(href);
-      return;
-    } catch {
-      /* fall through */
-    }
+  // Let the browser handle modifier-clicks (cmd/ctrl/shift/middle-click) natively
+  if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) {
+    return;
   }
-  window.open(href, "_blank", "noopener,noreferrer");
+  // Try to open in a new tab. If the popup is blocked (e.g. sandboxed preview iframe),
+  // fall through and let the native <a target="_blank"> navigation happen.
+  const externalWindow = window.open(href, "_blank", "noopener,noreferrer");
+  if (externalWindow) {
+    event.preventDefault();
+    externalWindow.opener = null;
+  }
 };
+
 
 const scrollToId = (id: string) => {
   const el = document.getElementById(id);
