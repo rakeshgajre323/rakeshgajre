@@ -1013,15 +1013,29 @@ function Index() {
               )}
               {certLoadState === 'error' && (
                 <div className="flex min-h-[220px] flex-col items-center justify-center gap-3 px-4 py-8 text-center">
-                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">Preview unavailable.</p>
-                  <a
-                    href={certPreview.src}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:border-accent hover:text-accent"
-                  >
-                    Open Official Link <ArrowUpRight className="h-3 w-3" />
-                  </a>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                    Preview unavailable — the screenshot couldn't be captured.
+                  </p>
+                  <div className="flex flex-wrap items-center justify-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCertLoadState('loading');
+                        setCertRetryKey((k) => k + 1);
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-accent/60 bg-accent/10 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <RefreshCw className="h-3 w-3" /> Retry
+                    </button>
+                    <a
+                      href={certPreview.src}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-foreground transition hover:border-accent hover:text-accent"
+                    >
+                      Open Official Link <ArrowUpRight className="h-3 w-3" />
+                    </a>
+                  </div>
                 </div>
               )}
             </div>
