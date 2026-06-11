@@ -16,13 +16,16 @@ export default function AnimatedTextCycle({
   className = "",
 }: AnimatedTextCycleProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [width, setWidth] = useState<string>("auto");
+  const [width, setWidth] = useState<number | "auto">("auto");
   const measureRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!measureRef.current) return;
     const el = measureRef.current.children[currentIndex] as HTMLElement | undefined;
-    if (el) setWidth(`${el.getBoundingClientRect().width}px`);
+    if (el) {
+      const w = el.getBoundingClientRect().width;
+      if (w > 0) setWidth(w);
+    }
   }, [currentIndex, words]);
 
   useEffect(() => {
@@ -34,15 +37,15 @@ export default function AnimatedTextCycle({
   }, [interval, words.length]);
 
   const variants = {
-    hidden: { y: -20, opacity: 0, filter: "blur(8px)" },
+    hidden: { y: "-60%", opacity: 0, filter: "blur(8px)" },
     visible: {
-      y: 0,
+      y: "0%",
       opacity: 1,
       filter: "blur(0px)",
-      transition: { duration: 0.4, ease: "easeOut" as const },
+      transition: { duration: 0.45, ease: "easeOut" as const },
     },
     exit: {
-      y: 20,
+      y: "60%",
       opacity: 0,
       filter: "blur(8px)",
       transition: { duration: 0.3, ease: "easeIn" as const },
@@ -50,30 +53,35 @@ export default function AnimatedTextCycle({
   };
 
   return (
-    <>
-      {/* Hidden measurement copy */}
-      <div
-        ref={measureRef}
+    <span className="relative inline-flex items-baseline align-baseline">
+      {/* Hidden measurement copy (kept in flow but invisible) */}
+      <span
+        ref={measureRef as any}
         aria-hidden="true"
-        className="pointer-events-none absolute -z-10 opacity-0"
-        style={{ visibility: "hidden" }}
+        className="invisible pointer-events-none absolute left-0 top-0 whitespace-nowrap"
       >
         {words.map((w, i) => (
-          <span key={i} className={cn("font-bold inline-block", className)}>
+          <span key={i} className={cn("inline-block font-bold", className)}>
             {w}
           </span>
         ))}
-      </div>
+      </span>
 
+      {/* Animated visible word — keeps layout width via motion animation */}
       <motion.span
-        className="relative inline-block align-baseline overflow-hidden"
+        className="relative inline-block overflow-hidden align-baseline leading-[1.05]"
         animate={{ width }}
-        transition={{ type: "spring", stiffness: 150, damping: 22 }}
+        initial={false}
+        transition={{ type: "spring", stiffness: 180, damping: 24 }}
+        style={{ minWidth: "1ch" }}
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={currentIndex}
-            className={cn("inline-block font-bold text-foreground", className)}
+            className={cn(
+              "inline-block whitespace-nowrap font-bold text-foreground",
+              className,
+            )}
             variants={variants}
             initial="hidden"
             animate="visible"
@@ -83,6 +91,6 @@ export default function AnimatedTextCycle({
           </motion.span>
         </AnimatePresence>
       </motion.span>
-    </>
+    </span>
   );
 }
