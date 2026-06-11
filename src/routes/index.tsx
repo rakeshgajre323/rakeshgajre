@@ -149,6 +149,53 @@ function Index() {
     setTimeout(() => scrollToId(id), 200);
   };
 
+  // Auto-apply scroll reveal animations to sections and their key children
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    const sections = Array.from(main.querySelectorAll("section"));
+    const targets: HTMLElement[] = [];
+
+    sections.forEach((section, sIdx) => {
+      // Skip hero (first section) — it's above the fold
+      if (sIdx === 0) return;
+      const el = section as HTMLElement;
+      if (!el.hasAttribute("data-reveal")) {
+        el.setAttribute("data-reveal", "");
+        targets.push(el);
+      }
+      // Stagger immediate children (headings, cards, rows)
+      const children = Array.from(el.querySelectorAll<HTMLElement>(
+        ":scope > div > *, :scope > div > div > *",
+      )).slice(0, 24);
+      children.forEach((child, i) => {
+        if (child.hasAttribute("data-reveal")) return;
+        child.setAttribute("data-reveal", "");
+        child.style.setProperty("--reveal-delay", `${Math.min(i * 60, 600)}ms`);
+        targets.push(child);
+      });
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+    );
+
+    targets.forEach((t) => io.observe(t));
+    return () => io.disconnect();
+  }, []);
+
+
+
   return (
     <main className="noise-overlay min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* HERO */}
