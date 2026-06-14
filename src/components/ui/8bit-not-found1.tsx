@@ -36,7 +36,6 @@ export default function NotFound1({
             src={imageSrc}
             alt="Angry Hulk"
             className="w-48 h-auto mb-6 object-contain"
-            style={{ imageRendering: "pixelated" }}
           />
         )}
 
