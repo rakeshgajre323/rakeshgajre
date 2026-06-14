@@ -53,11 +53,11 @@ export const LiquidButton = React.forwardRef<HTMLButtonElement, LiquidButtonProp
           aria-hidden
           className="pointer-events-none absolute inset-0 rounded-full"
           style={{
-            background: "color-mix(in oklab, var(--foreground) 6%, transparent)",
+            background: "rgba(255,255,255,0.04)",
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
             boxShadow:
-              "inset 0 0 0 1px color-mix(in oklab, var(--foreground) 20%, transparent), inset 0 -8px 24px color-mix(in oklab, var(--foreground) 6%, transparent), inset 0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent)",
+              "inset 0 0 0 1px rgba(255,255,255,0.18), inset 0 -8px 24px rgba(255,255,255,0.06), inset 0 8px 24px rgba(255,255,255,0.08)",
           }}
         />
         {/* Sheen */}
@@ -66,7 +66,7 @@ export const LiquidButton = React.forwardRef<HTMLButtonElement, LiquidButtonProp
           className="pointer-events-none absolute inset-0 rounded-full opacity-60"
           style={{
             background:
-              "linear-gradient(135deg, color-mix(in oklab, var(--foreground) 14%, transparent) 0%, transparent 35%, transparent 65%, color-mix(in oklab, var(--foreground) 10%, transparent) 100%)",
+              "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0) 65%, rgba(255,255,255,0.12) 100%)",
           }}
         />
         <Comp
