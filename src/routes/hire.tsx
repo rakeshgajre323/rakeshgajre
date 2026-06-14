@@ -17,7 +17,7 @@ import {
   Wallet,
   Globe2,
 } from "lucide-react";
-import rLogo from "@/assets/r-logo.png";
+import logoSeven from "@/assets/logo-seven.png.asset.json";
 import { SlideButton } from "@/components/ui/slide-button";
 
 export const Route = createFileRoute("/hire")({
