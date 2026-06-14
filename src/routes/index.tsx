@@ -49,6 +49,7 @@ import googleLogo from "@/assets/google-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import AnimatedTextCycle from "@/components/ui/animated-text-cycle";
+import DotPattern from "@/components/ui/dot-pattern-1";
 
 export const Route = createFileRoute("/")({
   head: () => ({
