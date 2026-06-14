@@ -49,6 +49,7 @@ import googleLogo from "@/assets/google-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { LiquidButton } from "@/components/ui/liquid-glass-button";
 import AnimatedTextCycle from "@/components/ui/animated-text-cycle";
+import DotPattern from "@/components/ui/dot-pattern-1";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -597,6 +598,24 @@ function Index() {
       </section>
 
       {/* FEATURED CASE STUDY — OriginCerti */}
+      {/* BELIEF QUOTE */}
+      <section id="belief" className="relative overflow-hidden px-5 py-24 md:px-10 md:py-32">
+        <div className="absolute inset-0 bg-background" />
+        <DotPattern className="opacity-60" />
+        <div className="relative z-10 mx-auto max-w-5xl">
+          <p className="mb-6 text-sm font-medium uppercase tracking-[0.22em] text-accent">
+            I believe
+          </p>
+          <blockquote className="text-[clamp(2rem,5.5vw,5rem)] font-light leading-[1.1] tracking-tight text-foreground">
+            “Design should be easy to understand{" "}
+            <span className="font-semibold">because</span>{" "}
+            simple ideas{" "}
+            <span className="font-semibold">are quicker to</span>{" "}
+            grasp…”
+          </blockquote>
+        </div>
+      </section>
+
       <section id="featured" className="px-5 py-24 md:px-10 md:py-32">
         <div className="mb-8 flex items-end justify-between">
           <div>
