@@ -17,7 +17,7 @@ import {
   Wallet,
   Globe2,
 } from "lucide-react";
-import rLogo from "@/assets/r-logo.png";
+import logoSeven from "@/assets/logo-seven.png.asset.json";
 import { SlideButton } from "@/components/ui/slide-button";
 
 export const Route = createFileRoute("/hire")({
@@ -141,8 +141,8 @@ function HirePage() {
           <ArrowLeft className="h-3.5 w-3.5" /> BACK
         </Link>
         <img
-          src={rLogo}
-          alt="R."
+          src={logoSeven.url}
+          alt="7."
           className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
         />
         <a
