@@ -34,7 +34,7 @@ import award1 from "@/assets/event-techzite.jpg.asset.json";
 import award2 from "@/assets/event-aura.jpg.asset.json";
 import award3 from "@/assets/event-freshers.png.asset.json";
 import award4 from "@/assets/event-arohana.png.asset.json";
-import rLogo from "@/assets/r-logo.png";
+import logoSeven from "@/assets/logo-seven.png.asset.json";
 import logoJnv from "@/assets/logo-jnv.png";
 import logoAurora from "@/assets/logo-aurora.png";
 import logoStudentTribe from "@/assets/logo-studenttribe.png";
