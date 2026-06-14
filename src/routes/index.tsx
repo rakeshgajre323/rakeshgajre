@@ -307,8 +307,8 @@ function Index() {
               <span className="tracking-[0.18em] text-[11px] font-medium">MENU</span>
             </LiquidButton>
             <img
-              src={rLogo}
-              alt="R."
+              src={logoSeven.url}
+              alt="7."
               className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
             />
             <LiquidButton size="default" type="button" onClick={() => navigate({ to: "/hire" })}>
@@ -1241,7 +1241,7 @@ function Index() {
       <footer className="overflow-hidden border-t border-border/70 px-5 pt-16 md:px-10">
         <div className="grid gap-12 pb-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <img src={rLogo} alt="R." className="h-10 w-10" />
+            <img src={logoSeven.url} alt="7." className="h-10 w-10" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               UI/UX designer and CS engineer designing intuitive digital experiences through
               research, interaction design, and user-centered thinking.
