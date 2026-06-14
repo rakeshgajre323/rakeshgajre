@@ -27,6 +27,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
+import { GlowCard } from "@/components/ui/spotlight-card";
 import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/event-techzite.jpg.asset.json";
