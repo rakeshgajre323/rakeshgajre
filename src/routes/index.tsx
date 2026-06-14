@@ -68,7 +68,7 @@ export const Route = createFileRoute("/")({
       },
     ],
     links: [
-      { rel: "preload", as: "image", href: portrait, fetchPriority: "high" },
+      { rel: "preload", as: "image", href: heroSeven.url, fetchPriority: "high" },
     ],
   }),
   component: Index,
