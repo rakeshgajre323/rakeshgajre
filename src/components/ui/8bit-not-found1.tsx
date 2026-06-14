@@ -11,7 +11,7 @@ interface NotFound1Props {
 }
 
 export default function NotFound1({
-  title = "You made the Ogre angry!",
+  title = "You made the Hulk angry!",
   description = "This room doesn't exist. Turn back before it's too late.",
   cta = "Return to Home Page",
   href = "/",
