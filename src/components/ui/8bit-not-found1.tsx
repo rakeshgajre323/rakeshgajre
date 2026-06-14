@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/8bit-button";
-import hulkImg from "@/assets/hulk-404.png";
+import hulkAsset from "@/assets/hulk-404.png.asset.json";
 
 interface NotFound1Props {
   className?: string;
@@ -16,7 +16,7 @@ export default function NotFound1({
   description = "This room doesn't exist. Turn back before it's too late.",
   cta = "Return to Home Page",
   href = "/",
-  imageSrc = hulkImg,
+  imageSrc = hulkAsset.url,
   className,
 }: NotFound1Props) {
   return (
