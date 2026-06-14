@@ -16,7 +16,7 @@ export default function NotFound1({
   description = "This room doesn't exist. Turn back before it's too late.",
   cta = "Return to Home Page",
   href = "/",
-  imageSrc = "https://www.8bitcn.com/_next/image?url=%2Fimages%2F8bit-ogre.png&w=256&q=75&dpl=dpl_B9Q5u7DD6qZpoCz3VRwuR19npVHK",
+  imageSrc = hulkImg,
   className,
 }: NotFound1Props) {
   return (
