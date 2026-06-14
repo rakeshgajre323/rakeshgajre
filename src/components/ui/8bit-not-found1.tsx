@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/8bit-button";
+import hulkImg from "@/assets/hulk-404.png";
 
 interface NotFound1Props {
   className?: string;
@@ -11,11 +12,11 @@ interface NotFound1Props {
 }
 
 export default function NotFound1({
-  title = "You made the Ogre angry!",
+  title = "You made the Hulk angry!",
   description = "This room doesn't exist. Turn back before it's too late.",
   cta = "Return to Home Page",
   href = "/",
-  imageSrc = "https://www.8bitcn.com/_next/image?url=%2Fimages%2F8bit-ogre.png&w=256&q=75&dpl=dpl_B9Q5u7DD6qZpoCz3VRwuR19npVHK",
+  imageSrc = hulkImg,
   className,
 }: NotFound1Props) {
   return (
@@ -33,9 +34,8 @@ export default function NotFound1({
         {imageSrc && (
           <img
             src={imageSrc}
-            alt="Angry Ogre"
+            alt="Angry Hulk"
             className="w-48 h-auto mb-6 object-contain"
-            style={{ imageRendering: "pixelated" }}
           />
         )}
 
