@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/8bit-button";
+import hulkImg from "@/assets/hulk-404.png";
 
 interface NotFound1Props {
   className?: string;
