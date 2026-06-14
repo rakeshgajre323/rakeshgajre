@@ -545,7 +545,7 @@ function Index() {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-border/70 bg-border/70 md:grid-cols-3">
+        <div className="mt-16 grid gap-6 md:grid-cols-3">
           {[
             {
               icon: Search,
@@ -563,13 +563,20 @@ function Index() {
               copy: "Test, iterate, and improve continuously based on real user feedback and measurable outcomes.",
             },
           ].map(({ icon: Icon, title, copy }) => (
-            <div key={title} className="group bg-background p-8 transition-colors duration-500 hover:bg-surface md:p-10">
-              <Icon className="h-7 w-7 text-accent" strokeWidth={1.5} />
-              <h3 className="mt-6 font-display text-2xl uppercase tracking-tight md:text-3xl">
-                {title}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy}</p>
-            </div>
+            <GlowCard
+              key={title}
+              glowColor="red"
+              customSize
+              className="w-full h-auto p-8 md:p-10"
+            >
+              <div className="relative z-10">
+                <Icon className="h-7 w-7 text-accent" strokeWidth={1.5} />
+                <h3 className="mt-6 font-display text-2xl uppercase tracking-tight md:text-3xl">
+                  {title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{copy}</p>
+              </div>
+            </GlowCard>
           ))}
         </div>
       </section>
