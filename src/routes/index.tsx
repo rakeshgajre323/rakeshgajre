@@ -278,11 +278,11 @@ function Index() {
       <section className="relative overflow-hidden">
         <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl">
           <img
-            src={portrait}
-            alt="Rakesh Gajre portrait"
-            className="h-[88vh] w-full object-cover object-right md:h-[94vh] lg:h-[96vh]"
-            width={1206}
-            height={877}
+            src={heroSeven.url}
+            alt="Stylized 7"
+            className="h-[88vh] w-full object-cover object-center md:h-[94vh] lg:h-[96vh]"
+            width={768}
+            height={1344}
             fetchPriority="high"
             decoding="async"
             data-parallax="0.18"
