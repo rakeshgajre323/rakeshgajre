@@ -569,7 +569,7 @@ function Index() {
               key={title}
               glowColor="red"
               customSize
-              className="w-full h-auto p-8 md:p-10"
+              className="w-full h-auto p-8 md:p-10 [--border-spot-opacity:0] [--border-light-opacity:0] [--bg-spot-opacity:0] hover:[--border-spot-opacity:1] hover:[--border-light-opacity:1] hover:[--bg-spot-opacity:0.1]"
             >
               <div className="relative z-10">
                 <Icon className="h-7 w-7 text-accent" strokeWidth={1.5} />
