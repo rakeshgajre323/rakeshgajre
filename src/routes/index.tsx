@@ -28,7 +28,8 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { GlowCard } from "@/components/ui/spotlight-card";
-import portrait from "@/assets/rakesh-portrait.jpg";
+import portraitAsset from "@/assets/rakesh-portrait.png.asset.json";
+const portrait = portraitAsset.url;
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/event-techzite.jpg.asset.json";
 import award2 from "@/assets/event-aura.jpg.asset.json";
