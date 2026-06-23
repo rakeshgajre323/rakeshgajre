@@ -277,120 +277,119 @@ function Index() {
     <main className="noise-overlay min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl border border-border/10 bg-gradient-to-br from-background via-background to-muted/10">
-          <div className="flex flex-col lg:grid lg:min-h-[85vh] lg:grid-cols-[1fr_45%]">
-            {/* Image — top on mobile, right on desktop */}
-            <div className="relative h-[42vh] min-h-[260px] sm:h-[48vh] md:h-[52vh] lg:order-2 lg:h-auto lg:min-h-0">
-              <img
-                src={portrait}
-                alt="Rakesh Gajre portrait"
-                className="h-full w-full object-cover object-center lg:object-[55%_center]"
-                width={1206}
-                height={877}
-                fetchPriority="high"
-                decoding="async"
-              />
-              <div className="absolute inset-y-0 left-0 hidden w-16 bg-gradient-to-r from-background/60 to-transparent lg:block" aria-hidden="true" />
-            </div>
+        <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl bg-gradient-to-br from-background via-background to-muted/20">
+          <img
+            src={portrait}
+            alt="Rakesh Gajre portrait"
+            className="h-[88vh] w-full object-cover object-[center_35%] sm:object-[55%_center] md:h-[94vh] md:object-[60%_center] lg:h-[96vh] lg:object-[65%_center]"
+            width={1206}
+            height={877}
+            fetchPriority="high"
+            decoding="async"
+            data-parallax="0.18"
+          />
 
-            {/* Text content — below image on mobile, left on desktop */}
-            <div className="flex flex-col justify-between px-4 py-4 sm:px-5 sm:py-5 md:px-8 lg:order-1 lg:px-10 lg:py-6">
-              {/* Top bar */}
-              <div className="flex items-center justify-between gap-2 text-[11px] font-medium tracking-[0.18em] text-foreground/90">
-                <LiquidButton
-                  size="default"
-                  type="button"
-                  onClick={() => setMenuOpen(true)}
-                  aria-label="Open menu"
-                >
-                  <MenuIcon className="h-4 w-4" strokeWidth={2} />
-                  <span className="tracking-[0.18em] text-[11px] font-medium">MENU</span>
-                </LiquidButton>
-                <img
-                  src={logoSeven.url}
-                  alt="7."
-                  className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
-                />
-                <LiquidButton size="default" type="button" onClick={() => navigate({ to: "/hire" })}>
-                  <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
-                  <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
-                </LiquidButton>
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/40"
+            data-parallax="0.08"
+            aria-hidden="true"
+          />
+
+
+          {/* Top bar */}
+          <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between gap-2 px-4 py-4 text-[11px] font-medium tracking-[0.18em] text-foreground/90 sm:px-5 sm:py-5 md:px-8">
+            <LiquidButton
+              size="default"
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+            >
+              <MenuIcon className="h-4 w-4" strokeWidth={2} />
+              <span className="tracking-[0.18em] text-[11px] font-medium">MENU</span>
+            </LiquidButton>
+            <img
+              src={logoSeven.url}
+              alt="7."
+              className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
+            />
+            <LiquidButton size="default" type="button" onClick={() => navigate({ to: "/hire" })}>
+              <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
+              <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
+            </LiquidButton>
+          </div>
+
+          {/* Headline */}
+          <div className="absolute inset-x-0 bottom-0 px-5 pb-28 sm:pb-32 md:px-10 md:pb-32">
+            <div className="max-w-4xl">
+              <div className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-accent backdrop-blur-md">
+                <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent" />
+                <span className="truncate">Currently — UI/UX Design Intern at Student Tribe</span>
               </div>
+              <h1 className="font-display text-[11vw] leading-[0.92] tracking-tight text-foreground sm:text-[10vw] md:text-[5.5vw]">
+                UI/UX DESIGNER<br />
+                <span className="text-foreground/85">&amp; CS ENGINEER</span>
+              </h1>
+              <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-foreground/80 md:text-base">
+                Designing intuitive digital experiences through user research, interaction
+                design, and user-centered thinking.
+              </p>
 
-              {/* Headline */}
-              <div className="py-8 sm:py-10 md:py-14 lg:py-16">
-                <div className="max-w-4xl">
-                  <div className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-3 py-1.5 text-[10px] font-medium uppercase tracking-[0.22em] text-accent backdrop-blur-md">
-                    <span className="h-1.5 w-1.5 shrink-0 animate-pulse rounded-full bg-accent" />
-                    <span className="truncate">Currently — UI/UX Design Intern at Student Tribe</span>
-                  </div>
-                  <h1 className="font-display text-[11vw] leading-[0.92] tracking-tight text-foreground sm:text-[10vw] md:text-[5.5vw]">
-                    UI/UX DESIGNER<br />
-                    <span className="text-foreground/85">&amp; CS ENGINEER</span>
-                  </h1>
-                  <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-foreground/80 md:text-base">
-                    Designing intuitive digital experiences through user research, interaction
-                    design, and user-centered thinking.
-                  </p>
-
-                  <div className="mt-7 flex flex-wrap items-center gap-3">
-                    <button
-                      onClick={() => scrollToId("featured")}
-                      className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground transition-all hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    >
-                      View Case Studies
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" />
-                    </button>
-                    <LiquidButton asChild size="lg" className="text-xs font-semibold uppercase tracking-[0.18em]">
-                      <a
-                        href={resumeAsset.url}
-                        download="RAKESH_GAJRE_RESUME.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Download className="h-4 w-4" />
-                        Download Resume
-                      </a>
-                    </LiquidButton>
-                  </div>
-
-                  <div className="mt-6 max-w-xl text-[11px] uppercase tracking-[0.18em] text-foreground/60">
-                    Open to — UI/UX internships · Junior product designer · Junior UI/UX designer
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom strip */}
-              <div className="flex items-center justify-between gap-3 border-t border-foreground/15 pt-3 text-[10px] font-medium tracking-[0.18em] text-foreground/85 backdrop-blur-sm sm:pt-4 sm:text-[11px] sm:tracking-[0.2em] md:px-0">
-                <span className="min-w-0 truncate">RAKESH GAJRE — PORTFOLIO 2026</span>
-                <div className="hidden items-center gap-4 md:flex">
-                  {socials.map((s, i) => (
-                    <span key={s.label} className="flex items-center gap-4">
-                      {i > 0 && <span className="text-foreground/30">/</span>}
-                      <a
-                        href={s.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={`${s.label} profile`}
-                        onClick={(event) => openExternalLink(event, s.href)}
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
-                      >
-                        <s.Icon className="h-4 w-4" strokeWidth={1.75} />
-                      </a>
-                    </span>
-                  ))}
-                </div>
+              <div className="mt-7 flex flex-wrap items-center gap-3">
                 <button
-                  onClick={() => scrollToId("glance")}
-                  aria-label="Scroll for more"
-                  className="inline-flex min-h-10 shrink-0 cursor-pointer items-center gap-2 rounded-full px-2 py-2 transition-colors duration-300 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+                  onClick={() => scrollToId("featured")}
+                  className="group/cta inline-flex min-h-12 items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground transition-all hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
-                  <span className="hidden xs:inline">SCROLL FOR MORE</span>
-                  <span className="xs:hidden">SCROLL</span>
-                  <ChevronDown className="h-3.5 w-3.5 scroll-bounce" />
+                  View Case Studies
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover/cta:translate-x-1" />
                 </button>
+                <LiquidButton asChild size="lg" className="text-xs font-semibold uppercase tracking-[0.18em]">
+                  <a
+                    href={resumeAsset.url}
+                    download="RAKESH_GAJRE_RESUME.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Download className="h-4 w-4" />
+                    Download Resume
+                  </a>
+                </LiquidButton>
+              </div>
+
+              <div className="mt-6 max-w-xl text-[11px] uppercase tracking-[0.18em] text-foreground/60">
+                Open to — UI/UX internships · Junior product designer · Junior UI/UX designer
               </div>
             </div>
+          </div>
+
+          {/* Bottom strip */}
+          <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 border-t border-foreground/15 bg-background/40 px-4 py-3 text-[10px] font-medium tracking-[0.18em] text-foreground/85 backdrop-blur sm:px-5 sm:py-4 sm:text-[11px] sm:tracking-[0.2em] md:px-8">
+            <span className="min-w-0 truncate">RAKESH GAJRE — PORTFOLIO 2026</span>
+            <div className="hidden items-center gap-4 md:flex">
+              {socials.map((s, i) => (
+                <span key={s.label} className="flex items-center gap-4">
+                  {i > 0 && <span className="text-foreground/30">/</span>}
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.label} profile`}
+                    onClick={(event) => openExternalLink(event, s.href)}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                  >
+                    <s.Icon className="h-4 w-4" strokeWidth={1.75} />
+                  </a>
+                </span>
+              ))}
+            </div>
+            <button
+              onClick={() => scrollToId("glance")}
+              aria-label="Scroll for more"
+              className="inline-flex min-h-10 shrink-0 cursor-pointer items-center gap-2 rounded-full px-2 py-2 transition-colors duration-300 hover:text-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+            >
+              <span className="hidden xs:inline">SCROLL FOR MORE</span>
+              <span className="xs:hidden">SCROLL</span>
+              <ChevronDown className="h-3.5 w-3.5 scroll-bounce" />
+            </button>
           </div>
         </div>
       </section>
