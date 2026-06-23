@@ -28,8 +28,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { GlowCard } from "@/components/ui/spotlight-card";
-import portraitAsset from "@/assets/rakesh-portrait.png.asset.json";
-const portrait = portraitAsset.url;
+import portrait from "@/assets/rakesh-portrait.jpg";
 import work1 from "@/assets/work-origincerti.jpg";
 import award1 from "@/assets/event-techzite.jpg.asset.json";
 import award2 from "@/assets/event-aura.jpg.asset.json";
@@ -277,11 +276,11 @@ function Index() {
     <main className="noise-overlay min-h-screen overflow-x-hidden bg-background text-foreground">
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl bg-gradient-to-br from-background via-background to-muted/20">
+        <div className="relative mx-3 mt-3 overflow-hidden rounded-2xl">
           <img
             src={portrait}
             alt="Rakesh Gajre portrait"
-            className="h-[88vh] w-full object-cover object-[center_35%] sm:object-[55%_center] md:h-[94vh] md:object-[60%_center] lg:h-[96vh] lg:object-[65%_center]"
+            className="h-[88vh] w-full object-cover object-right md:h-[94vh] lg:h-[96vh]"
             width={1206}
             height={877}
             fetchPriority="high"
