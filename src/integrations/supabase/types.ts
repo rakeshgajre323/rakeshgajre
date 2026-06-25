@@ -14,7 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      page_views: {
+        Row: {
+          id: string
+          path: string
+          referrer: string | null
+          session_id: string
+          time_on_page_seconds: number | null
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          path: string
+          referrer?: string | null
+          session_id: string
+          time_on_page_seconds?: number | null
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          path?: string
+          referrer?: string | null
+          session_id?: string
+          time_on_page_seconds?: number | null
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "page_views_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "visitor_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      visitor_sessions: {
+        Row: {
+          browser: string | null
+          city: string | null
+          country: string | null
+          device_type: string | null
+          first_seen: string
+          id: string
+          last_seen: string
+          os: string | null
+          referrer_source: string | null
+          referrer_url: string | null
+          region: string | null
+          session_token: string
+          user_avatar: string | null
+          user_email: string | null
+          user_id: string | null
+          user_name: string | null
+        }
+        Insert: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          device_type?: string | null
+          first_seen?: string
+          id?: string
+          last_seen?: string
+          os?: string | null
+          referrer_source?: string | null
+          referrer_url?: string | null
+          region?: string | null
+          session_token: string
+          user_avatar?: string | null
+          user_email?: string | null
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Update: {
+          browser?: string | null
+          city?: string | null
+          country?: string | null
+          device_type?: string | null
+          first_seen?: string
+          id?: string
+          last_seen?: string
+          os?: string | null
+          referrer_source?: string | null
+          referrer_url?: string | null
+          region?: string | null
+          session_token?: string
+          user_avatar?: string | null
+          user_email?: string | null
+          user_id?: string | null
+          user_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
