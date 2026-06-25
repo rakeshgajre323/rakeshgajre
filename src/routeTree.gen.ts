@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HireRouteImport } from './routes/hire'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiPublicTrackSessionRouteImport } from './routes/api/public/track/session'
 import { Route as ApiPublicTrackPageviewRouteImport } from './routes/api/public/track/pageview'
 
@@ -22,6 +23,11 @@ const HireRoute = HireRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicTrackSessionRoute = ApiPublicTrackSessionRouteImport.update({
@@ -38,12 +44,14 @@ const ApiPublicTrackPageviewRoute = ApiPublicTrackPageviewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/hire': typeof HireRoute
+  '/admin/login': typeof AdminLoginRoute
   '/api/public/track/pageview': typeof ApiPublicTrackPageviewRoute
   '/api/public/track/session': typeof ApiPublicTrackSessionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/hire': typeof HireRoute
+  '/admin/login': typeof AdminLoginRoute
   '/api/public/track/pageview': typeof ApiPublicTrackPageviewRoute
   '/api/public/track/session': typeof ApiPublicTrackSessionRoute
 }
@@ -51,6 +59,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/hire': typeof HireRoute
+  '/admin/login': typeof AdminLoginRoute
   '/api/public/track/pageview': typeof ApiPublicTrackPageviewRoute
   '/api/public/track/session': typeof ApiPublicTrackSessionRoute
 }
@@ -59,14 +68,21 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/hire'
+    | '/admin/login'
     | '/api/public/track/pageview'
     | '/api/public/track/session'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/hire' | '/api/public/track/pageview' | '/api/public/track/session'
+  to:
+    | '/'
+    | '/hire'
+    | '/admin/login'
+    | '/api/public/track/pageview'
+    | '/api/public/track/session'
   id:
     | '__root__'
     | '/'
     | '/hire'
+    | '/admin/login'
     | '/api/public/track/pageview'
     | '/api/public/track/session'
   fileRoutesById: FileRoutesById
@@ -74,6 +90,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HireRoute: typeof HireRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   ApiPublicTrackPageviewRoute: typeof ApiPublicTrackPageviewRoute
   ApiPublicTrackSessionRoute: typeof ApiPublicTrackSessionRoute
 }
@@ -92,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/track/session': {
@@ -114,6 +138,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HireRoute: HireRoute,
+  AdminLoginRoute: AdminLoginRoute,
   ApiPublicTrackPageviewRoute: ApiPublicTrackPageviewRoute,
   ApiPublicTrackSessionRoute: ApiPublicTrackSessionRoute,
 }
