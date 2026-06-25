@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import NotFound1 from "@/components/ui/8bit-not-found1";
+import { VisitorTracker, ConsentBanner } from "@/components/VisitorTracker";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -150,6 +151,8 @@ function RootComponent() {
     };
   }, []);
 
+  const isAdminRoute = pathname.startsWith("/admin");
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* key on pathname so each route mount replays the enter animation */}
@@ -157,6 +160,12 @@ function RootComponent() {
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </div>
+      {!isAdminRoute && (
+        <>
+          <VisitorTracker />
+          <ConsentBanner />
+        </>
+      )}
     </QueryClientProvider>
   );
 }

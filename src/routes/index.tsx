@@ -306,11 +306,17 @@ function Index() {
               <MenuIcon className="h-4 w-4" strokeWidth={2} />
               <span className="tracking-[0.18em] text-[11px] font-medium">MENU</span>
             </LiquidButton>
-            <img
-              src={logoSeven.url}
-              alt="7."
-              className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)]"
-            />
+            <Link
+              to="/admin/login"
+              aria-label="Admin login"
+              className="rounded-md outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+            >
+              <img
+                src={logoSeven.url}
+                alt="7."
+                className="h-9 w-9 md:h-11 md:w-11 drop-shadow-[0_0_12px_rgba(255,80,80,0.35)] transition-transform hover:scale-105"
+              />
+            </Link>
             <LiquidButton size="default" type="button" onClick={() => navigate({ to: "/hire" })}>
               <span className="hidden xs:inline tracking-[0.18em] text-[11px] font-medium">CONTACT&nbsp;ME</span>
               <span className="xs:hidden tracking-[0.18em] text-[11px] font-medium">CONTACT</span>
@@ -1241,7 +1247,9 @@ function Index() {
       <footer className="overflow-hidden border-t border-border/70 px-5 pt-16 md:px-10">
         <div className="grid gap-12 pb-12 md:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <img src={logoSeven.url} alt="7." className="h-10 w-10" />
+            <Link to="/admin/login" aria-label="Admin login">
+              <img src={logoSeven.url} alt="7." className="h-10 w-10 transition-transform hover:scale-105" />
+            </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               UI/UX designer and CS engineer designing intuitive digital experiences through
               research, interaction design, and user-centered thinking.
