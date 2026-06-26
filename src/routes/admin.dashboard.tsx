@@ -239,7 +239,7 @@ function DashboardPage() {
                       {new Date(v.last_seen).toLocaleString()}
                     </td>
                     <td className="py-2 pr-3">
-                      {[v.city, v.country].filter(Boolean).join(", ") || "—"}
+                      {[v.city, v.region, v.country].filter(Boolean).join(", ") || "—"}
                     </td>
                     <td className="py-2 pr-3">{v.device_type || "—"}</td>
                     <td className="py-2 pr-3 text-white/70">
