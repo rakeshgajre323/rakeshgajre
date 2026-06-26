@@ -48,12 +48,16 @@ function DashboardPage() {
   const [data, setData] = useState<Data | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const load = async () => {
     setRefreshing(true);
+    setError(null);
     try {
       const d = await getDashboardAnalytics();
       setData(d);
+    } catch {
+      setError("Unable to load analytics. Please log in again.");
     } finally {
       setRefreshing(false);
       setLoading(false);
@@ -112,6 +116,12 @@ function DashboardPage() {
       </header>
 
       <main className="mx-auto max-w-7xl space-y-6 px-6 py-8">
+        {error && (
+          <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+            {error}
+          </div>
+        )}
+
         {/* KPIs */}
         <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
           <KPI icon={<Users className="h-4 w-4" />} label="Total Visitors" value={k.totalVisitors.toLocaleString()} />
@@ -218,6 +228,8 @@ function DashboardPage() {
                   <th className="py-2 pr-3">Device</th>
                   <th className="py-2 pr-3">OS / Browser</th>
                   <th className="py-2 pr-3">Source</th>
+                  <th className="py-2 pr-3">Pages</th>
+                  <th className="py-2 pr-3">Time spent</th>
                 </tr>
               </thead>
               <tbody>
@@ -227,13 +239,18 @@ function DashboardPage() {
                       {new Date(v.last_seen).toLocaleString()}
                     </td>
                     <td className="py-2 pr-3">
-                      {[v.city, v.country].filter(Boolean).join(", ") || "—"}
+                      {[v.city, v.region, v.country].filter(Boolean).join(", ") || "—"}
                     </td>
                     <td className="py-2 pr-3">{v.device_type || "—"}</td>
                     <td className="py-2 pr-3 text-white/70">
                       {[v.os, v.browser].filter(Boolean).join(" / ") || "—"}
                     </td>
-                    <td className="py-2 pr-3">{v.referrer_source || "—"}</td>
+                    <td className="py-2 pr-3">
+                      <div>{v.referrer_source || "—"}</div>
+                      {v.referrer_url ? <div className="max-w-48 truncate text-xs text-white/40">{v.referrer_url}</div> : null}
+                    </td>
+                    <td className="py-2 pr-3">{v.pages_viewed}</td>
+                    <td className="py-2 pr-3 text-white/70">{formatDuration(v.duration_seconds)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -243,6 +260,12 @@ function DashboardPage() {
       </main>
     </div>
   );
+}
+
+function formatDuration(totalSeconds: number) {
+  const mins = Math.floor(totalSeconds / 60);
+  const secs = Math.max(0, totalSeconds % 60);
+  return mins ? `${mins}m ${secs}s` : `${secs}s`;
 }
 
 function KPI({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
