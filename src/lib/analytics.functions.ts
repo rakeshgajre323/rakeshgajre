@@ -85,13 +85,21 @@ export const getDashboardAnalytics = createServerFn({ method: "GET" }).handler(a
 
   const recentVisits = ss.slice(0, 25).map((s) => ({
     id: s.id,
+    first_seen: s.first_seen,
     last_seen: s.last_seen,
     country: s.country,
+    region: s.region,
     city: s.city,
     device_type: s.device_type,
     os: s.os,
     browser: s.browser,
     referrer_source: s.referrer_source,
+    referrer_url: s.referrer_url,
+    pages_viewed: pvBySession.get(s.id) ?? 0,
+    duration_seconds: Math.max(
+      0,
+      Math.round((new Date(s.last_seen).getTime() - new Date(s.first_seen).getTime()) / 1000),
+    ),
   }));
 
   const identified = ss

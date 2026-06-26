@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, redirect, isRedirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { Lock, User as UserIcon, Loader2 } from "lucide-react";
 import { adminLogin, adminCheck } from "@/lib/admin-auth.functions";
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/admin/login")({
       const res = await adminCheck();
       if (res.isAdmin) throw redirect({ to: "/admin/dashboard" });
     } catch (e) {
-      if (e && typeof e === "object" && "to" in e) throw e;
+      if (isRedirect(e)) throw e;
     }
   },
   component: AdminLoginPage,
@@ -45,14 +45,6 @@ function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-black px-4">
       <div className="absolute inset-0 -z-0 bg-[radial-gradient(circle_at_30%_20%,rgba(220,38,38,0.15),transparent_50%),radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.10),transparent_50%)]" />
       <div className="relative z-10 w-full max-w-sm rounded-2xl border border-white/10 bg-white/[0.03] p-8 backdrop-blur-xl shadow-2xl">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/15 bg-white/[0.04]">
-            <Lock className="h-5 w-5 text-white/80" />
-          </div>
-          <h1 className="text-xl font-semibold tracking-tight text-white">Admin Access</h1>
-          <p className="mt-1 text-xs text-white/50">Authorized personnel only</p>
-        </div>
-
         <form onSubmit={onSubmit} className="space-y-4">
           <label className="block">
             <span className="mb-1.5 block text-xs uppercase tracking-wider text-white/60">
