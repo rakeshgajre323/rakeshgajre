@@ -49,6 +49,8 @@ function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [live, setLive] = useState(true);
 
   const load = async () => {
     setRefreshing(true);
@@ -56,6 +58,7 @@ function DashboardPage() {
     try {
       const d = await getDashboardAnalytics();
       setData(d);
+      setLastUpdated(new Date());
     } catch {
       setError("Unable to load analytics. Please log in again.");
     } finally {
@@ -66,9 +69,21 @@ function DashboardPage() {
 
   useEffect(() => {
     void load();
-    const t = setInterval(load, 30000);
-    return () => clearInterval(t);
-  }, []);
+    if (!live) return;
+    // Near real-time polling every 5s while tab is visible
+    const tick = () => {
+      if (document.visibilityState === "visible") void load();
+    };
+    const t = setInterval(tick, 5000);
+    const onVis = () => {
+      if (document.visibilityState === "visible") void load();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      clearInterval(t);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [live]);
 
   const onLogout = async () => {
     await adminLogout();
@@ -94,9 +109,21 @@ function DashboardPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div>
             <h1 className="text-lg font-semibold tracking-tight">Analytics Dashboard</h1>
-            <p className="text-xs text-white/50">Live visitor data — updates every 30s</p>
+            <p className="flex items-center gap-2 text-xs text-white/50">
+              <span className={`inline-block h-1.5 w-1.5 rounded-full ${live ? "bg-emerald-400 animate-pulse" : "bg-white/30"}`} />
+              {live ? "Live" : "Paused"} · updates every 5s
+              {lastUpdated && (
+                <span className="text-white/40">· last {lastUpdated.toLocaleTimeString()}</span>
+              )}
+            </p>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setLive((v) => !v)}
+              className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/5"
+            >
+              {live ? "Pause" : "Resume"}
+            </button>
             <button
               onClick={load}
               className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/5"
