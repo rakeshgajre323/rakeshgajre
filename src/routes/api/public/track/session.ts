@@ -9,11 +9,17 @@ export const Route = createFileRoute("/api/public/track/session")({
           const body = (await request.json()) as {
             session_token?: string;
             referrer?: string | null;
-            user?: { id?: string; email?: string; name?: string; avatar?: string } | null;
           };
-          if (!body.session_token || body.session_token.length > 100) {
+          if (
+            !body.session_token ||
+            typeof body.session_token !== "string" ||
+            body.session_token.length < 8 ||
+            body.session_token.length > 100
+          ) {
             return new Response("Bad request", { status: 400 });
           }
+          const referrer =
+            typeof body.referrer === "string" ? body.referrer.slice(0, 500) : null;
 
           const { parseUserAgent, classifyReferrer, lookupGeo } = await import(
             "@/lib/analytics-helpers.server"
@@ -22,13 +28,15 @@ export const Route = createFileRoute("/api/public/track/session")({
 
           const ua = request.headers.get("user-agent") ?? "";
           const { device_type, os, browser } = parseUserAgent(ua);
-          const { source, url } = classifyReferrer(body.referrer ?? null);
+          const { source, url } = classifyReferrer(referrer);
           const ip = getRequestIP({ xForwardedFor: true }) ?? null;
           const geo = await lookupGeo(ip);
 
           const now = new Date().toISOString();
 
-          // Upsert by session_token
+          // Upsert by session_token. User identity is intentionally NOT accepted
+          // from the public endpoint — untrusted callers must not be able to
+          // impersonate other visitors in the admin analytics dashboard.
           const { data: existing } = await supabaseAdmin
             .from("visitor_sessions")
             .select("id")
@@ -38,13 +46,7 @@ export const Route = createFileRoute("/api/public/track/session")({
           if (existing) {
             await supabaseAdmin
               .from("visitor_sessions")
-              .update({
-                last_seen: now,
-                user_id: body.user?.id ?? null,
-                user_email: body.user?.email ?? null,
-                user_name: body.user?.name ?? null,
-                user_avatar: body.user?.avatar ?? null,
-              })
+              .update({ last_seen: now })
               .eq("id", existing.id);
             return Response.json({ session_id: existing.id });
           }
@@ -63,10 +65,6 @@ export const Route = createFileRoute("/api/public/track/session")({
               browser,
               referrer_source: source,
               referrer_url: url,
-              user_id: body.user?.id ?? null,
-              user_email: body.user?.email ?? null,
-              user_name: body.user?.name ?? null,
-              user_avatar: body.user?.avatar ?? null,
             })
             .select("id")
             .single();
