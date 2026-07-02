@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   LineChart,
   Line,
@@ -39,7 +39,8 @@ export const Route = createFileRoute("/admin/dashboard")({
   component: DashboardPage,
 });
 
-type Data = Awaited<ReturnType<typeof getDashboardAnalytics>>;
+type Response = Awaited<ReturnType<typeof getDashboardAnalytics>>;
+type Data = Extract<Response, { unchanged: false }>;
 
 const COLORS = ["#ef4444", "#f59e0b", "#10b981", "#3b82f6", "#a855f7", "#ec4899", "#14b8a6", "#f97316"];
 
@@ -51,14 +52,17 @@ function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [live, setLive] = useState(true);
+  const fingerprintRef = useRef<string | undefined>(undefined);
 
   const load = async () => {
     setRefreshing(true);
     setError(null);
     try {
-      const d = await getDashboardAnalytics();
-      setData(d);
+      const d = await getDashboardAnalytics({ data: { fingerprint: fingerprintRef.current } });
       setLastUpdated(new Date());
+      fingerprintRef.current = d.fingerprint;
+      if (d.unchanged) return; // no payload, keep existing charts/tables
+      setData(d);
     } catch {
       setError("Unable to load analytics. Please log in again.");
     } finally {
