@@ -109,9 +109,21 @@ function DashboardPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div>
             <h1 className="text-lg font-semibold tracking-tight">Analytics Dashboard</h1>
-            <p className="text-xs text-white/50">Live visitor data — updates every 30s</p>
+            <p className="flex items-center gap-2 text-xs text-white/50">
+              <span className={`inline-block h-1.5 w-1.5 rounded-full ${live ? "bg-emerald-400 animate-pulse" : "bg-white/30"}`} />
+              {live ? "Live" : "Paused"} · updates every 5s
+              {lastUpdated && (
+                <span className="text-white/40">· last {lastUpdated.toLocaleTimeString()}</span>
+              )}
+            </p>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setLive((v) => !v)}
+              className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/5"
+            >
+              {live ? "Pause" : "Resume"}
+            </button>
             <button
               onClick={load}
               className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/5"
