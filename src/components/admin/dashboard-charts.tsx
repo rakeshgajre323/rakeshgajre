@@ -102,33 +102,38 @@ export const ChartPie = memo(function ChartPie({
   );
 });
 
+// Lightweight CSS bar list — renders instantly, no SVG layout pass.
 export const ChartBar = memo(function ChartBar({
   data,
-  horizontal,
 }: {
   data: { name: string; value: number }[];
   horizontal?: boolean;
 }) {
   if (!data.length) return <Empty />;
+  const max = Math.max(...data.map((d) => d.value), 1);
+  const total = data.reduce((a, b) => a + b.value, 0) || 1;
   return (
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} layout={horizontal ? "vertical" : "horizontal"}>
-          {horizontal ? (
-            <>
-              <XAxis type="number" tick={AXIS_TICK} allowDecimals={false} />
-              <YAxis type="category" dataKey="name" tick={AXIS_TICK} width={100} />
-            </>
-          ) : (
-            <>
-              <XAxis dataKey="name" tick={AXIS_TICK} />
-              <YAxis tick={AXIS_TICK} allowDecimals={false} />
-            </>
-          )}
-          <Tooltip contentStyle={TOOLTIP_STYLE} />
-          <Bar dataKey="value" fill="#ef4444" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="space-y-3 py-1">
+      {data.map((d, i) => (
+        <div key={d.name}>
+          <div className="mb-1 flex items-baseline justify-between text-xs">
+            <span className="text-white/70">{d.name}</span>
+            <span className="tabular-nums text-white/50">
+              {d.value} · {((d.value / total) * 100).toFixed(0)}%
+            </span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-white/5">
+            <div
+              className="h-full rounded-full transition-[width] duration-500"
+              style={{
+                width: `${(d.value / max) * 100}%`,
+                backgroundColor: COLORS[i % COLORS.length],
+              }}
+            />
+          </div>
+        </div>
+      ))}
     </div>
   );
 });
+
