@@ -1,21 +1,5 @@
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import {
-  LineChart,
-  Line,
-  AreaChart,
-  Area,
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { Suspense, lazy, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Users,
   Activity,
@@ -30,6 +14,18 @@ import {
 import { adminCheck, adminLogout } from "@/lib/admin-auth.functions";
 import { getDashboardAnalytics } from "@/lib/analytics.functions";
 
+const Charts = {
+  Area: lazy(() =>
+    import("@/components/admin/dashboard-charts").then((m) => ({ default: m.ChartArea })),
+  ),
+  Pie: lazy(() =>
+    import("@/components/admin/dashboard-charts").then((m) => ({ default: m.ChartPie })),
+  ),
+  Bar: lazy(() =>
+    import("@/components/admin/dashboard-charts").then((m) => ({ default: m.ChartBar })),
+  ),
+};
+
 export const Route = createFileRoute("/admin/dashboard")({
   ssr: false,
   beforeLoad: async () => {
@@ -42,7 +38,13 @@ export const Route = createFileRoute("/admin/dashboard")({
 type Response = Awaited<ReturnType<typeof getDashboardAnalytics>>;
 type Data = Extract<Response, { unchanged: false }>;
 
-const COLORS = ["#ef4444", "#f59e0b", "#10b981", "#3b82f6", "#a855f7", "#ec4899", "#14b8a6", "#f97316"];
+// Adaptive polling: fast while data keeps changing, backs off when idle.
+const MIN_INTERVAL = 5000;
+const MAX_INTERVAL = 30000;
+
+function ChartFallback({ className = "h-64" }: { className?: string }) {
+  return <div className={`${className} animate-pulse rounded-lg bg-white/[0.03]`} />;
+}
 
 function DashboardPage() {
   const navigate = useNavigate();
@@ -53,46 +55,78 @@ function DashboardPage() {
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [live, setLive] = useState(true);
   const fingerprintRef = useRef<string | undefined>(undefined);
+  const inFlightRef = useRef(false);
+  const intervalRef = useRef(MIN_INTERVAL);
 
-  const load = async () => {
+  const load = useCallback(async () => {
+    if (inFlightRef.current) return; // never stack requests
+    inFlightRef.current = true;
     setRefreshing(true);
     setError(null);
     try {
       const d = await getDashboardAnalytics({ data: { fingerprint: fingerprintRef.current } });
       setLastUpdated(new Date());
       fingerprintRef.current = d.fingerprint;
-      if (d.unchanged) return; // no payload, keep existing charts/tables
+      if (d.unchanged) {
+        // Nothing new — slow the poll down (doubling up to the cap).
+        intervalRef.current = Math.min(intervalRef.current * 2, MAX_INTERVAL);
+        return;
+      }
+      intervalRef.current = MIN_INTERVAL;
       setData(d);
     } catch {
       setError("Unable to load analytics. Please log in again.");
+      intervalRef.current = Math.min(intervalRef.current * 2, MAX_INTERVAL);
     } finally {
+      inFlightRef.current = false;
       setRefreshing(false);
       setLoading(false);
     }
-  };
+  }, []);
+
+  const manualRefresh = useCallback(() => {
+    intervalRef.current = MIN_INTERVAL;
+    void load();
+  }, [load]);
 
   useEffect(() => {
     void load();
     if (!live) return;
-    // Near real-time polling every 5s while tab is visible
-    const tick = () => {
-      if (document.visibilityState === "visible") void load();
+    let timer: ReturnType<typeof setTimeout>;
+    const schedule = () => {
+      timer = setTimeout(async () => {
+        if (document.visibilityState === "visible") await load();
+        schedule();
+      }, intervalRef.current);
     };
-    const t = setInterval(tick, 5000);
+    schedule();
     const onVis = () => {
-      if (document.visibilityState === "visible") void load();
+      if (document.visibilityState === "visible") {
+        intervalRef.current = MIN_INTERVAL;
+        void load();
+      }
     };
     document.addEventListener("visibilitychange", onVis);
     return () => {
-      clearInterval(t);
+      clearTimeout(timer);
       document.removeEventListener("visibilitychange", onVis);
     };
-  }, [live]);
+  }, [live, load]);
 
-  const onLogout = async () => {
+  const onLogout = useCallback(async () => {
     await adminLogout();
     await navigate({ to: "/admin/login" });
-  };
+  }, [navigate]);
+
+  // Derived values memoized so 5s polls don't re-sort/re-format on every render.
+  const topCountries = useMemo(
+    () => [...(data?.countries ?? [])].sort((a, b) => b.value - a.value).slice(0, 10),
+    [data?.countries],
+  );
+  const sessionLabel = useMemo(() => {
+    const s = data?.kpis.avgSessionSeconds ?? 0;
+    return `${Math.floor(s / 60)}m ${Math.round(s % 60)}s`;
+  }, [data?.kpis.avgSessionSeconds]);
 
   if (loading) {
     return (
@@ -104,8 +138,6 @@ function DashboardPage() {
   if (!data) return null;
 
   const k = data.kpis;
-  const mins = Math.floor(k.avgSessionSeconds / 60);
-  const secs = Math.round(k.avgSessionSeconds % 60);
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -114,8 +146,10 @@ function DashboardPage() {
           <div>
             <h1 className="text-lg font-semibold tracking-tight">Analytics Dashboard</h1>
             <p className="flex items-center gap-2 text-xs text-white/50">
-              <span className={`inline-block h-1.5 w-1.5 rounded-full ${live ? "bg-emerald-400 animate-pulse" : "bg-white/30"}`} />
-              {live ? "Live" : "Paused"} · updates every 5s
+              <span
+                className={`inline-block h-1.5 w-1.5 rounded-full ${live ? "bg-emerald-400 animate-pulse" : "bg-white/30"}`}
+              />
+              {live ? "Live" : "Paused"}
               {lastUpdated && (
                 <span className="text-white/40">· last {lastUpdated.toLocaleTimeString()}</span>
               )}
@@ -129,7 +163,7 @@ function DashboardPage() {
               {live ? "Pause" : "Resume"}
             </button>
             <button
-              onClick={load}
+              onClick={manualRefresh}
               className="inline-flex items-center gap-1.5 rounded-md border border-white/10 px-3 py-1.5 text-xs text-white/80 hover:bg-white/5"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin" : ""}`} />
@@ -148,7 +182,10 @@ function DashboardPage() {
 
       <main className="mx-auto max-w-7xl space-y-6 px-6 py-8">
         {error && (
-          <div role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          <div
+            role="alert"
+            className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200"
+          >
             {error}
           </div>
         )}
@@ -159,11 +196,7 @@ function DashboardPage() {
           <KPI icon={<Activity className="h-4 w-4" />} label="Today" value={k.today.toLocaleString()} />
           <KPI icon={<TrendingUp className="h-4 w-4" />} label="This Week" value={k.week.toLocaleString()} />
           <KPI icon={<Globe className="h-4 w-4" />} label="This Month" value={k.month.toLocaleString()} />
-          <KPI
-            icon={<Clock className="h-4 w-4" />}
-            label="Avg. Session"
-            value={`${mins}m ${secs}s`}
-          />
+          <KPI icon={<Clock className="h-4 w-4" />} label="Avg. Session" value={sessionLabel} />
           <KPI icon={<Eye className="h-4 w-4" />} label="Pages / Session" value={k.avgPagesPerSession.toFixed(2)} />
           <KPI icon={<Activity className="h-4 w-4" />} label="Bounce Rate" value={`${k.bounceRate.toFixed(1)}%`} />
           <KPI
@@ -173,120 +206,37 @@ function DashboardPage() {
           />
         </section>
 
-        {/* Traffic over time */}
-        <Panel title="Traffic — Last 30 days">
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={data.trafficSeries}>
-                <defs>
-                  <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#ef4444" stopOpacity={0.7} />
-                    <stop offset="100%" stopColor="#ef4444" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="date" tick={{ fill: "#999", fontSize: 11 }} tickFormatter={(d) => d.slice(5)} />
-                <YAxis tick={{ fill: "#999", fontSize: 11 }} allowDecimals={false} />
-                <Tooltip contentStyle={{ background: "#0a0a0a", border: "1px solid #222", borderRadius: 8 }} />
-                <Area type="monotone" dataKey="count" stroke="#ef4444" strokeWidth={2} fill="url(#g)" />
-              </AreaChart>
-            </ResponsiveContainer>
+        <Suspense fallback={<ChartFallback className="h-72" />}>
+          <Panel title="Traffic — Last 30 days">
+            <Charts.Area data={data.trafficSeries} />
+          </Panel>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Panel title="Devices">
+              <Charts.Pie data={data.devices} />
+            </Panel>
+            <Panel title="Operating Systems">
+              <Charts.Pie data={data.osBreakdown} />
+            </Panel>
+            <Panel title="Browsers">
+              <Charts.Bar data={data.browsers} />
+            </Panel>
+            <Panel title="Traffic Sources">
+              <Charts.Bar data={data.sources} />
+            </Panel>
           </div>
-        </Panel>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Panel title="Devices">
-            <ChartPie data={data.devices} />
+          <Panel title="Top Countries">
+            <Charts.Bar data={topCountries} horizontal />
           </Panel>
-          <Panel title="Operating Systems">
-            <ChartPie data={data.osBreakdown} />
-          </Panel>
-          <Panel title="Browsers">
-            <ChartBar data={data.browsers} />
-          </Panel>
-          <Panel title="Traffic Sources">
-            <ChartBar data={data.sources} />
-          </Panel>
-        </div>
+        </Suspense>
 
-        <Panel title="Top Countries">
-          <ChartBar data={data.countries.sort((a, b) => b.value - a.value).slice(0, 10)} horizontal />
-        </Panel>
-
-        {/* Identified visitors */}
         <Panel title="Identified Visitors">
-          {data.identified.length === 0 ? (
-            <p className="text-sm text-white/50">No visitors have signed in with an account yet.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="text-left text-xs uppercase tracking-wider text-white/50">
-                  <tr>
-                    <th className="py-2 pr-3">Name</th>
-                    <th className="py-2 pr-3">Email</th>
-                    <th className="py-2 pr-3">Sessions</th>
-                    <th className="py-2 pr-3">Location</th>
-                    <th className="py-2 pr-3">Last seen</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.identified.map((u) => (
-                    <tr key={u.email} className="border-t border-white/5">
-                      <td className="py-2 pr-3">{u.name || "—"}</td>
-                      <td className="py-2 pr-3 text-white/80">{u.email}</td>
-                      <td className="py-2 pr-3">{u.sessions}</td>
-                      <td className="py-2 pr-3 text-white/70">
-                        {[u.city, u.country].filter(Boolean).join(", ") || "—"}
-                      </td>
-                      <td className="py-2 pr-3 text-white/60">
-                        {new Date(u.last_seen).toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+          <IdentifiedTable rows={data.identified} />
         </Panel>
 
-        {/* Recent visits */}
         <Panel title="Recent Visits">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="text-left text-xs uppercase tracking-wider text-white/50">
-                <tr>
-                  <th className="py-2 pr-3">Time</th>
-                  <th className="py-2 pr-3">Location</th>
-                  <th className="py-2 pr-3">Device</th>
-                  <th className="py-2 pr-3">OS / Browser</th>
-                  <th className="py-2 pr-3">Source</th>
-                  <th className="py-2 pr-3">Pages</th>
-                  <th className="py-2 pr-3">Time spent</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.recentVisits.map((v) => (
-                  <tr key={v.id} className="border-t border-white/5">
-                    <td className="py-2 pr-3 text-white/70">
-                      {new Date(v.last_seen).toLocaleString()}
-                    </td>
-                    <td className="py-2 pr-3">
-                      {[v.city, v.region, v.country].filter(Boolean).join(", ") || "—"}
-                    </td>
-                    <td className="py-2 pr-3">{v.device_type || "—"}</td>
-                    <td className="py-2 pr-3 text-white/70">
-                      {[v.os, v.browser].filter(Boolean).join(" / ") || "—"}
-                    </td>
-                    <td className="py-2 pr-3">
-                      <div>{v.referrer_source || "—"}</div>
-                      {v.referrer_url ? <div className="max-w-48 truncate text-xs text-white/40">{v.referrer_url}</div> : null}
-                    </td>
-                    <td className="py-2 pr-3">{v.pages_viewed}</td>
-                    <td className="py-2 pr-3 text-white/70">{formatDuration(v.duration_seconds)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <RecentVisitsTable rows={data.recentVisits} />
         </Panel>
       </main>
     </div>
@@ -299,7 +249,90 @@ function formatDuration(totalSeconds: number) {
   return mins ? `${mins}m ${secs}s` : `${secs}s`;
 }
 
-function KPI({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+const IdentifiedTable = memo(function IdentifiedTable({ rows }: { rows: Data["identified"] }) {
+  if (!rows.length)
+    return <p className="text-sm text-white/50">No visitors have signed in with an account yet.</p>;
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead className="text-left text-xs uppercase tracking-wider text-white/50">
+          <tr>
+            <th className="py-2 pr-3">Name</th>
+            <th className="py-2 pr-3">Email</th>
+            <th className="py-2 pr-3">Sessions</th>
+            <th className="py-2 pr-3">Location</th>
+            <th className="py-2 pr-3">Last seen</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((u) => (
+            <tr key={u.email} className="border-t border-white/5">
+              <td className="py-2 pr-3">{u.name || "—"}</td>
+              <td className="py-2 pr-3 text-white/80">{u.email}</td>
+              <td className="py-2 pr-3">{u.sessions}</td>
+              <td className="py-2 pr-3 text-white/70">
+                {[u.city, u.country].filter(Boolean).join(", ") || "—"}
+              </td>
+              <td className="py-2 pr-3 text-white/60">{new Date(u.last_seen).toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+});
+
+const RecentVisitsTable = memo(function RecentVisitsTable({ rows }: { rows: Data["recentVisits"] }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead className="text-left text-xs uppercase tracking-wider text-white/50">
+          <tr>
+            <th className="py-2 pr-3">Time</th>
+            <th className="py-2 pr-3">Location</th>
+            <th className="py-2 pr-3">Device</th>
+            <th className="py-2 pr-3">OS / Browser</th>
+            <th className="py-2 pr-3">Source</th>
+            <th className="py-2 pr-3">Pages</th>
+            <th className="py-2 pr-3">Time spent</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((v) => (
+            <tr key={v.id} className="border-t border-white/5">
+              <td className="py-2 pr-3 text-white/70">{new Date(v.last_seen).toLocaleString()}</td>
+              <td className="py-2 pr-3">
+                {[v.city, v.region, v.country].filter(Boolean).join(", ") || "—"}
+              </td>
+              <td className="py-2 pr-3">{v.device_type || "—"}</td>
+              <td className="py-2 pr-3 text-white/70">
+                {[v.os, v.browser].filter(Boolean).join(" / ") || "—"}
+              </td>
+              <td className="py-2 pr-3">
+                <div>{v.referrer_source || "—"}</div>
+                {v.referrer_url ? (
+                  <div className="max-w-48 truncate text-xs text-white/40">{v.referrer_url}</div>
+                ) : null}
+              </td>
+              <td className="py-2 pr-3">{v.pages_viewed}</td>
+              <td className="py-2 pr-3 text-white/70">{formatDuration(v.duration_seconds)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+});
+
+const KPI = memo(function KPI({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
   return (
     <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
       <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/50">
@@ -309,7 +342,7 @@ function KPI({ icon, label, value }: { icon: React.ReactNode; label: string; val
       <div className="mt-2 text-2xl font-semibold tracking-tight">{value}</div>
     </div>
   );
-}
+});
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -317,61 +350,5 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
       <h2 className="mb-4 text-sm font-medium uppercase tracking-wider text-white/70">{title}</h2>
       {children}
     </section>
-  );
-}
-
-function ChartPie({ data }: { data: { name: string; value: number }[] }) {
-  if (!data.length) return <Empty />;
-  return (
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" innerRadius={45} outerRadius={85} paddingAngle={2}>
-            {data.map((_, i) => (
-              <Cell key={i} fill={COLORS[i % COLORS.length]} stroke="#000" />
-            ))}
-          </Pie>
-          <Tooltip contentStyle={{ background: "#0a0a0a", border: "1px solid #222", borderRadius: 8 }} />
-          <Legend wrapperStyle={{ fontSize: 11 }} />
-        </PieChart>
-      </ResponsiveContainer>
-    </div>
-  );
-}
-
-function ChartBar({
-  data,
-  horizontal,
-}: {
-  data: { name: string; value: number }[];
-  horizontal?: boolean;
-}) {
-  if (!data.length) return <Empty />;
-  return (
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} layout={horizontal ? "vertical" : "horizontal"}>
-          {horizontal ? (
-            <>
-              <XAxis type="number" tick={{ fill: "#999", fontSize: 11 }} allowDecimals={false} />
-              <YAxis type="category" dataKey="name" tick={{ fill: "#999", fontSize: 11 }} width={100} />
-            </>
-          ) : (
-            <>
-              <XAxis dataKey="name" tick={{ fill: "#999", fontSize: 11 }} />
-              <YAxis tick={{ fill: "#999", fontSize: 11 }} allowDecimals={false} />
-            </>
-          )}
-          <Tooltip contentStyle={{ background: "#0a0a0a", border: "1px solid #222", borderRadius: 8 }} />
-          <Bar dataKey="value" fill="#ef4444" radius={[4, 4, 0, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-  );
-}
-
-function Empty() {
-  return (
-    <div className="flex h-48 items-center justify-center text-sm text-white/40">No data yet.</div>
   );
 }
