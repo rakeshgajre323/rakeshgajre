@@ -5,8 +5,8 @@ import {
   PieChart,
   Pie,
   Cell,
-  BarChart,
-  Bar,
+
+
   XAxis,
   YAxis,
   Tooltip,
